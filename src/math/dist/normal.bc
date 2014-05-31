@@ -1,0 +1,27 @@
+# normal.bc
+define floor(x) {
+	auto os,xx;os=scale;scale=0
+	xx=x/1;if(xx>x).=xx--
+	scale=os;return(xx)
+}
+# normal cdf
+a=0.5*l(8*a(1))   
+define phi(x) {
+    auto s,t,b,q,i
+    s=x; t=0; b=x; q=x*x; i=1
+    while(s!=t)
+        s=(t=s)+(b*=q/(i+=2))
+    return (.5+s*e(-.5*q-a))
+}
+# mantissa
+define man(x) {
+	auto n
+	n=-floor(l(x)/l(10))
+	return (x*10^n)
+}
+# exponent
+define exp(x) {
+	auto n
+	n=floor(l(x)/l(10))
+	return (n)
+}
