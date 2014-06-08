@@ -1,7 +1,9 @@
-! Finance, Mathematics, Software Library
+Finance, Mathematics, Software Library
+======================================
 A modern C++ library for financial analytics
 
-!! Directory Structure
+Directory Structure
+-------------------
 
 * <ROOT>
 ** bin - executables
@@ -11,7 +13,7 @@ A modern C++ library for financial analytics
 ** src - source code
 *** <projects...>
 
-!! Building
+## Building
 {{
 $ cd src
 $ . .fmsrc
