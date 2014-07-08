@@ -6,8 +6,10 @@ C++ to write portable code and Excel add-ins to access to the models.
 [access, make available, reveal,...]
 
 ## Prerequisites
-A [git](http://git-scm.com/) client. Read the documentation.
+Install a [git](http://git-scm.com/) client. Read the documentation.
+
 Clone [libfms](http://libfms.codeplex.com).
+
 Install a modern [C++](http://www.isocpp.org/) compiler.
 
 - Windows: [Visual Studio 2013 for Windows]
