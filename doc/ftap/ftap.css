@@ -1,3 +1,17 @@
 <style type="text/css">
-.reveal h1 { font-size: 2em; }
+.reveal i {
+	font-family: 'Comic Sans', 'Open Sans', Arial, sans-serif;
+	color: #797979;
+}
+.reveal h1 {
+	text-shadow: none;
+	color: black;
+	font-size: 2em;
+}
+.reveal h2 {
+	font-size: 1.5em;
+}
+.reveal h3 {
+	font-size: 1.2em;
+}
 </style>

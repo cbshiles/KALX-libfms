@@ -7,14 +7,14 @@ Streamlining Existing Theory
 
 -   The state of the art is incomprehensible:
 
-- > There should be no sequence of final payoffs of admissible
+-  "There should be no sequence of final payoffs of admissible
     integrands, $f_n = (H_n\cdot S)_{\infty}$, such that the
     negative parts $f_n$ tend to zero uniformly and such that
     $f_n$ tends almost surely to a $[0,\infty]$-valued
-    function $f_0$ satisfying $P[f_0 \> 0] \> 0$"
--   Freddy Delbaen and Walter Schachermayer. A general version of the
-    fundamental theorem of asset pricing. **Mathematische Annalen,
-    300:463--20, 1994.
+    function $f_0$ satisfying $P[f_0 \gt 0] > 0$"
+-   Freddy Delbaen and Walter Schachermayer. _A general version of the
+    fundamental theorem of asset pricing_. Mathematische Annalen,
+    300:463--520, 1994.
 -   And that is just the statement of the the no arbitrage condition
 -   The proof is 61 pages of highly technical mathematics
 -   What follows is an attempt to make a complicated subject accessable
@@ -148,8 +148,8 @@ FTAP hard direction
 
 -   Who cares?
 -   No arbitrage implies deflators exist, but we can find plenty
-    -   E.g., $X_t = (e\^{rt}, se\^{(r - \sigma\^2/2)t + \sigma
-        B_t})$, $\Pi_t = e\^{-rt}P$,
+    -   E.g., $X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma
+        B_t})$, $\Pi_t = e^{-rt}P$,
     -   where $(B_t)$ is Brownian motion and $P$ is Weiner
         measure
     -   models a bond and non-dividend paying stock
@@ -178,16 +178,16 @@ Delta Hedging
 -------------
 
 -   Assuming $\Pi_0 = 1$ and $\Delta_j$ is eventually zero
-    \[ \Delta_0\cdot X_0 = \sum_{0\lt
-    i}A_i\Pi_i|_{\mathscr{A}_0} \]
+    $$ \Delta_0\cdot X_0 = \sum_{0\lt
+    i}A_i\Pi_i|_{\mathscr{A}_0} $$
 -   "The value of a derivative is the expected value of discounted cash
     flows"
--   **If** a hedge exists the initial hedge is given by \[ \Gamma_0 =
+-   **If** a hedge exists the initial hedge is given by $$\Gamma_0 =
     \Delta_0 = \frac{\partial(\Delta_0\cdot X_0)}{\partial
     X_0} = \frac{\partial}{\partial X_0}E[\sum_{0\lt
-    i}A_i\Pi_i] \]
--   For a one period model with $C_j = 0$ we could solve $
-    \min_{\Gamma_0}||\Gamma_0\cdot X_1 - A_1||\^2 $ and get a
+    i}A_i\Pi_i]$$
+-   For a one period model with $C_j = 0$ we could solve
+    $\min_{\Gamma_0}||\Gamma_0\cdot X_1 - A_1||^2$ and get a
     measure of the hedging error
 
 Mathematics
@@ -268,10 +268,10 @@ $(\mathscr{A}_t)_{t\in T}$ - Filtrations
 -   Represents information available over time
 -   Consider flipping a coin: $T$,$H$,$H$,$\dots$
 -   Model as $\omega\in[0,1)$ $\omega = .011\dots_2 =
-    \sum_{j\gt0} \omega_j 2\^{-j}$, $\omega_j
+    \sum_{j\gt0} \omega_j 2^{-j}$, $\omega_j
     \in\{0,1\}$
--   $\mathscr{A}_j = \{[\frac{i}{2\^j},\frac{i+1}{2\^j}) : 0\le
-    i\lt 2\^j\}$ represents knowing the first $j$ digits
+-   $\mathscr{A}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
+    i\lt 2^j\}$ represents knowing the first $j$ digits
 
 $T$ - Trading Times
 -----------------------
@@ -330,28 +330,30 @@ Market
 -   Account becomes $A_t = \Delta_{t_-}\cdot C_t -
     \Gamma_t\cdot X_t$
 
+------
+
 > There is only one model--a vector valued stochastic process--it is
 just a matter of parameterization.
 
 One Period Binomial Model
 -------------------------
 
--   $\Omega = \{S\^-,S\^+\}$, $X_0 = (1,s)$,
+-   $\Omega = \{S^-,S^+\}$, $X_0 = (1,s)$,
     $X_1(\omega) = (R,\omega)$, $C_j = 0$
 -   Bond with realized return $R$ and stock goes from $s$ to
-    either $S\^-$ or $S\^+$
--   Find $\pi\^-$ and $\pi\^+$ such that $(1,s) =
-    (R,S\^-)\pi\^- + (R,S\^+)\pi\^+$
--   $\pi\^- = (S\^+/R - s)/(S\^+ - S\^-)$, $\pi\^+ = (s -
-    S\^-/R)/(S\^+ - S\^-)$
+    either $S^-$ or $S^+$
+-   Find $\pi^-$ and $\pi^+$ such that $(1,s) =
+    (R,S^-)\pi^- + (R,S^+)\pi^+$
+-   $\pi^- = (S^+/R - s)/(S^+ - S^-)$, $\pi^+ = (s -
+    S^-/R)/(S^+ - S^-)$
 -   Derivative pays $V(\omega)$ at time 1 for some function $V$
 -   There exists $\Gamma_0 = (m,n)$ such that $\Gamma_0\cdot
     X_1 = V$
 -   Solve $mR + nsd = V(S_-)$, $mR + nsu = V(S_+)$ for
     $m,n$
--   $n = (V(S_+)-V(S_-))/(S_+-S_-)$, and \[ v = m + ns =
+-   $n = (V(S_+)-V(S_-))/(S_+-S_-)$, and $$ v = m + ns =
     \frac{1}{R}\left(\frac{S_+-Rs}{S_+-S_-}V(S_-)+\frac{Rs -
-    S_-}{S_+-S_-}V(S_+)\right) \]
+    S_-}{S_+-S_-}V(S_+)\right) $$
 
 Example: Put-Call Parity
 ------------------------
@@ -363,9 +365,9 @@ Example: Put-Call Parity
         \omega,0\})$
 -   Models a bond with realized return $R$, a stock that can have
     any non-negative value, and a call and put both struck at $k$.
--   No arbitarge implies \[(1,s,c,p) = \langle
+-   No arbitarge implies $$(1,s,c,p) = \langle
     (R,\omega,\max\{\omega - k,0\},\max\{k -
-    \omega,0\}),\Pi\rangle\]
+    \omega,0\}),\Pi\rangle$$
 -   Taking $\Gamma_0 = (k/R, -1, 1, -1)$ yields $k/R - s + c - p
     = \langle k - \omega + \max\{\omega - k,0\} - \max\{k -
     \omega,0\}),\Pi\rangle = 0$
@@ -393,7 +395,7 @@ Example: Cost of Carry
 A Multiperiod Model
 -------------------
 
--   $\Omega = [0,\infty)\^n$
+-   $\Omega = [0,\infty)^n$
 -   $X_0 = (1,s,0)$, $X_j = (R_j, \omega_j,
     \phi_j(\omega_j))$, $X_n = (R_n, \omega_n, 0)$
 -   $C_j = 0$, $0\le j\lt n$, $C_n = (0, 0, \omega_n -
@@ -411,7 +413,7 @@ A Multiperiod Model
 Fixed Dividends
 ---------------
 
--   $\Omega = [0,\infty)\^n$
+-   $\Omega = [0,\infty)^n$
 -   $X_0 = (1,s,0)$, $X_j = (R_j, \omega_j,
     \phi_j(\omega_j))$, $X_n = (R_n, \omega_n, 0)$
 -   $C_0 = 0$, $C_j = (0,d_j,0)$, $0\lt j\lt n$,
@@ -445,14 +447,14 @@ Canonical Price Deflator
 ------------------------
 
 -   If $X_t = R(t)$ is deterministic and $C_t = 0$ then
-    $\Pi_t = R(t)\^{-1}P|_{\mathscr{A}_t}$ for any probability
+    $\Pi_t = R(t)^{-1}P|_{\mathscr{A}_t}$ for any probability
     measure $P$ is a deflator for that single instrument
 -   Assume for each time there is an instrument with $X_j = 1$ and
     $C_{j+1} = R_j$
 -   $R_j$ is the **short realized return** over $t_j$ to
     $t_{j+1}$
--   Define **canonical price deflators** \[\Pi_j = (R_0\cdots
-    R_{j-1})\^{-1}P|_{\mathscr{A}_j}\]
+-   Define **canonical price deflators** $$\Pi_j = (R_0\cdots
+    R_{j-1})^{-1}P|_{\mathscr{A}_j}$$
 -   Easy to show $\Pi_j = R_j\Pi_{j+1}|_{\mathscr{A}_j}$
 -   Note $\Pi_j$ is $\mathscr{A}_{j-1}$ measurable (aka
     **predictable**)
@@ -466,9 +468,9 @@ Zero Coupon Bonds
 -   $D(u)\Pi_0 = \Pi_u|_{\mathscr{A}_0}$ so $D(u) =
     \Pi_u(\Omega)$
 -   Let $D_t(u)$ be the price at time $t$
--   $D_t(u)\Pi_t = \Pi_u|_{\mathscr{A}_t}$ so \[ D_t(u) =
+-   $D_t(u)\Pi_t = \Pi_u|_{\mathscr{A}_t}$ so $$ D_t(u) =
     \Pi_u/\Pi_t|_{\mathscr{A}_t} = \Pi_{t\le s\lt
-    u}R_s\^{-1}P|_{\mathscr{A}_t} \]
+    u}R_s^{-1}P|_{\mathscr{A}_t} $$
 
 Forward Rate Agreements
 -----------------------
@@ -478,18 +480,18 @@ Forward Rate Agreements
 -   $\delta_{u,v}$ is the **day count fraction** that is
     approximately $v - u$ in years depending on the [day count
     convention](http://en.wikipedia.org/wiki/Day_count_convention)
--   Since $0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)$ we have \[
+-   Since $0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)$ we have $$
     F(u,v) = \frac{1}{\delta_{u,v}}\left(\frac{D(u)}{D(v)} -
     1\right) =
     \frac{1}{\delta_{u,v}}\left(\frac{\Pi_u}{\Pi_v}\bigr|_{\mathscr{A}_0}
-    - 1\right) \]
+    - 1\right) $$
 -   Let $F_t(u,v)$ be the forward at time $t$ over $[u,v]$
 -   Since $X_t = 0 = -D_t(u) + (1 +
-    F_t(u,v)\delta_{u,v})D_t(v)$ we have \[ F_t(u,v) =
+    F_t(u,v)\delta_{u,v})D_t(v)$ we have $$ F_t(u,v) =
     \frac{1}{\delta_{u,v}}\left(\frac{D_t(u)}{D_t(v)} - 1\right)
     =
     \frac{1}{\delta_{u,v}}\left(\frac{\Pi_u}{\Pi_v}\bigr|_{\mathscr{A}_t}
-    - 1\right) \]
+    - 1\right) $$
 
 Forward Rate Agreements w/o Notional
 ------------------------------------
