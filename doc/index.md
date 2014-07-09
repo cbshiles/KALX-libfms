@@ -1,32 +1,46 @@
 # Implementation of Financial Models
 
 This course will teach you how to use mathematics to model financial
-knowledge and produce high quality software. We will be using modern
-C++ to write portable code and Excel add-ins to access to the models.
-[access, make available, reveal,...]
+products and implement them using modern C++.
 
 ## Prerequisites
-Install a [git](http://git-scm.com/) client. Read the documentation.
+Version control is an essential tool for creating software.
+Install a [git](http://git-scm.com/) client and read the documentation.
 
-Clone [libfms](http://libfms.codeplex.com).
+Clone [libfms](http://libfms.codeplex.com) and set up a codeplex
+account. Use the [Discussions](http://libfms.codeplex.com/discussions) tab
+for any project related questions.
 
-Install a modern [C++](http://www.isocpp.org/) compiler.
+You will need a modern [C++](http://www.isocpp.org/) compiler.
 
-- Windows: [Visual Studio 2013 for Windows]
-(http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx)
-- Linux: Either [gcc] or [llvm]
-- OSX: Either [XCode 5.1](https://developer.apple.com/downloads/) or
+- Windows: [Visual Studio 2013 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx)
+- Linux: Either [gcc 4.8.3](http://gcc.gnu.org/)
+or [llvm 3.4.1](http://llvm.org/)
+- OSX: [XCode 5.1](https://developer.apple.com/downloads/) or
 [OSX-gcc-installer](https://github.com/kennethreitz/osx-gcc-installer)
+(Apple Developer account required.)
 
-## Lectures
+For Windows install Excel and the [xll](https://xll.codeplex.com) library.
 
-[Lecture 1](lecture1.html)
+## Books
+No books are required for this course. 
+
+- [A Tour of C++](http:www.stroustrup.com/Tour.html)
+is a quick overview of modern C++ at the expert level
+- [Programming -- Principles and Practice Using C++](http:www.stroustrup.com/programming.html)
+is a beginner level introduction to modern C++.
+- [Elements of Modern C++ Style](http://herbsutter.com/elements-of-modern-c-style/)
+is a brief online guide.
+
+## Lessons
+
+[Lesson 1](lesson1.html)
   ~ The software development process
-[Lecture 2](lecture2.html)
+[Lesson 2](lesson2.html)
   ~ Functions and add-ins
-[Lecture 3](lecture3.html)
+[Lesson 3](lesson3.html)
   ~ Classes and embedding objects in Excel.
-[Lecture 4](lecture4.html)
+[Lesson 4](lesson4.html)
   ~ Yield curve bootstraping.
 
 use ensure
