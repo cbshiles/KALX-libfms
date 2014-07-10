@@ -53,9 +53,29 @@ $X_1(\omega) = (R, \omega, 0)$, we always assume $C_0 = 0$, and
 $C_1(\omega) = (0, 0, \max\{\omega - k,0\})$.
 
 I prefer writing $R$ instead of $e^{rt}$. Note that the option has price
-0 at expiration. The option holder recieves a cash flow at expiration. It
+0 at expiration. The option holder receives a cash flow at expiration. It
 is important to distinguish between prices and cash flows.
 
+One thing we also have to specify for a model is a __filtration__:
+an increasing sequence of algebras. Prices, cash flows, etc. must
+be __adapted__ to the filtration. 
+
+_Theorem_ (The Fundamental Theorem of Asset Pricing)
+A model is arbitrage free if and only if there exist positive
+scalar measures, $\Pi_j$, on $\mathscr{A}_j$ such that
+$$X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}.$$
+
+The positive scalar measures are called __deflators__.
+One direction of the proof is easy, as we will soon show.
+The difficult direction of the proof is that no arbitrage
+implies the existence of deflators. Fortunately, we don't
+care about that direction because it straighforward find
+explict deflators that satisfy the no arbitrage condition.
+
+_Lemma_ If a model is arbitrage free then
+$$\Delta_j\cdot X_j\Pi_j = (A_{j+1} + \Delta_{j+1}\cdot X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}.$$
+
+### Algebras/Partitions
 Partial information is modeled by an
 [algebra](http://en.wikipedia.org/wiki/Algebra_of_sets),
 $\mathscr{A}$, on $\Omega$. 
@@ -81,7 +101,3 @@ atom an outcome belongs to, not the exact outcome.
 
 [!!!measures, restriction???]
 
-_Theorem_ (The Fundamental Theorem of Asset Pricing)
-A model is arbitrage free if and only if there exist positive
-scalar measures, $\Pi_j$, on $\mathscr{A}_j$ such that
-$$X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}.$$

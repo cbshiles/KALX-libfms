@@ -7,8 +7,8 @@ products and implement them using modern C++.
 Version control is an essential tool for creating software.
 Install a [git](http://git-scm.com/) client and read the documentation.
 
-Clone [libfms](http://libfms.codeplex.com) and set up a codeplex
-account. Use the [Discussions](http://libfms.codeplex.com/discussions) tab
+Create an account at [Codeplex](https://codeplex.com).
+Use the [Discussions](http://libfms.codeplex.com/discussions) tab
 for any project related questions.
 
 You will need a modern [C++](http://www.isocpp.org/) compiler.
@@ -37,42 +37,18 @@ is a brief online guide.
 [Lesson 1](lesson1.html)
   ~ The software development process
 [Lesson 2](lesson2.html)
-  ~ Functions and add-ins
+  ~ The mathematical model
 [Lesson 3](lesson3.html)
-  ~ Classes and embedding objects in Excel.
+  ~ Functions: Black-Scholes/Merton
 [Lesson 4](lesson4.html)
-  ~ Yield curve bootstraping.
-
-use ensure
-prefer global functions
-locality
-use value types
-
-portfolio: document
-http://www.youtube.com/watch?v=vxv74Mjt9_0&index=10&list=PLHxtyCq_WDLXFAEA-lYoRNQIezL_vaSX-
-
-value(instrument, model, implementation)
-
-template<class I, class J>
-class pwf {
-	I b, e; // sorted
-	J x;
-};
-
-template<class I, class J>
-I::value pwf::value(typename J::value_type t, const pwf<I,J>& c,
-	bool extrapolate = false)
-{
-	I i = lower_bound(c.b, c.e, t);
-	if (i == c.e) {
-		ensure (extrapolate);
-
-		return *advance(c.x, distance(c.b, c.e) - 1);
-	}
-
-	return *advance(c.x, i - c.b);
-}
-
-pwf::integral(t, bf, ef)
-
-pair<FI,FI> bootstrap(
+  ~ Objects: Piecewise flat yield curve bootstrap
+[Lesson 5](lesson5.html)
+  ~ Root finding: implied volatility and forward
+[Lesson 6](lesson6.html)
+  ~ 3rd party libraries: SVI fitting
+[Lesson 7](lesson7.html)
+  ~ Trinomial tree: Ho-Lee model
+[Lesson 8](lesson8.html)
+  ~ Monte Carlo: structured products
+[Lesson 9](lesson9.html)
+  ~ Variance swaps: 

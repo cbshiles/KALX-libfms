@@ -10,7 +10,8 @@ c'est pour mieux vous servir, et vous plaire."</i>
 
 ## The software development process
 
-Reading: Chapter 2 of [The Mythical Man Month](http://www.cs.virginia.edu/~evans/greatworks/mythical.pdf)
+Reading: Chapter 2 of [The Mythical Man Month](http://www.cs.virginia.edu/~evans/greatworks/mythical.pdf),
+[The Seven Principles of Software Testing](http://se.ethz.ch/~meyer/publications/testing/principles.pdf).
 
 Financial institutions have many problems to solve and only a small
 fraction of those are amenable to mathematical analyis. Getting the math
@@ -18,10 +19,9 @@ right takes thought and skill, but that isn't enough. To be useful to
 the business line it must be implemented as software they find valuable.
 
 You can increase your value as a quant by understanding how to communicate
-effectively with the people writing the checks. The first thing to
-establish is a common vocabulary. If you don't understand terminology
-being used don't be shy about asking, but don't expect it to be explained
-twice.
+effectively with people writing the checks. The first thing to establish
+is a common vocabulary. If you don't understand terminology being used
+don't be shy about asking, but don't expect it to be explained twice.
 
 After developing a model that the business is (not too un)happy with
 you will need to work with the technology group to implement it in their
@@ -39,13 +39,13 @@ problem domain better. It will also come in handy to wave under your
 boss's nose if/when the BP complains about your deliverable.
 
 The next step is to write code and unit tests. There is a vast literature
-on this but we take a pragmatic approach.
+on this but we take a pragmatic approach:
 
 - Get the math right first. The easiest bugs to fix are the ones not there.
 
 - Do code reviews. Everybody makes mistakes.
 
-- [Testing is not optional](http://se.ethz.ch/~meyer/publications/testing/principles.pdf).
+- [Testing is not optional]
 It is tedious, boring, and absolutely essential.
 
 We will use Excel add-ins to present the models we develop. Everyone

@@ -1,4 +1,5 @@
-HTML = lesson1.html lesson2.html
+MD = $(wildcard lesson*.md)
+HTML = $(MD:.md=.html)
 
 all: index.html $(HTML)
 
@@ -10,7 +11,7 @@ index.html: index.md
 
 $(HTML): header.html before.html after.html
 
-rsync:
+rsync: $(HTML)
 	rsync index.html $(HTML) kal@web69.webfaction.com:webapps/kalx/libfms
 
 clean:
