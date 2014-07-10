@@ -1,4 +1,4 @@
-HTML = lesson1.html
+HTML = lesson1.html lesson2.html
 
 all: index.html $(HTML)
 

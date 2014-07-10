@@ -1,8 +1,8 @@
 ---
-title: Implementation of Financial Models
+title: <a href="index.html">Implementation of Financial Models</a>
 ...
 
-# Lecture 1
+# Lesson 1
 
 > <i>"Faire de la bonne cuisine demande un certain temps.
 Si on vous fait attendre,
@@ -92,7 +92,9 @@ Solution Explorer, right click on a project, and build. You will also
 need to use Visual Studio if you want to build Excel add-ins.
 
 You are welcome to use any build system you like on unix, but I can
-only help you with using command-line tools.
+only help you with using command-line tools. A possibility to
+consider is running a virtual Windows box so you can also create
+add-ins. [!!!instructions on how to do this???]
 
 ```
 $ cd <directory>
