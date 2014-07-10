@@ -30,7 +30,7 @@ is a quick overview of modern C++ at the expert level
 - [Programming -- Principles and Practice Using C++](http:www.stroustrup.com/programming.html)
 is a beginner level introduction to modern C++.
 - [Elements of Modern C++ Style](http://herbsutter.com/elements-of-modern-c-style/)
-is a brief online guide.
+is a brief on-line guide.
 
 ## Lessons
 
