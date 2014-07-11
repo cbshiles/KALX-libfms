@@ -11,7 +11,7 @@ index.html: index.md
 
 $(HTML): header.html before.html after.html
 
-rsync: $(HTML)
+rsync: index.html $(HTML)
 	rsync index.html $(HTML) kal@web69.webfaction.com:webapps/kalx/libfms
 
 clean:

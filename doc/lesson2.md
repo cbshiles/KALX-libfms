@@ -52,7 +52,8 @@ and strike $k$ is $\Omega = (0,\infty)$, $X_0 = (1, s, c)$,
 $X_1(\omega) = (R, \omega, 0)$, we always assume $C_0 = 0$, and
 $C_1(\omega) = (0, 0, \max\{\omega - k,0\})$.
 
-I prefer writing $R$ instead of $e^{rt}$. Note that the option has price
+I prefer writing $R$ instead of $e^{rt}$. Fewer symbols.
+Note that the option has price
 0 at expiration. The option holder receives a cash flow at expiration. It
 is important to distinguish between prices and cash flows.
 

@@ -45,13 +45,16 @@ on this but we take a pragmatic approach:
 
 - Do code reviews. Everybody makes mistakes.
 
-- [Testing is not optional]
-It is tedious, boring, and absolutely essential.
+- Testing is not optional. It is tedious, boring, and absolutely essential.
 
 We will use Excel add-ins to present the models we develop. Everyone
 knows how to use Excel and it will get you a front row seat with
 any BP. They will look at it, tell you what's right, what you got
 wrong, and "Oh, yeah. I forgot to tell you I also wanted ..."
+
+You probably wont impress any TP's with Excel, but don't underestimate how
+grateful a RM might be to get an add-in, spreadsheet, and help file that
+can be used to help them solve an immediate problem.
 
 Developing software is an interative process. You should update your
 documentation based on feedback, incorporate that into your code, add
@@ -83,7 +86,11 @@ Everyone assumes `master` can be cloned and built cleanly.
 ### Compiling C++
 
 There is a reason people like using languages like Matlab or python.
-They are easy to use and more forgiving of programming errors.
+They are easy to use and more forgiving of programming errors.  C++ has
+many failure modes. It is a large and complicated language with a lot
+of baggage inherited from C. Some of the smartest people on this planet
+have been hard at work standardizing new features that make it possible
+to get the benefits of C++ without needing to learn the entire language.
 
 
 Using Visual Studio 2013 will make your life easier. View Team Explorer,
@@ -98,10 +105,8 @@ add-ins. [!!!instructions on how to do this???]
 
 ```
 $ cd <directory>
-$ clone https://git01.codeplex.com/libfms
+$ git clone https://git01.codeplex.com/libfms
 $ cd libfms/src
 $ . .fmsrc
 $ make
 ```
-
-
