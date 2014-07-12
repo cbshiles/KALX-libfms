@@ -23,7 +23,11 @@ or [llvm 3.4.1](http://llvm.org/)
 For Windows install Excel and the [xll](https://xll.codeplex.com) library.
 
 ## Books
-No books are required for this course. 
+No books are required for this course. You will be assigned readings
+available on the internet to be discussed at the beginning of each class.
+
+There is a new C++ in town. We will be taking advantage of that in this
+course. Below are references to the latest developments.
 
 - [A Tour of C++](http:www.stroustrup.com/Tour.html)
 is a quick overview of modern C++ at the expert level
@@ -51,4 +55,4 @@ is a brief on-line guide.
 [Lesson 8](lesson8.html)
   ~ Monte Carlo: structured products
 [Lesson 9](lesson9.html)
-  ~ Variance swaps: 
+  ~ Variance swaps: model independent pricing

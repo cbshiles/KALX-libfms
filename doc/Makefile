@@ -1,18 +1,15 @@
 MD = $(wildcard lesson*.md)
-HTML = $(MD:.md=.html)
+HTML = index.html $(MD:.md=.html)
 
-all: index.html $(HTML)
+all: $(HTML)
 
 $(HTML): %.html: %.md
-	pandoc -S -H header.html -B before.html -A after.html $< -o $@
+	pandoc -S --mathjax -H header.html -B before.html -A after.html $< -o $@
 
-index.html: index.md
-	pandoc -S -H header.html -A after.html $< -o $@
-
-$(HTML): header.html before.html after.html
+$(HTML): header.html before.html after.html main.css
 
 rsync: index.html $(HTML)
-	rsync index.html $(HTML) kal@web69.webfaction.com:webapps/kalx/libfms
+	rsync main.css $(HTML) kal@web69.webfaction.com:webapps/kalx/libfms
 
 clean:
 	rm -f $(HTML)

@@ -4,7 +4,12 @@ title: <a href="index.html">Implementation of Financial Models</a>
 
 # Lesson 2
 
+> <i>"The manifest characteristic of (21) is the number of variables that it does not depend on"</i>
+
 ## The Mathematical Model
+
+Reading: [Theory of rational option pricing](http://kalx.net/Mer1973.pdf),
+[The Fundamental Theorem of Asset Pricing](http://kalx.net/ftapd.pdf)
 
 This lesson provides a mathematical framework for valuing and
 hedging every financial product. First we map the real world
@@ -13,17 +18,17 @@ to the mathematical model.
 Trading Times
   ~ $t_0\lt t_1\lt \cdots$ -- when market instruments can be traded
 Market Prices
-  ~ $X_0, X_1, \cdots$ -- in terms of a fixed base currency
+  ~ $X_0, X_1, \dots$ -- in terms of a fixed base currency
 Cash Flows
-  ~ $C_0, C_1, \cdots$ -- payments to holder associated with the insturment
+  ~ $C_0, C_1, \dots$ -- payments to holder associated with the insturment
 Trades
-  ~ $\Gamma_0, \Gamma_1, \cdots$ -- amount traded in each instrument
+  ~ $\Gamma_0, \Gamma_1, \dots$ -- amount traded in each instrument
 Position
   ~ $\Delta_j = \sum_{i\le j} \Gamma_i$ -- amount held in each instrument
 Account
   ~ $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$
 
-The last item is what you see on the account statement from your broker
+The last item is the amount you see on the account statement from your broker
 or on your trade blotter. At time $t_j$ you receive cash flows associated
 with the position that you already hold. This includes stock dividends,
 bond coupons, etc. You trade $\Gamma_j$ at price $X_j$ so the product
@@ -48,7 +53,8 @@ Market prices, cash flows, trades, etc. are vector-valued functions
 on a set, $\Omega$, of possible outcomes. A simple one-period model
 for a bond having realized return $R$, a stock with initial price $s$
 and final price any positive value, and a call option with price $c$
-and strike $k$ is $\Omega = (0,\infty)$, $X_0 = (1, s, c)$,
+and strike $k$ is $\Omega = \{\omega : 0\lt\omega\lt\infty\}$,
+$X_0 = (1, s, c)$,
 $X_1(\omega) = (R, \omega, 0)$, we always assume $C_0 = 0$, and
 $C_1(\omega) = (0, 0, \max\{\omega - k,0\})$.
 
