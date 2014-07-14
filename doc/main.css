@@ -1,6 +1,7 @@
 body {
 	margin: 20px; padding: 0;
 	font-size: 120%;
+	color: #404040;
 	font-family: Cambria, Palatino, 'Times New Roman', serif;
 	line-height: 1.25;
 }
@@ -17,8 +18,9 @@ h3 {font-size: 1.2em;}
 ul, ol {
 	margin: 1em 0;
 	padding-left: 40px;
-	list-style: none;
+	list-style: square;
 }
 p, figure {margin: 1em 0;}
 a img {border: none;}
 sup, sub {line-height: 0;}
+strong {font-style: italic; font-weight: normal;}
