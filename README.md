@@ -24,3 +24,10 @@ $ make install
 
 !! Using
 Set the include directory to {{<ROOT>/include}} and library directory to {{<ROOT>/lib}}. The current library is header only.
+
+
+ToDo
+
+2013 build for xll
+sample should be simpler
+should illustrate strings.

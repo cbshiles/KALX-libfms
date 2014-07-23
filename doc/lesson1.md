@@ -62,16 +62,10 @@ you create, `commit` your changes, and how to `push` and `pull` to/from
 the git repository.
 
 Read about
-[`branch`ing and `merge`ing](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging).
+[branching and merging](http://git-scm.com/book/en/Git-Branching-Basic-Branching-and-Merging).
 You will be merging from `master` to your branch, the opposite of what
 you will be doing on the job. Your grade will be based on the work you
 do on your branch.
-
-Create a branch of the repository.
-[Send me](mailto:kal278@cornell.edu?subject=Codeplex%20branch&body=My%20codeplex%20branch%20name%20is:)
-the name you choose. Your codeplex id would be a fine choice.
-You can add and remove files to your heart's content on your branch without
-affecting `master`.
 
 ### Compiling C++
 
@@ -107,8 +101,9 @@ in terms of the error function.
 
 ```
 $ git checkout -b <your branch>
+$ cd math/prob
 
 ```
 
 _Exercise_. Devise and implement tests for the normal cdf.
-Add your code and 
+Add your code, commit, and push it to your branch.

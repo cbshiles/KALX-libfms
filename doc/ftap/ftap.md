@@ -10,7 +10,7 @@ Streamlining Existing Theory
 -  "There should be no sequence of final payoffs of admissible
     integrands, $f_n = (H_n\cdot S)_{\infty}$, such that the
     negative parts $f_n$ tend to zero uniformly and such that
-    $f_n$ tends almost surely to a $[0,\infty]$-valued
+    $f_n$ tends almost surely to a $[0,\infty)$-valued
     function $f_0$ satisfying $P[f_0 \gt 0] > 0$"
 -   Freddy Delbaen and Walter Schachermayer. _A general version of the
     fundamental theorem of asset pricing_. Mathematische Annalen,
@@ -24,16 +24,15 @@ Old Baggage
 -----------
 
 -   The classical definition of arbitrage is unrealistic
-    -   Traders need to know how much they will make up front
-    -   And the reserves required to put on the position
+    -   Traders want to make money on the initial position
+    -   and minimize the capital required to do that
 -   Specifying a real-world measure is irrelevant
     -   It gets immediately discarded anyway
     -   Measuring risk is the important problem
 -   Discounted prices are martingales
-    -   But cash flows involved with owning an instrument are treated ad
-        hoc
+    -   But only if cash flows are ignored
 -   Conditional expectation is too technical
-    -   It can be replaced by a much simpler concept
+    -   It can be replaced by a simpler concept
 
 A Simpler Approach
 ------------------
@@ -69,14 +68,14 @@ Unified Derivatives
 Finance
 -------
 
--   Trading times: $t_0\lt t_1\lt\cdots\lt t_n$
-    -   $t_{j+1} - t_j$ can be arbitrarily small
--   Prices: $X_0$, $X_1$, ..., $X_n$
-    -   vectors of market instruments in units of currency
--   Cash flows: $C_0$, $C_1$, ..., $C_n$
-    -   amount paid by each instrument currently held
--   Trades: $\Gamma_0$, $\Gamma_1$, ..., $\Gamma_n$
-    -   number of share transacted in each instrument
+Times $t_0\lt t_1\lt\cdots$
+  ~ The times where trading is allowed
+Prices $X_0$, $X_1$, ...
+  ~ vectors of market instrument prices in units of currency
+Cash flows $C_0$, $C_1$, ...
+  ~ amount paid by each instrument currently held
+Trades $\Gamma_0$, $\Gamma_1$, ...
+  ~ number of share transacted in each instrument
 
 Accounting
 ----------
@@ -87,26 +86,105 @@ Accounting
     -   Marked-to-market value of the position
 -   Account: $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot
     X_j$
-    -   cash flows from existing position less cost of current
+    -   Cash flows from existing position less cost of current
         securities traded
     -   No cash flows accrue to current trades
--   Balance: $B_j = \sum_{i\le j} A_j$
-    -   the total amount of cash in your account
--   Accurate to the penny for historical trades
--   Models of future prices ignore significant aspects
 
 Arbitrage
 ---------
 
--   Trades $(\Gamma_j)$ such that $\sum_j \Gamma_j = 0$,
-    $A_0\gt 0$, and $A_j\ge0\mathrm{,\ }j\gt0$
--   Close out postion at some point, make money on initial trade, and
-    never lose
+-   Trades $(\Gamma_j)$ such that
+    $A_0\gt 0$, $A_j\ge0$, $j\gt0$,
+	and $\sum_j \Gamma_j = 0$.
+-	Make money on the initial trade, never lose afterwards,
+    and close out the position at some point.
 -   Note: no prior 'real world' measure is assumed
 -   This definition is not sufficient for traders
-    -   They look at both $A_0 = \Delta_0\cdot X_0$ and
-        $|\Delta_0|\cdot |X_0|$
-    -   The ratio is usually institutionally constrained
+	- Risk managers will slap absolute value signs around every number.
+	- If $|\Gamma_0|\cdot|X_0|$ is too large they can't do the trade.
+
+Mathematics
+-----------
+
+-	
+
+$\Omega$ - Outcomes
+------------------------
+
+-   The set of everything that can happen
+-   Usually a collection of possible instrument price trajectories
+-   Could also include current and future news, social media data, etc
+-   No, really. It can be the set of EVERYTHING that can happen
+-   Not practical to implement, but math allows us to think big
+
+Partitions/Algebras/Partial Information
+----------------------------------------
+
+-   A _partition_ is a disjoint union of subsets
+-   $\Omega = \cup_j A_j$ where $A_i\cap A_j =
+    \emptyset$ if $i\not= j$
+-   An _algebra_ is a collection of sets closed under complement and
+    union
+-   $A\in\mathscr{A}$ is an _atom_ if $B\subseteq A$,
+    $B\in\mathscr{A}$ imply $B=A$ or $B=\emptyset$
+-   If an algebra $\mathscr{A}$ is finite the atoms are a partition
+-   The algebra $\{\emptyset,\Omega\}$ represents complete lack
+    of information.
+-   The _power set_ $\mathscr{P}(\Omega) =
+    \{E:E\subseteq\Omega\}$ represents complete information
+-   Knowing which atom $\omega\in\Omega$ belongs to represents
+    partial information
+-   E.g., $\{\{1,3,5\},\{2,4,6\}\}$ represents knowing whether
+    a die roll is even or odd.
+
+$B(\Omega, \mathscr{A}$) - Bounded measurable functions
+-------------------------------------------------------------
+
+-   Bounded: $X\colon\Omega\to\mathbb{R}$ with
+    $\sup_{\omega\in\Omega}|X(\omega)|$ finite
+-   Measurable: $\{\omega\in\Omega: X(\omega) \le
+    x\}\in\mathscr{A}$ for all $x\in\mathbb{R}$
+-   If $\mathscr{A}$ is finite, measurable is the same as being
+    constant on atoms
+-   Every function is bounded on a computer
+-   `#define DBL_MAX    1.7976931348623157E+308`
+
+$ba(\Omega, \mathscr{A}$) - Finitely additive measures
+------------------------------------------------------------
+
+-   A function $\Pi\colon\mathscr{A}\to\mathbb{R}$ such that
+    $\Pi(A\cup B) = \Pi(A) + \Pi(B)$ if $A\cap B =
+    \emptyset$
+-   The [vector space dual](http://en.wikipedia.org/wiki/Dual_space) of
+    bounded measurable functions
+-   The dual pairing is $\langle X,\Pi\rangle = \int_\Omega
+    X\,d\Pi$
+-   If $\mathscr{A}$ is finite the integral is just the sum over
+    atoms
+-   For $X\in B(\Omega,\mathscr{A})$ and $\Pi\in
+    ba(\Omega,\mathscr{A})$ define $X\Pi\in
+    ba(\Omega,\mathscr{A})$ by $\langle Y,X\Pi\rangle =
+    \langle YX,\Pi\rangle$
+-   $\Pi|_\mathscr{A}$ is the measure $\Pi$ restricted to
+    the algebra $\mathscr{A}$
+-   _Conditional expectation_ $E[X|\mathscr{A}]$ is defined by
+    $\langle E[X|\mathscr{A}],\Pi\rangle = \langle
+    X,\Pi|_\mathscr{A}\rangle$, $\Pi\in ba(\Omega)$
+-   The
+    [adjoint/dual/transpose](http://en.wikipedia.org/wiki/Dual_space) of
+    conditional expectation is restriction
+
+$(\mathscr{A}_t)_{t\in T}$ - Filtrations
+------------------------------------------------
+
+-   An increasing sequence of algebras
+-   Represents information available over time
+-   Consider flipping a coin: $T$,$H$,$H$,$\dots$
+-   Model as $\omega\in[0,1)$ $\omega = .011\dots_2 =
+    \sum_{j\gt0} \omega_j 2^{-j}$, $\omega_j
+    \in\{0,1\}$
+-   $\mathscr{A}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
+    i\lt 2^j\}$ represents knowing the first $j$ digits
 
 Fundamental Theorem of Asset Pricing
 ------------------------------------
@@ -156,7 +234,6 @@ FTAP hard direction
 -   The hard part is finding models that reflect market dynamics with
     parameters that can be fitted to market data
 -   Finding arbitrage free models is much easier
--   You don't need the Hahn-Banach Theorem for that!
 
 Derivatives
 -----------
@@ -182,96 +259,13 @@ Delta Hedging
     i}A_i\Pi_i|_{\mathscr{A}_0} $$
 -   "The value of a derivative is the expected value of discounted cash
     flows"
--   **If** a hedge exists the initial hedge is given by $$\Gamma_0 =
+-   _If_ a hedge exists the initial hedge is given by $$\Gamma_0 =
     \Delta_0 = \frac{\partial(\Delta_0\cdot X_0)}{\partial
     X_0} = \frac{\partial}{\partial X_0}E[\sum_{0\lt
     i}A_i\Pi_i]$$
 -   For a one period model with $C_j = 0$ we could solve
     $\min_{\Gamma_0}||\Gamma_0\cdot X_1 - A_1||^2$ and get a
     measure of the hedging error
-
-Mathematics
------------
-
-Mapping the real world to mathematics
-
-$\Omega$ - Outcomes
-------------------------
-
--   The set of everything that can happen
--   Usually a collection of possible instrument price trajectories
--   Could also include current and future news, social media data, etc
--   No, really. It can be the set of EVERYTHING that can happen
--   Not practical to implement, but math allows us to think big
-
-$\mathscr{A}$ - Partitions/Algebras
-----------------------------------------
-
--   A **partition** is a disjoint union of subsets
--   $\Omega = \cup_j A_j$ where $A_i\cap A_j =
-    \emptyset$ if $i\not= j$
--   An **algebra** is a collection of sets closed under complement and
-    union
--   $A\in\mathscr{A}$ is an **atom** if $B\subseteq A$,
-    $B\in\mathscr{A}$ imply $B=A$ or $B=\emptyset$
--   If an algebra $\mathscr{A}$ is finite the atoms are a partition
--   The algebra $\{\emptyset,\Omega\}$ represents complete lack
-    of information.
--   The **power set** $\mathscr{P}(\Omega) =
-    \{E:E\subseteq\Omega\}$ represents complete information
--   Knowing which atom $\omega\in\Omega$ belongs to represents
-    partial information
--   E.g., $\{\{1,3,5\},\{2,4,6\}\}$ represents knowing whether
-    a die roll is even or odd.
-
-$B(\Omega, \mathscr{A}$) - Bounded measurable functions
--------------------------------------------------------------
-
--   Bounded: $X\colon\Omega\to\mathbb{R}$ with
-    $\sup_{\omega\in\Omega}|X(\omega)|$ finite
--   Measurable: $\{\omega\in\Omega: X(\omega) \le
-    x\}\in\mathscr{A}$ for all $x\in\mathbb{R}$
--   If $\mathscr{A}$ is finite, measurable is the same as being
-    constant on atoms
--   Every function is bounded on a computer
--   `#define DBL_MAX    1.7976931348623157E+308`
-
-$ba(\Omega, \mathscr{A}$) - Finitely additive measures
-------------------------------------------------------------
-
--   A function $\Pi\colon\mathscr{A}\to\mathbb{R}$ such that
-    $\Pi(A\cup B) = \Pi(A) + \Pi(B)$ if $A\cap B =
-    \emptyset$
--   The [vector space dual](http://en.wikipedia.org/wiki/Dual_space) of
-    bounded measurable functions
--   The dual pairing is $\langle X,\Pi\rangle = \int_\Omega
-    X\,d\Pi$
--   If $\mathscr{A}$ is finite the integral is just the sum over
-    atoms
--   For $X\in B(\Omega,\mathscr{A})$ and $\Pi\in
-    ba(\Omega,\mathscr{A})$ define $X\Pi\in
-    ba(\Omega,\mathscr{A})$ by $\langle Y,X\Pi\rangle =
-    \langle YX,\Pi\rangle$
--   $\Pi|_\mathscr{A}$ is the measure $\Pi$ restricted to
-    the algebra $\mathscr{A}$
--   **Conditional expectation** $E[X|\mathscr{A}]$ is defined by
-    $\langle E[X|\mathscr{A}],\Pi\rangle = \langle
-    X,\Pi|_\mathscr{A}\rangle$, $\Pi\in ba(\Omega)$
--   The
-    [adjoint/dual/transpose](http://en.wikipedia.org/wiki/Dual_space) of
-    conditional expectation is restriction
-
-$(\mathscr{A}_t)_{t\in T}$ - Filtrations
-------------------------------------------------
-
--   An increasing sequence of algebras
--   Represents information available over time
--   Consider flipping a coin: $T$,$H$,$H$,$\dots$
--   Model as $\omega\in[0,1)$ $\omega = .011\dots_2 =
-    \sum_{j\gt0} \omega_j 2^{-j}$, $\omega_j
-    \in\{0,1\}$
--   $\mathscr{A}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
-    i\lt 2^j\}$ represents knowing the first $j$ digits
 
 $T$ - Trading Times
 -----------------------
@@ -300,7 +294,7 @@ $C$ - Cash Flows
     $C_t\colon\Omega\to\mathbb{R}$ bounded
     $\mathscr{A}_t$ measurable
 -   Amount paid to buyer if held at $t$
--   Must have been bought **before** $t$ to receive
+-   Must have been bought _before_ $t$ to receive
 -   Bond coupons, stock dividends, FX roll, ...
 -   Often $C_t = 0$
 
@@ -311,7 +305,7 @@ $\Gamma$ - Trades
     $\Gamma_t\colon\Omega\to\mathbb{R}$ bounded
     $\mathscr{A}_t$ measurable
 -   Amount of instrument purchased at time $t$
--   The **position** is $\Delta_t = \sum_{s\le t} \Gamma_s$
+-   The _position_ is $\Delta_t = \sum_{s\le t} \Gamma_s$
 
 $A$ - Account
 -----------------
@@ -319,7 +313,7 @@ $A$ - Account
 -   $A_t = \Delta_{t_-} C_t - \Gamma_t X_t$
 -   $t_-$ is time immediately prior to $t$
 -   Amount received from cash flows minus trading costs
--   The **balance** is $B_t = \sum_{s\le t} A_s$
+-   The _balance_ is $B_t = \sum_{s\le t} A_s$
 
 Market
 ------
@@ -451,13 +445,13 @@ Canonical Price Deflator
     measure $P$ is a deflator for that single instrument
 -   Assume for each time there is an instrument with $X_j = 1$ and
     $C_{j+1} = R_j$
--   $R_j$ is the **short realized return** over $t_j$ to
+-   $R_j$ is the _short realized return_ over $t_j$ to
     $t_{j+1}$
--   Define **canonical price deflators** $$\Pi_j = (R_0\cdots
+-   Define _canonical price deflators_ $$\Pi_j = (R_0\cdots
     R_{j-1})^{-1}P|_{\mathscr{A}_j}$$
 -   Easy to show $\Pi_j = R_j\Pi_{j+1}|_{\mathscr{A}_j}$
 -   Note $\Pi_j$ is $\mathscr{A}_{j-1}$ measurable (aka
-    **predictable**)
+    _predictable_)
 -   There are many possible deflators, but this is canonnical
 
 Zero Coupon Bonds
@@ -477,7 +471,7 @@ Forward Rate Agreements
 
 -   have price $X_0 = 0$ and two cash flows
     -   $C_u = -1$, $C_v = 1 + F(u,v)\delta_{u,v}$
--   $\delta_{u,v}$ is the **day count fraction** that is
+-   $\delta_{u,v}$ is the _day count fraction_ that is
     approximately $v - u$ in years depending on the [day count
     convention](http://en.wikipedia.org/wiki/Day_count_convention)
 -   Since $0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)$ we have $$

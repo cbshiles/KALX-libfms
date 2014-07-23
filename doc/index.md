@@ -3,22 +3,33 @@
 This course will teach you how to use mathematics to model financial
 products and implement them using modern C++.
 
+## Grading
+Your grade will be 50% weekly homework/quizzes and 50% final exam.
+
 ## Prerequisites
 Version control is an essential tool for creating software.
 Install a [git](http://git-scm.com/) client and read the documentation.
 
 Create an account at [Codeplex](https://codeplex.com).
+[Send me](mailto:kal278@cornell.edu?subject=Codeplex%20branch&body=My%20codeplex%20branch%20name%20is:)
+the id you choose.
 Use the [Discussions](http://libfms.codeplex.com/discussions) tab
 for any project related questions.
 
 You will need a modern [C++](http://www.isocpp.org/) compiler.
 
-- Windows: [Visual Studio 2013 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx)
+- Windows: [Visual Studio 2012 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) Be sure to install
+Visual Studio 2013 *for Windows*.
+Tools/Extensions and Updates/Updates - Update 4 
+Git extension???
+
+How to build documentation???
+
 - Linux: Either [gcc 4.8.3](http://gcc.gnu.org/)
 or [llvm 3.4.1](http://llvm.org/)
-- OSX: [XCode 5.1](https://developer.apple.com/downloads/) or
+- OSX: [XCode 5.1](https://developer.apple.com/downloads/)
+(Apple Developer account required) or
 [OSX-gcc-installer](https://github.com/kennethreitz/osx-gcc-installer)
-(Apple Developer account required.)
 
 For Windows install Excel and the [xll](https://xll.codeplex.com) library.
 
