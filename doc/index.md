@@ -7,31 +7,22 @@ products and implement them using modern C++.
 Your grade will be 50% weekly homework/quizzes and 50% final exam.
 
 ## Prerequisites
-Version control is an essential tool for creating software.
-Install a [git](http://git-scm.com/) client and read the documentation.
-
 Create an account at [Codeplex](https://codeplex.com).
 [Send me](mailto:kal278@cornell.edu?subject=Codeplex%20branch&body=My%20codeplex%20branch%20name%20is:)
 the id you choose.
 Use the [Discussions](http://libfms.codeplex.com/discussions) tab
 for any project related questions.
 
-You will need a modern [C++](http://www.isocpp.org/) compiler.
+- Microsoft Windows version 7 or latter.
 
-- Windows: [Visual Studio 2012 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx) Be sure to install
-Visual Studio 2013 *for Windows*.
-Tools/Extensions and Updates/Updates - Update 4 
-Git extension???
+- [Visual Studio 2012 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx). Be sure to install all updates.
+- [Visual Studio 2012 Update 4](http://www.microsoft.com/en-us/download/details.aspx?id=39305)
+- Install Visual Studio Tools for Git.
 
+- [Microsoft Excel](http://office.microsoft.com/en-us/excel/)
 How to build documentation???
 
-- Linux: Either [gcc 4.8.3](http://gcc.gnu.org/)
-or [llvm 3.4.1](http://llvm.org/)
-- OSX: [XCode 5.1](https://developer.apple.com/downloads/)
-(Apple Developer account required) or
-[OSX-gcc-installer](https://github.com/kennethreitz/osx-gcc-installer)
-
-For Windows install Excel and the [xll](https://xll.codeplex.com) library.
+- The [xll](https://xll.codeplex.com) library and [project]
 
 ## Books
 No books are required for this course. You will be assigned readings

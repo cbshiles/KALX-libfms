@@ -11,7 +11,8 @@ c'est pour mieux vous servir, et vous plaire."</i>
 ## The software development process
 
 Reading: Chapter 2 of [The Mythical Man Month](http://www.cs.virginia.edu/~evans/greatworks/mythical.pdf),
-[The Seven Principles of Software Testing](http://se.ethz.ch/~meyer/publications/testing/principles.pdf).
+[The Seven Principles of Software Testing](http://se.ethz.ch/~meyer/publications/testing/principles.pdf),
+[Becoming a better programmer](http://www.stroustrup.com/CVu263interview.pdf)
 
 Financial institutions have many problems to solve and only a small
 fraction of those are amenable to mathematical analyis. Getting the math
@@ -31,7 +32,7 @@ Often the problem you are trying to solve will not be completely
 specified. The first step is to write a document describing the problem
 and your proposed solution. If you are lucky, the business person you
 are working with will read it and work with you to reach a satisfactory
-agreement on what needs to be done. At a minimum, it will help you
+agreement on what needs to be done. At a minimum, it will help *you*
 understand the problem domain better.
 
 The next step is to write code and unit tests. There is a vast literature
@@ -81,16 +82,6 @@ Connect, Clone, https://git01.codeplex.com/libfms to any folder. View
 Solution Explorer, right click on a project, and build. You will also
 need to use Visual Studio if you want to build Excel add-ins.
 
-You are welcome to use any build system you like on unix, but I can
-only help you with using command-line tools. 
-
-```
-$ cd <directory>
-$ git clone https://git01.codeplex.com/libfms
-$ cd libfms/src
-$ . .fmsrc
-$ make
-```
 _Exercise_. The error function is $\mathrm{erf}(x) = c\int_0^x e^{-t^2}\,dt$
 with $c$ chosen so that $\lim_{x\to\infty}\mathrm{erf}(x) = 1$.
 Use $\int_{-\infty}^\infty e^{-\pi t^2}\,dt = 1$ to find $c$.
