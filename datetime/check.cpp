@@ -1,19 +1,21 @@
 // check.cpp - check datetime routines
 #include <iostream>
-#include "dt.h"
-#include "datetime.h"
+//#include "dt.h"
+//#include "datetime.h"
 #ifdef _WIN32
-#include "excel_clock.h"
+#include "high_resolution_clock.h"
 #endif
+#include "chrono_util.h"
 
 int main()
 {
 	try {
 #ifdef _WIN32
-		check_high_performance_clock();
+		check_high_resolution_clock();
 #endif
-		check_dt();
-		check_datetime();
+		check_chrono_util();
+//		check_dt();
+//		check_datetime();
 	}
 	catch (const std::exception& ex) {
 		std::cout << ex.what() << std::endl;
@@ -23,3 +25,4 @@ int main()
 
 	return 0;
 }
+

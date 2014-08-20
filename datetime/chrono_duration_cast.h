@@ -1,5 +1,11 @@
 // chrono_duration_cast.h - workaround for VC++ 2012 bug
 // http://connect.microsoft.com/VisualStudio/feedback/details/752794
+#pragma once
+
+static_assert (!_WIN32 || _MSC_VER > 1700, "Only needed for VC2012 and earlier");
+
+namespace fms { // should be in std
+namespace chrono {
 
 // duration_cast
 template<class _To,
@@ -25,3 +31,5 @@ template<class _To,
 			/ static_cast<_CR>(_CF::den))));
 	}
 
+} // chrono
+} // fms

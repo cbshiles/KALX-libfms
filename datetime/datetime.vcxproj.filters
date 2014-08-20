@@ -29,5 +29,11 @@
     <ClInclude Include="chrono_duration_cast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="chrono_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="high_resolution_clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

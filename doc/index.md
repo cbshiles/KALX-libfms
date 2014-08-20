@@ -14,15 +14,14 @@ Use the [Discussions](http://libfms.codeplex.com/discussions) tab
 for any project related questions.
 
 - Microsoft Windows version 7 or latter.
-
 - [Visual Studio 2012 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx). Be sure to install all updates.
 - [Visual Studio 2012 Update 4](http://www.microsoft.com/en-us/download/details.aspx?id=39305)
 - Install Visual Studio Tools for Git.
-
 - [Microsoft Excel](http://office.microsoft.com/en-us/excel/)
-How to build documentation???
-
-- The [xll](https://xll.codeplex.com) library and [project]
+- The [xll](https://xll.codeplex.com) library. Install
+[setup.msi](http://kalx.net/dnload/setup.zip),
+[project.msi](http://kalx.net/dnload/project10.zip),
+and [HTML Help Workshop](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=00535334-c8a6-452f-9aa0-d597d16580cc&displaylang=en)
 
 ## Books
 No books are required for this course. You will be assigned readings

@@ -1,64 +1,23 @@
 // datetime.h - extensions to <chrono>
-// http://home.roadrunner.com/~hinnant/date_algorithms.html
 #pragma once
 #include <chrono>
 #include <tuple>
+#include "chrono_util.h"
 
 #if defined(_WIN32) && _MSC_VER <= 1700
 #define constexpr inline
 #define noexcept throw()
 #endif
 
+namespace fms {
 namespace datetime {
 
 #if defined(_WIN32) && _MSC_VER <= 1700
 #include "chrono_duration_cast.h"
-using datetime::duration_cast;
+using fms::chrono::duration_cast;
 #endif
 
-	// round down
-	template <class To, class Rep, class Period>
-	To
-	floor(const std::chrono::duration<Rep, Period>& d)
-	{
-		To t = std::chrono::duration_cast<To>(d);
-		if (t > d)
-			--t;
-		return t;
-	}
-
-	// round to nearest, to even on tie
-	template <class To, class Rep, class Period>
-	To
-	round(const std::chrono::duration<Rep, Period>& d)
-	{
-		To t0 = std::chrono::duration_cast<To>(d);
-		To t1 = t0;
-		++t1;
-		auto diff0 = d - t0;
-		auto diff1 = t1 - d;
-		if (diff0 == diff1)
-		{
-			if (t0.count() & 1)
-				return t1;
-			return t0;
-		}
-		else if (diff0 < diff1)
-			return t0;
-		return t1;
-	}
-
-	// round up
-	template <class To, class Rep, class Period>
-	To
-	ceil(const std::chrono::duration<Rep, Period>& d)
-	{
-		To t = std::chrono::duration_cast<To>(d);
-		if (t < d)
-			++t;
-		return t;
-	}
-
+	// See: http://home.roadrunner.com/~hinnant/date_algorithms.html
 	// Returns number of days since civil 1970-01-01.  Negative values indicate
 	//    days prior to 1970-01-01.
 	// Preconditions:  y-m-d represents a date in the civil (Gregorian) calendar
@@ -199,19 +158,20 @@ using datetime::duration_cast;
 		{ }
 	};
 
-	typedef std::chrono::duration<double,std::ratio<1,1>> days;
+	typedef std::chrono::duration<double, std::ratio<1>> days;
 
 	template<class Int>
 	inline std::tuple<Int,unsigned,unsigned> ymd(const date<Int>& d)
 	{
 		return days_to_civil(static_cast<Int>(d.count()));
 	}
-	template<class Int>
+/*	template<class Int>
 	inline std::tuple<unsigned,unsigned,unsigned> hms(const date<Int>& d)
 	{
-		auto h = datetime::duration_cast<std::chrono::hours>(d);
-		auto M = datetime::duration_cast<std::chrono::minutes>(d - h);
-		auto s = datetime::duration_cast<std::chrono::seconds>(d - h - M);
+		auto D = duration_cast<days>(d);
+		auto h = duration_cast<std::chrono::hours>(D - d);
+		auto M = duration_cast<std::chrono::minutes>(d - h);
+		auto s = duration_cast<std::chrono::seconds>(d - h - M);
 		
 		return std::make_tuple(
 			static_cast<unsigned>(h.count()),
@@ -221,19 +181,20 @@ using datetime::duration_cast;
 	template<class Int>
 	inline unsigned millisecond(const date<Int>& d)
 	{
-		auto s = datetime::duration_cast<std::chrono::seconds>(d);
+		auto s = duration_cast<std::chrono::seconds>(d);
 
-		return static_cast<unsigned>(round<std::chrono::milliseconds>(datetime::duration_cast<std::chrono::microseconds>(d - s)).count());
+		return static_cast<unsigned>(round<std::chrono::milliseconds>(duration_cast<std::chrono::microseconds>(d - s)).count());
 	}
 	template<class Int>
 	inline unsigned microsecond(const date<Int>& d)
 	{
-		auto s = datetime::duration_cast<std::chrono::seconds>(d);
+		auto s = duration_cast<std::chrono::seconds>(d);
 
-		return static_cast<unsigned>(round<std::chrono::microseconds>(datetime::duration_cast<std::chrono::nanoseconds>(d - s)).count());
+		return static_cast<unsigned>(round<std::chrono::microseconds>(duration_cast<std::chrono::nanoseconds>(d - s)).count());
 	}
-
+*/
 } // namespace datetime
+} // namespace fms
 
 #if _MSC_VER <= 1700
 #undef constexpr
@@ -244,7 +205,21 @@ using datetime::duration_cast;
 //#include <random>
 
 using namespace std::chrono;
-using namespace datetime;
+
+void
+test_duration()
+{
+	typedef duration<double, std::ratio<24*60*60>> days;
+
+	days one(1), two(2);
+	auto three = one + two;
+	ensure (three.count() == 3);
+
+	duration<int> three_(3);
+
+	auto six = three_ + three;
+	ensure (six.count() > 0);
+}
 
 void
 test_days()
@@ -304,6 +279,7 @@ inline void test_date()
 	d += days(1);
 	d += hours(3) + minutes(4) + seconds(5);
 	ensure (ymd(d) == std::make_tuple(1970,1,2));
+/*	auto x = hms(d);
 	ensure (hms(d) == std::make_tuple(3,4,5));
 
 	ensure (d == date<int>(1970,1,2,3,4,5));
@@ -324,10 +300,12 @@ inline void test_date()
 		d += microseconds(1);
 		ensure (microsecond(d) == i % 1000000);
 	}
+*/
 }
 
 inline void check_datetime()
 {
+	test_duration();
 	test_days();
 	test_weekday_difference();
 	test_date();
