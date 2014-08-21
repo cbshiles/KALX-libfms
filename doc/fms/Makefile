@@ -1,5 +1,5 @@
-CHAPTERS = background.md
-# finance.md mathematics.md software.md
+CHAPTERS = background.md finance.md
+# mathematics.md software.md
 TOC = --toc --toc-depth=2
 
 all: book

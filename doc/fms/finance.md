@@ -70,7 +70,7 @@ $(\Gamma_j)$ -- Trades
 
 $(\Delta_j)$ -- Position
 
-:    Define $\Delta_j = \sum_{i\lt j} \Gamma_j$. This is the total
+:    Define $\Delta_j = \sum_{i < j} \Gamma_j$. This is the total
      amount of each instrument held at time $t_j$.
 
 $(A_j)$ -- Account
@@ -81,14 +81,17 @@ $(A_j)$ -- Account
 	 securities traded.
      Note that no cash flows accrue to current trades.
 
+# Unified Derivatives
+
+
 Arbitrage
 
 :    A sequence of trades $(\Gamma_j)$ such that
 
     i)    $\sum_j \Gamma_j = 0$, i.e., the trading strategy is closed out
          at some point.
-    ii)    $A_0 \gt 0$, you make a positive amount on the first trade.
-    iii)   $A_j \ge 0$, $j\gt 0$, you never lose money thereafter.
+    ii)    $A_0 > 0$, you make a positive amount on the first trade.
+    iii)   $A_j \ge 0$, $j > 0$, you never lose money thereafter.
 
 ### Remarks
 

@@ -12,9 +12,10 @@ available for trading, and the motivations of the participants.
 The name _derivative securities_ is a bit misleading. A derivative is
 quite different from a security like a currency, stock, or bond. If you
 stuff a deriviative under your mattress it will eventually be worthless.
-They don't provide equity in a company that allows you to influence
-decisions. If your counterparty goes bankrupt there is no preferred
-treatment on the assets of the company that bond holders receive.
+Derivatives don't provide equity in a company that allows you to influence
+decisions on how it is run. If your counterparty goes bankrupt there
+is no preferred treatment on the assets of the company like what bond
+holders receive.
 
 > A derivative is a legal contract between two counterparties for
 > future exchanges of things of value.
