@@ -1,9 +1,9 @@
 # Mathematics
 
 Contrary to popular belief, stochastic processes are not needed
-for financial modeling. All you need to know are algebras and
-measureable functions. Positive measure with mass one show up,
-but they are not the probability of anything.
+for financial modeling. All you need to know about are algebras and
+measureable functions. Positive measures with mass one show up, but they
+are not the probability of anything.
 
 ## Outcomes
 
@@ -45,7 +45,8 @@ a die roll is even or odd.
 A function $X\colon\Omega\to\mathbb{R}$ is _measurable_ if
 $\{\omega\in\Omega: X(\omega) \le x\}\in\mathscr{F}$ for all
 $x\in\mathbb{R}$ If $\mathscr{F}$ is finite, measurable is the same as
-being constant on atoms.
+being constant on atoms. The set of bounded measurable functions
+is denoted $B(\Omega, \mathscr{F})$.
 
 ## (Finitely Additive) Measures
 
@@ -53,49 +54,52 @@ A _finitely additive measure_ is a function
 $\Pi\colon\mathscr{F}\to\mathbb{R}$ such that
 $\Pi(A\cup B) = \Pi(A) + \Pi(B)$ if $A\cap B = \emptyset$
 
--   The [vector space dual](http://en.wikipedia.org/wiki/Dual_space) of
-    bounded measurable functions
--   The dual pairing is $\langle X,\Pi\rangle = \int_\Omega
-    X\,d\Pi$
--   If $\mathscr{A}$ is finite the integral is just the sum over
-    atoms
--   For $X\in B(\Omega,\mathscr{A})$ and $\Pi\in
-    ba(\Omega,\mathscr{A})$ define $X\Pi\in
-    ba(\Omega,\mathscr{A})$ by $\langle Y,X\Pi\rangle =
-    \langle YX,\Pi\rangle$
--   $\Pi|_\mathscr{A}$ is the measure $\Pi$ restricted to
-    the algebra $\mathscr{A}$
--   _Conditional expectation_ $E[X|\mathscr{A}]$ is defined by
-    $\langle E[X|\mathscr{A}],\Pi\rangle = \langle
-    X,\Pi|_\mathscr{A}\rangle$, $\Pi\in ba(\Omega)$
--   The
-    [adjoint/dual/transpose](http://en.wikipedia.org/wiki/Dual_space) of
-    conditional expectation is restriction
+Finitely additive measures are the
+(vector space dual)[http://en.wikipedia.org/wiki/Dual_space]
+of bounded measurable functions.
+The dual pairing is $\langle X,\Pi\rangle = \int_\Omega X\,d\Pi$.
+If $\mathscr{F}$ is finite the integral is just the sum over
+atoms.
 
-$(\mathscr{A}_t)_{t\in T}$ - Filtrations
-------------------------------------------------
+For $X\in B(\Omega,\mathscr{F})$ and $\Pi\in ba(\Omega,\mathscr{F})$
+define $X\Pi\in ba(\Omega,\mathscr{F})$ by $\langle Y,X\Pi\rangle =
+\langle YX,\Pi\rangle$.
 
--   An increasing sequence of algebras
--   Represents information available over time
--   Consider flipping a coin: $T$,$H$,$H$,$\dots$
--   Model as $\omega\in[0,1)$ $\omega = .011\dots_2 =
-    \sum_{j\gt0} \omega_j 2^{-j}$, $\omega_j
-    \in\{0,1\}$
--   $\mathscr{A}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
-    i\lt 2^j\}$ represents knowing the first $j$ digits
+Let $\Pi|_\mathscr{G}$ be the measure $\Pi$ restricted to
+the algebra $\mathscr{G}$.
+_Conditional expectation_, $E[X|\mathscr{G}]$, is defined by
+$\langle E[X|\mathscr{G}],\Pi\rangle = \langle
+X,\Pi|_\mathscr{G}\rangle$, $\Pi\in ba(\Omega)$. The
+(adjoint/dual/transpose)[http://en.wikipedia.org/wiki/Dual_space] of
+conditional expectation is restriction.
 
-Fundamental Theorem of Asset Pricing
-------------------------------------
+## Filtrations
 
--   There is no arbitrage iff there exist positive scalar measures
-    $(\Pi_j)$ with \begin{equation\*} X_j\Pi_j = (C_{j+1} +
-    X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j} \end{equation\*}
--   By induction \begin{equation} X_j\Pi_j = (\sum_{j\lt i\le
-    k}C_i\Pi_i + X_k\Pi_k)|_{\mathscr{A}_j} \label{ftap}
-    \end{equation}
--   $(\Pi_j)$ are unique if market is complete (Second fundamental
-    theorem)
--   Never true for realistic models
+A _filtration_ is an increasing collection of algebras
+$(\mathscr{F}_t)_{t\in T}$, i.e., $\mathscr{F}_t\subseteq\mathscr{F}_u$
+if $t\lt u$.  A filtration represents information available over time.
+
+Consider flipping a coin: $T$,$H$,$H$,$\dots$.  This can be modeled by
+the base 2 representation of $\omega\in[0,1)$, $\omega = .011\dots_2
+= \sum_{j\gt0} \omega_j 2^{-j}$, $\omega_j \in\{0,1\}$. 
+The algebra $\mathscr{F}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
+i\lt 2^j\}$ represents knowing the first $j$ digits
+
+## The Fundamental Theorem of Asset Pricing
+
+There is no arbitrage iff there exist positive scalar measures
+$(\Pi_j)$ with
+\begin{equation*}
+X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}
+\end{equation*}
+
+By induction
+\begin{equation}
+X_j\Pi_j = (\sum_{j\lt i\le k}C_i\Pi_i + X_k\Pi_k)|_{\mathscr{A}_j} \label{ftap}
+\end{equation}
+
+$(\Pi_j)$ are unique if market is complete (the Second fundamental
+theorem) but this is never true for realistic models
 
 FTAP easy direction
 -------------------
@@ -222,6 +226,7 @@ Example: Cost of Carry
 -   Cost-of-carry:$f = Rs$
 -   Also don't really need a model for this
 
+<!--|
 A Multiperiod Model
 -------------------
 
@@ -353,5 +358,5 @@ Counterparty Risk
 -   At time $t$ we either know the default time exactly or only that
     it has some value greater than $t$
 
-
+|-->
 

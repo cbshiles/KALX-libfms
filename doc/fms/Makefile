@@ -1,5 +1,5 @@
-CHAPTERS = background.md finance.md
-# mathematics.md software.md
+CHAPTERS = background.md finance.md mathematics.md
+# software.md
 TOC = --toc --toc-depth=2
 
 all: book
@@ -28,5 +28,5 @@ fms.pdf: $(CHAPTERS)
 	-N -o $@ $^
 
 rsync:
-	rsync index.html kal@web69.webfaction.com:webapps/kalx/ftap
+	rsync fms.html fms.css kal@web69.webfaction.com:webapps/kalx/fms
 

@@ -1,6 +1,6 @@
 # Finance
 
-I order to apply mathematics to finance we need to map financial
+In order to apply mathematics to finance we need to map financial
 concepts to mathematical concepts. This involves making assumptions
 to simplify messy reality.
 
@@ -28,8 +28,8 @@ a single price. The previous two assumptions are innocuous, but this
 assumption is a drastic deviation from how markets work.  Buying or
 selling even the smallest quantity of an instrument involves a bid-ask
 spread and buying large quantities typically increases the spread. There
-is a finite amount of any instrument available at which point price
-loses meaning. There are also instruments that cannot be shorted.
+is a finite amount of any instrument available and some instruments
+cannot be sold short.
 
 ### No Arbitrage
 
@@ -43,9 +43,6 @@ It has been empirically verified that giving traders models that are not
 arbitrage free results in them selling undervalued and buying overvalued
 instruments. Eventually the real world catches up
 and the company takes a P&L hit.
-
-The Fundamental Theorem of Asset Pricing shows assuming a model is
-arbitrage free places constraints on price dynamics.
 
 ## Definitions
 
@@ -83,29 +80,36 @@ $(A_j)$ -- Account
 
 # Unified Derivatives
 
+The last formula is the skeleton key to derivatives. It can be used
+to turn market traded instruments into any sequence of cash flows,
+assuming you can find the appropriate trades $(\Gamma_j)$. The value
+of the cash flows is the cost of setting up the initial trade:
+$\Gamma_0\cdot X_0$.
+
+Unfortunately, this never happens in the real world. No hedge is
+perfect. Tragically, the Nobel prize winning Black-Scholes/Merton theory
+has had a pernicious influence on the mathematical finance world:
+continuous time trading and perfect replication are a mathematical
+fiction.
+
+The hard problem that is yet to be solved is how to manage risk under
+uncertainty. We are still in early stages. What follows is an attempt
+to map the complicated financial world more faithfully to mathematics
+with an eye to efficient software implementation.
+
+The starting point is a clear understanding of how arbitrage can
+only be defined in terms of a model. Here is the first sloppy
+definition:
 
 Arbitrage
+:    _A sequence of trades $(\Gamma_j)$ such that $\sum_j \Gamma_j = 0$, $A_0 > 0$, and $A_j \ge 0$, $j > 0$_.
 
-:    A sequence of trades $(\Gamma_j)$ such that
+The trading strategy must be closed out at some point,
+you make a positive amount on the first trade,
+and you never lose money thereafter.
 
-    i)    $\sum_j \Gamma_j = 0$, i.e., the trading strategy is closed out
-         at some point.
-    ii)    $A_0 > 0$, you make a positive amount on the first trade.
-    iii)   $A_j \ge 0$, $j > 0$, you never lose money thereafter.
-
-### Remarks
-
-Trading times correspond to dates, but are often modeled as floating
-point numbers since some epoch. In the C++ `<chrono>` class they
-are called `time_point`s.
-
-Cash flows typically have some period between when the instrument is
-purchased and when the cash flows are available. E.g., ex-dividend
-period for stocks. The model is misspecified if $t_j - t_{j-1}$ is
-smaller than this period.
-
-The definition of arbitrage is not sufficient for traders. In
-addition to knowing how much they make up front,
-$A_0 = \Gamma_0\cdot X_0$, they also want to know how much capital
-they will tie up to make that amount. A crude measure is to slap
-absolute values around every number, $|\Gamma_0|\cdot|X_0|$.
+This definition of arbitrage is not sufficient. In addition to knowing
+how much they make up front traders also want to know how much capital
+they will tie up to make that amount. A crude measure is to slap absolute
+values around every number and only consider trading if $\Gamma_0\cdot
+X_0/|\Gamma_0|\cdot|X_0|$ is sufficently large.
