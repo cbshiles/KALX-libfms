@@ -31,7 +31,9 @@ the trades required to do this. As with any theory, it has assumptions
 that hold to greater or lesser degree with what happens in the real world.
 
 It is important to distinguish the _price_ of an instrument from the
-cash flows associated with owning it.
+cash flows associated with owning it. Market traded instruments have
+prices. We will use the term _value_ for the number a model
+produces as a putative price.
 
 ## Participants
 
@@ -60,13 +62,14 @@ among other things.
 There are also _exchanges_ and _broker-dealers_ that facilitate
 trading. They act as both buyers and sellers to provide _liquidity_.
 The exchange aggregates quotes and shows their customers the best
-bid/ask spread currently available. Broker-dealers provide a similar
-service but often hold an inventory of trades when they can't match a
-buyer and a seller or want to trade their own account. Exchanges make
-money proportional to the volume of trades whereas broker-dealers
-can take advantage of market movements instead of making money only on
-the spread. Or take a hit on market movements. Unlike broker-dealers,
-no exchange has every gone bankrupt.
+bid/ask spread currently available. They take a fraction of that
+spread and make their money based on the _volume_ of trades.
+
+Broker-dealers provide a similar service but often hold an inventory of
+trades when they can't match a buyer and a seller or want to trade their
+own account.  Broker-dealers can take advantage of market movements
+instead of making money only on the spread. Or take a hit on market
+movements. Unlike broker-dealers, no exchange has every gone bankrupt.
 
 ## Securities
 
@@ -118,7 +121,6 @@ investors believe their price will grow
 
 Bonds pay coupons
 and principal,
-
 Mortgages can't be shorted and pay interest and potentially early
 principal. Commodities require storage costs.
 
@@ -165,5 +167,5 @@ to occur without price movements that would happen on an exchange.
 Swap Execution Facilities (SEF) are similar to an exchange
 for interest rate swaps. 
 
-The mathematical models and software implementation is always far behind
+The mathematical models and software implementations are always far behind
 the inventiveness of the financial world.
