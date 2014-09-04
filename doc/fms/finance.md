@@ -4,10 +4,7 @@ In order to apply mathematics to finance we need to map the complicated
 reality of the financial world to concepts amenable to mathematical
 analysis. This involves making assumptions, but it allows rigorous
 methods to be applied that can extend a trader's intuition or mitigate a
-risk manager's ignorance.
-
-The mathematics is useless if it is not turned into software that
-can be used by people who need it to do their job. 
+risk manager's uncertainty.
 
 ## Assumptions
 
@@ -47,11 +44,6 @@ It has been empirically verified that giving traders models that are not
 arbitrage free results in them selling undervalued and buying overvalued
 instruments. Eventually the real world catches up and the company takes
 a P&L hit. 
-[Joe Jett](http://en.wikipedia.org/wiki/Joseph_Jett)
-and
-[Nick Leeson](http://en.wikipedia.org/wiki/Nick_Leeson)
-are well known examples. How Sheldon
-Epstein at UBS destroyed the IPS market is less well known.
 
 ## Definitions
 
@@ -107,10 +99,10 @@ to map the complicated financial world more faithfully to mathematics
 with an eye to efficient software implementation.
 
 The starting point is a clear understanding of how arbitrage can
-only be defined in terms of a model. Here is the first sloppy
-definition:
+only be defined in terms of a model.
 
 ## Arbitrage
+
 Arbitrage exists if there are trades $(\Gamma_j)$ such that
 $\sum_j \Gamma_j = 0$, $A_0 > 0$, and $A_j \ge 0$, $j > 0$.
 
@@ -118,11 +110,9 @@ The trading strategy must be closed out at some point,
 make a positive amount on the first trade,
 and never lose money thereafter.
 
-You can double down on losses to keep $A_j$ non-negative
-but eventually you run out of capital. This is what
-[Nick Leeson](http://en.wikipedia.org/wiki/Nick_Leeson)
-did but the cost of closing out the position was the demise of the
-UK's oldest investment bank.
+You can double down on losses to keep $A_j$ non-negative but eventually
+you run out of capital.  Closing out Leeson's position caused the demise
+of the UK's oldest investment bank.
 
 In the literature you will see arbitrage defined as $A_0 = 0$,
 $A_j\ge0$, and $A_j > 0$ with non-zero probability. This is
@@ -135,7 +125,7 @@ Even this stronger definition of arbitrage [@Gar1981] is not sufficient.
 In addition to knowing how much they make up front, traders also want
 to know how much capital they will tie up to make that amount. A crude
 measure is to slap absolute values around every number and only consider
-trading if $\Gamma_0\cdot X_0/|\Gamma_0|\cdot|X_0|$ is sufficiently large.
+trading if $-\Gamma_0\cdot X_0/|\Gamma_0|\cdot|X_0|$ is sufficiently large.
 
 Furthermore, the value of $|\Delta_{j-1}|\cdot |C_j| - |\Gamma_j|\cdot
 |X_j|$ over the life of the trade relative to $A_j$ will be something
