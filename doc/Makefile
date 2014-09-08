@@ -1,9 +1,7 @@
 LESS = $(wildcard lesson*.md)
 HTML = index.html $(LESS:.md=.html)
 
-all: $(HTML) chrono.html
-
-$(HTML) chrono.html: %.html: %.md
+$(HTML): %.html: %.md
 	pandoc -S --mathjax -H header.html -B before.html -A after.html $< -o $@
 
 $(HTML): header.html before.html after.html main.css
