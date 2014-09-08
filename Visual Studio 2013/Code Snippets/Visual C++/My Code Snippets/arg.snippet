@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Arg Boolean</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Boolean argument.</Description>
+      <Shortcut>xarg_bool</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a boolean argument</ToolTip>
+          <Default>Bool</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[.Arg(XLL_BOOLX, _T("$Replace$"), _T("is a Boolian true or false value."))]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Arg double</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Double precision floating point argument.</Description>
+      <Shortcut>xarg_double</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a 64-bit double precision floating point argument</ToolTip>
+          <Default>Number</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[.Arg(XLL_DOUBLEX, _T("$Replace$"), _T("is a number."))]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Arg Integer</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>A 32-bit signed integer argument.</Description>
+      <Shortcut>xarg_int</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a 32-bit signed integer argument</ToolTip>
+          <Default>Int</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[.Arg(XLL_LONGX, _T("$Replace$"), _T("is an integer."))]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Arg LPOPER</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Pointer to an OPER argument.</Description>
+      <Shortcut>xarg_lpoper</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a pointer to an OPER argument</ToolTip>
+          <Default>Cell</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[.Arg(XLL_LPOPERX, _T("$Replace$"), _T("is a value or cell reference."))]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

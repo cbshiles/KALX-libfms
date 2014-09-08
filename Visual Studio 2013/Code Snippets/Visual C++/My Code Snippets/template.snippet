@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Title</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Description.</Description>
+      <Shortcut>xll</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Tooltip.</ToolTip>
+          <Default>function</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddInX xai_$Replace$(
+  FunctionX(XLL_LPOPERX, _T("?xll_$Replace$"), _T("XLL.$Replace$"))
+  .Arg(XLL_DOUBLEX, _T("Arg"), _T("is an argument."))
+  .Category(CATEGORY)
+  .FunctionHelp(_T("Description."))
+#ifdef _DEBUG
+  .Documentation(_T("Documentation."))
+#endif
+);
+LPOPERX WINAPI
+xll_$Replace$(double arg)
+{
+#pragma XLLEXPORT
+  static OPERX o;
+          
+  try {
+    o = arg;
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    o = ErrX(xlerrNum);
+  }
+          
+  return &o;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
+

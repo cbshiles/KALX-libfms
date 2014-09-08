@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddInX Function</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create a simple dual use add-in function.</Description>
+      <Shortcut>xai_functionx</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a simple AddInX function</ToolTip>
+          <Default>function</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddInX xai_$Replace$(
+  FunctionX(XLL_LPOPERX, _T("?xll_$Replace$"), _T("XLL.$Replace$"))
+  .Arg(XLL_DOUBLEX, _T("Arg"), _T("is an argument."))
+  .Category(CATEGORY)
+  .FunctionHelp(_T("Description."))
+  .Documentation(_T("Documentation."))
+);
+LPOPERX WINAPI xll_$Replace$(double arg)
+{
+#pragma XLLEXPORT
+  static OPERX o;
+
+  try {
+    o = arg;
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    o = ErrX(xlerrNum);
+  }
+
+  return &o;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddInX Macro</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create a dual use AddInX macro</Description>
+      <Shortcut>xai_macrox</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a macro add-in</ToolTip>
+          <Default>macro</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddInX xai_$Replace$(_T("?xll_$Replace$"), _T("XLL.$Replace$"));
+int WINAPI xll_$Replace$(void)
+{
+#pragma XLLEXPORT
+  try {
+    ; // macro body
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    return 0;
+  }
+
+  return 1;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddIn Function</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create a simple dual use add-in function.</Description>
+      <Shortcut>xai_function</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a simple AddIn function</ToolTip>
+          <Default>function</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddIn xai_$Replace$(
+  FunctionX(XLL_LPOPER, "?xll_$Replace$", "XLL.$Replace$")
+  .Arg(XLL_DOUBLE, "Arg", "is an argument.")
+  .Category(CATEGORY)
+  .FunctionHelp("Description.")
+  .Documentation("Documentation.")
+);
+LPOPER WINAPI xll_$Replace$(double arg)
+{
+#pragma XLLEXPORT
+  static OPER o;
+
+  try {
+    o = arg;
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    o = Err(xlerrNum);
+  }
+
+  return &o;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddIn Macro</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create a dual use AddInX macro</Description>
+      <Shortcut>xai_macro</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a macro add-in</ToolTip>
+          <Default>macro</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddIn xai_$Replace$("?xll_$Replace$", "XLL.$Replace$");
+int WINAPI xll_$Replace$(void)
+{
+#pragma XLLEXPORT
+  try {
+    ; // macro body
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    return 0;
+  }
+
+  return 1;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddIn12 Function</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create a simple add-in function.</Description>
+      <Shortcut>xai_function12</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a simple AddIn12 function</ToolTip>
+          <Default>function</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddIn12 xai_$Replace$(
+  FunctionX(XLL_LPOPER12, L"?xll_$Replace$", L"XLL.$Replace$")
+  .Arg(XLL_DOUBLE12, L"Arg", L"is an argument.")
+  .Category(CATEGORY)
+  .FunctionHelp(L"Description.")
+  .Documentation(L"Documentation.")
+);
+LPOPER12 WINAPI xll_$Replace$(double arg)
+{
+#pragma XLLEXPORT
+  static OPER12 o;
+
+  try {
+    o = arg;
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    o = Err12(xlerrNum);
+  }
+
+  return &o;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>AddIn Macro</Title>
+      <Author>Keith A. Lewis</Author>
+      <Description>Create an AddIn12 macro</Description>
+      <Shortcut>xai_macro12</Shortcut>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Replace</ID>
+          <ToolTip>Insert a macro add-in</ToolTip>
+          <Default>macro</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[
+static AddIn12 xai_$Replace$(L"?xll_$Replace$", L"XLL.$Replace$");
+int WINAPI xll_$Replace$(void)
+{
+#pragma XLLEXPORT
+  try {
+    ; // macro body
+  }
+  catch (const std::exception& ex) {
+    XLL_ERROR(ex.what());
+            
+    return 0;
+  }
+
+  return 1;
+}
+        ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
+
