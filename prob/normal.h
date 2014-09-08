@@ -21,13 +21,13 @@ namespace prob {
 		template<class X>
 		inline X pdf(const X& x)
 		{
-			return exp(-x*x/2)/static_cast<X>(M_SQRT2PI);
+			return exp(-x*x/2)/X(M_SQRT2PI);
 		}
 
 		template<class X>
 		inline X cdf(const X& x)
 		{
-			return erfc(-x/M_SQRT2)/2;
+			return erfc(-x/X(M_SQRT2))/2;
 		}
 
 		// See papers/dominici-invnormal.pdf
@@ -46,7 +46,7 @@ namespace prob {
 using namespace fms::prob;
 
 template<class X>
-inline void check_sqrt2()
+inline void test_sqrt2()
 {
 	X two = X(M_SQRT2)*X(M_SQRT2);
 	
@@ -62,7 +62,7 @@ inline void check_sqrt2()
 }
 
 template<class X>
-inline void check_sqrt2pi()
+inline void test_sqrt2pi()
 {
 	X twopi = 2*X(M_PI);
 
@@ -70,28 +70,29 @@ inline void check_sqrt2pi()
 }
 
 template<class X>
-inline void check_prob_pdf()
+inline void test_prob_pdf()
 {
 	ensure (normal::pdf<X>(0) == 1/M_SQRT2PI);
 }
 
 template<class X>
-inline void check_prob_cdf()
+inline void test_prob_cdf()
 {
+	ensure (normal::cdf<X>(0) == X(0.5));
 }
 
 template<class X>
-inline void check_prob_inv()
+inline void test_prob_inv()
 {
 }
 
-inline void check_prob_normal()
+inline void test_prob_normal()
 {
-	check_sqrt2<double>();
-	check_sqrt2<float>();
-	check_prob_pdf<double>();
-	check_prob_cdf<double>();
-	check_prob_inv<double>();
+	test_sqrt2<double>();
+	test_sqrt2<float>();
+	test_prob_pdf<double>();
+	test_prob_cdf<double>();
+	test_prob_inv<double>();
 }
 
 #endif // _DEBUG

@@ -1,4 +1,9 @@
-# Implementation of Financial Models
+# ORIE 5914 - Implementation of Financial Models
+Monday September 8 -- December 1, 5--6:30pm  
+Instructor: Keith A. Lewis <kal278@cornell.edu>  
+TA: Sanju Maliakal <sjm366@cornell.edu>  
+Office Hours: Monday 4--5pm and by appointment  
+
 
 This course will teach you how to use mathematics to model financial
 products and implement them using modern C++.
@@ -8,52 +13,73 @@ Your grade will be 50% weekly homework/quizzes and 50% final exam.
 
 ## Prerequisites
 Create an account at [Codeplex](https://codeplex.com).
-[Send me](mailto:kal278@cornell.edu?subject=Codeplex%20branch&body=My%20codeplex%20branch%20name%20is:)
+[Send Sanju](mailto:sjm366@cornell.edu?subject=Codeplex%20branch&body=My%20codeplex%20branch%20name%20is:)
 the id you choose.
 Use the [Discussions](http://libfms.codeplex.com/discussions) tab
 for any project related questions.
 
-- Microsoft Windows version 7 or latter.
-- [Visual Studio 2012 for Windows](http://www.visualstudio.com/en-us/products/visual-studio-express-vs.aspx). Be sure to install all updates.
-- [Visual Studio 2012 Update 4](http://www.microsoft.com/en-us/download/details.aspx?id=39305)
-- Install Visual Studio Tools for Git.
-- [Microsoft Excel](http://office.microsoft.com/en-us/excel/)
-- The [xll](https://xll.codeplex.com) library. Install
-[setup.msi](http://kalx.net/dnload/setup.zip),
-[project.msi](http://kalx.net/dnload/project10.zip),
-and [HTML Help Workshop](http://www.microsoft.com/downloads/en/details.aspx?FamilyID=00535334-c8a6-452f-9aa0-d597d16580cc&displaylang=en)
+Software ...
 
 ## Books
 No books are required for this course. You will be assigned readings
 available on the internet to be discussed at the beginning of each class.
-
-There is a new C++ in town. We will be taking advantage of that in this
-course. Below are references to the latest developments.
 
 - [A Tour of C++](http:www.stroustrup.com/Tour.html)
 is a quick overview of modern C++ at the expert level
 - [Programming -- Principles and Practice Using C++](http:www.stroustrup.com/programming.html)
 is a beginner level introduction to modern C++.
 - [Elements of Modern C++ Style](http://herbsutter.com/elements-of-modern-c-style/)
-is a brief on-line guide.
+is a brief on-line guide to the new C++ features we will be using.
 
 ## Lessons
 
-[Lesson 1](lesson1.html)
+[Lesson 1](lesson1.html) (Sep. 8)
   ~ The software development process
-[Lesson 2](lesson2.html)
+[Lesson 2](lesson2.html) (Sep. 15)
   ~ The mathematical model
-[Lesson 3](lesson3.html)
+[Lesson 3](lesson3.html) (Sep. 22)
   ~ Functions: Black-Scholes/Merton
-[Lesson 4](lesson4.html)
+[Lesson 4](lesson4.html) (Sep. 29)
   ~ Objects: Piecewise flat yield curve bootstrap
-[Lesson 5](lesson5.html)
+[Lesson 5](lesson5.html) (Oct. 6)
   ~ Root finding: implied volatility and forward
-[Lesson 6](lesson6.html)
+[Lesson 6](lesson6.html) (Oct. 20)
   ~ 3rd party libraries: SVI fitting
-[Lesson 7](lesson7.html)
+[Lesson 7](lesson7.html) (Oct. 27)
   ~ Trinomial tree: Ho-Lee model
-[Lesson 8](lesson8.html)
+[Lesson 8](lesson8.html) (Nov. 3)
   ~ Monte Carlo: structured products
-[Lesson 9](lesson9.html)
+[Lesson 9](lesson9.html) (Nov. 10)
   ~ Variance swaps: model independent pricing
+[Lesson 10](lesson10.html) (Nov. 17)
+  ~ ???
+[Lesson 11](lesson10.html) (Nov. 24)
+  ~ ???
+Review (Dec. 1)
+  ~ ???
+  
+<!--|
+  Mon Sep 8	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 15	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 22	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 29	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 6	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 20	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 27	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 3	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 10	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 17	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 24	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+
+  Mon Dec 1	 	5:00pm – 6:30pm	ORIE 5914: Implementation of Financial Models  
+|-->

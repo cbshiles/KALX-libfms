@@ -14,7 +14,7 @@
     displayIndent: "2em",
     "HTML-CSS": {
       preferredFonts: "TeX",
-  /*    webFont:"Neo-Euler", */
+      webFont:"Neo-Euler",
       undefinedFamily:"'Arial Unicode MS',serif"
     }
   });
@@ -29,7 +29,7 @@
 <p><i>“Faire de la bonne cuisine demande un certain temps. Si on vous fait attendre, c’est pour mieux vous servir, et vous plaire.”</i></p>
 </blockquote>
 <h2 id="the-software-development-process">The software development process</h2>
-<p>Reading: Chapter 2 of <a href="http://www.cs.virginia.edu/~evans/greatworks/mythical.pdf">The Mythical Man Month</a>, <a href="http://se.ethz.ch/~meyer/publications/testing/principles.pdf">The Seven Principles of Software Testing</a>, <a href="http://www.stroustrup.com/CVu263interview.pdf">Becoming a better programmer</a></p>
+<p>Reading: Chapter 2 of <a href="http://www.cs.virginia.edu/~evans/greatworks/mythical.pdf">The Mythical Man Month</a>, <a href="http://se.ethz.ch/~meyer/publications/testing/principles.pdf">The Seven Principles of Software Testing</a>, <a href="http://www.stroustrup.com/CVu263interview.pdf">Becoming a better programmer</a> <a href="http://xllfloat.codeplex.com/">Floating Point Numbers</a></p>
 <p>Financial institutions have many problems to solve and only a small fraction of those are amenable to mathematical analysis. Getting the math right takes thought and skill, but that isn’t enough. To be useful to the business line it must be implemented as software they find valuable.</p>
 <p>You can increase your value as a quant by understanding how to communicate effectively with people writing the checks. The first thing to establish is a common vocabulary. If you don’t understand terminology being used don’t be shy about asking, but don’t expect it to be explained twice.</p>
 <p>After developing a model that the business is (not too un)happy with you will need to work with the technology group to implement it in their production systems and perhaps with risk managers to get model approval.</p>
@@ -49,12 +49,17 @@
 <h3 id="compiling-c">Compiling C++</h3>
 <p>There is a reason people like using languages like Matlab or python. They are easy to use and forgiving of programming errors. C++ has many failure modes. It is a large and complicated language with a lot of baggage inherited from C. Fortunately, some of the smartest people on this planet have been hard at work standardizing new features that make it possible to get the benefits of C++ without needing to learn the entire language.</p>
 <p>Using Visual Studio 2013 will make your life easier. View Team Explorer, Connect, Clone, https://git01.codeplex.com/libfms to any folder. View Solution Explorer, right click on a project, and build. You will also need to use Visual Studio to build Excel add-ins.</p>
+<h3 id="the-xll-library">The xll Library</h3>
+<p>See <a href="http://xll.codeplex.com/wikipage?title=User">the xll library</a> documentation.</p>
+<h2 id="floating-point-numbers">Floating Point Numbers</h2>
+<p>The project <a href="http://xllfloat.codeplex.com/">xllfloat</a> contains routines for inspecting IEEE 64-bit floating point numbers. A subset of these have been included in the <code>xllfms</code> Excel add-in project.</p>
 <h1 id="homework">Homework</h1>
-<p><em>Exercise</em>. The error function is <span class="math">\(\mathrm{erf}(x) = c\int_0^x e^{-t^2}\,dt\)</span> with <span class="math">\(c\)</span> chosen so that <span class="math">\(\lim_{x\to\infty}\mathrm{erf}(x) = 1\)</span>. Use <span class="math">\(\int_{-\infty}^\infty e^{-\pi t^2}\,dt = 1\)</span> to find <span class="math">\(c\)</span>.</p>
-<p><em>Exercise</em>. The standard normal cumulative distribution is <span class="math">\(N(x)=\int_{-\infty}^x e^{-t^2/2}\,dt/\sqrt{2\pi}\)</span>. Express this in terms of the complementary error function <span class="math">\(\mathrm{erfc}(x) = 1 - \mathrm{erf}(x)\)</span>.</p>
-<p><em>Exercise</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N = e^{E\,N + \mathrm{Var}(N)/2}\)</span>.</p>
-<p><em>Exercise</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N f(N) = Ee^N E f(N + \mathrm{Var}(N))\)</span>.</p>
+<p>Each exercise is worth 20 points. Give a mathematicaly convincing argument for your work.</p>
+<p><em>Exercise 1</em>. The error function is <span class="math">\(\mathrm{erf}(x) = c\int_0^x e^{-t^2}\,dt\)</span> with <span class="math">\(c\)</span> chosen so that <span class="math">\(\lim_{x\to\infty}\mathrm{erf}(x) = 1\)</span>. Use <span class="math">\(\int_{-\infty}^\infty e^{-\pi t^2}\,dt = 1\)</span> to find <span class="math">\(c\)</span>.</p>
+<p><em>Exercise 2</em>. The standard normal cumulative distribution is <span class="math">\(N(x)=\int_{-\infty}^x e^{-t^2/2}\,dt/\sqrt{2\pi}\)</span>. Express this in terms of the complementary error function <span class="math">\(\mathrm{erfc}(x) = 1 - \mathrm{erf}(x)\)</span>.</p>
+<p><em>Exercise 3</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N = e^{E\,N + \mathrm{Var}(N)/2}\)</span>.</p>
+<p><em>Exercise 4</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N f(N) = Ee^N E f(N + \mathrm{Var}(N))\)</span>.</p>
 <p>More generally, <span class="math">\(Ee^N f(N_1,\dots) = Ee^N E f(N + \mathrm{Cov}(N,N_1),\dots)\)</span> if <span class="math">\(N\)</span>, <span class="math">\(N_1\)</span>, are jointly normal.</p>
-<p><em>Exercise</em>. If <span class="math">\(N\)</span> and <span class="math">\(N_1\)</span> are jointly normal show <span class="math">\(EN f(N_1) = EN Ef(N_1) + E f&#39;(N_1)\)</span>. (<em>Hint</em>: Take the derivative of <span class="math">\(Ee^{aN} f(N_1)\)</span> with respect to <span class="math">\(a\)</span>.)</p>
+<p><em>Exercise</em> 5. If <span class="math">\(N\)</span> and <span class="math">\(N_1\)</span> are jointly normal show <span class="math">\(EN f(N_1) = EN Ef(N_1) + E f&#39;(N_1)\)</span>. (<em>Hint</em>: Take the derivative of <span class="math">\(Ee^{aN} f(N_1)\)</span> with respect to <span class="math">\(a\)</span>.)</p>
 </body>
 </html>

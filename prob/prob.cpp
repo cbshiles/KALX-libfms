@@ -5,7 +5,7 @@
 int main()
 {
 	try {
-		check_prob_normal();
+		test_prob_normal();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;
