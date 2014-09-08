@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="main.css" type="text/css">
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "2em",
+    "HTML-CSS": {
+      preferredFonts: "TeX",
+      webFont:"Neo-Euler",
+      undefinedFamily:"'Arial Unicode MS',serif"
+    }
+  });
+  </script>
+</head>
+<body>
+<h1 id="notes-on-chrono">Notes on <code>&lt;chrono&gt;</code></h1>
+<p>C++ 2011 introduced <code>&lt;chrono&gt;</code> for dealing with <code>clocks</code>, <code>time_points</code>’s and <code>duration</code>’s. It is not a replacement for <code>&lt;ctime&gt;</code> but there is some overlap.</p>
+<p>Computers are going to keep getting faster and programmers need facilities to take advantage of that. A <em><code>duration</code></em> is parameterized by the data type used to represent it and a period. The value of the data type is given by the member function <code>count()</code>. The period is in units of seconds expressed as a <code>std::ratio</code>, an artifact of <code>time_t</code> traditionally being time in seconds since unix epoch: midnight 1970-01-01. The duration is the count times ratio in seconds.</p>
+<p>It is a good approximation to think of a <code>std::ratio</code> as a rational number. The ratio is determined by template parameters <code>ratio&lt;a,b&gt;</code>. The members <code>num</code> and <code>den</code> are generated at compile time by meta template magic (the good kind) and are guaranteed to satisfy <code>den &gt; 0</code> and the greatest common factor of <code>num</code> and <code>den</code> is 1. There are classes <code>ratio_add</code> for addition and likewise for <code>ratio_subtract</code>, <code>ratio_multiply</code>, and <code>ratio_divide</code>.</p>
+<p>You can add two <code>duration</code>s to get a new duration. The count is the sum of the counts.</p>
+<p>There are three standard clocks in the <code>std::chrono</code> namespace: <code>system_clock</code>, <code>steady_clock</code>, and <code>high_resolution_clock</code>. All clocks implement <code>now()</code> that returns a <em><code>time_point</code></em> representing the current time. Only <code>system_clock</code> implements <code>to_time_t</code> and <code>from_time_t</code>. The usual implementation is <code>to_time_t()</code> returns <code>time(0)</code> from <code>&lt;ctime&gt;</code>. Recall <code>time_t</code> is typically time in seconds from unix epoch: midnight 1970-01-01.</p>
+<p>Every clock is free to define its own epoch and <code>time_point</code>s are If count is an integral value the calculations are exact. If count is a floating point value things are more complicated.</p>
+</body>
+</html>

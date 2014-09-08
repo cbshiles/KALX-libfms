@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="main.css" type="text/css">
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "2em",
+    "HTML-CSS": {
+      preferredFonts: "TeX",
+  /*    webFont:"Neo-Euler", */
+      undefinedFamily:"'Arial Unicode MS',serif"
+    }
+  });
+  </script>
+</head>
+<body>
+<h1 id="orie-5914---implementation-of-financial-models">ORIE 5914 - Implementation of Financial Models</h1>
+<p>Monday September 8 – December 1, 5–6:30pm<br />Instructor: Keith A. Lewis <script type="text/javascript">
+<!--
+h='&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#46;&#x65;&#100;&#x75;';a='&#64;';n='&#x6b;&#x61;&#108;&#50;&#x37;&#56;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x6b;&#x61;&#108;&#50;&#x37;&#56;&#32;&#x61;&#116;&#32;&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x65;&#100;&#x75;</noscript><br />TA: Sanju Maliakal <script type="text/javascript">
+<!--
+h='&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#46;&#x65;&#100;&#x75;';a='&#64;';n='&#x73;&#106;&#x6d;&#x33;&#54;&#54;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x73;&#106;&#x6d;&#x33;&#54;&#54;&#32;&#x61;&#116;&#32;&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x65;&#100;&#x75;</noscript><br />Office Hours: Monday 4–5pm and by appointment</p>
+<p>This course will teach you how to use mathematics to model financial products and implement them using modern C++.</p>
+<h2 id="grading">Grading</h2>
+<p>Your grade will be 50% weekly homework/quizzes and 50% final exam.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Create an account at <a href="https://codeplex.com">Codeplex</a>. <script type="text/javascript">
+<!--
+h='&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#46;&#x65;&#100;&#x75;&#x3f;&#x73;&#x75;&#98;&#106;&#x65;&#x63;&#116;&#x3d;&#x43;&#x6f;&#100;&#x65;&#112;&#108;&#x65;&#120;&#x25;&#50;&#48;&#98;&#114;&#x61;&#110;&#x63;&#104;&#38;&#98;&#x6f;&#100;&#x79;&#x3d;&#x4d;&#x79;&#x25;&#50;&#48;&#x63;&#x6f;&#100;&#x65;&#112;&#108;&#x65;&#120;&#x25;&#50;&#48;&#98;&#114;&#x61;&#110;&#x63;&#104;&#x25;&#50;&#48;&#110;&#x61;&#x6d;&#x65;&#x25;&#50;&#48;&#x69;&#x73;&#58;';a='&#64;';n='&#x73;&#106;&#x6d;&#x33;&#54;&#54;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'">'+'Send Sanju'+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x53;&#x65;&#110;&#100;&#32;&#x53;&#x61;&#110;&#106;&#x75;&#32;&#40;&#x73;&#106;&#x6d;&#x33;&#54;&#54;&#32;&#x61;&#116;&#32;&#x63;&#x6f;&#114;&#110;&#x65;&#108;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x65;&#100;&#x75;&#x3f;&#x73;&#x75;&#98;&#106;&#x65;&#x63;&#116;&#x3d;&#x43;&#x6f;&#100;&#x65;&#112;&#108;&#x65;&#120;&#x25;&#50;&#48;&#98;&#114;&#x61;&#110;&#x63;&#104;&#38;&#98;&#x6f;&#100;&#x79;&#x3d;&#x4d;&#x79;&#x25;&#50;&#48;&#x63;&#x6f;&#100;&#x65;&#112;&#108;&#x65;&#120;&#x25;&#50;&#48;&#98;&#114;&#x61;&#110;&#x63;&#104;&#x25;&#50;&#48;&#110;&#x61;&#x6d;&#x65;&#x25;&#50;&#48;&#x69;&#x73;&#58;&#x29;</noscript> the id you choose. Use the <a href="http://libfms.codeplex.com/discussions">Discussions</a> tab for any project related questions.</p>
+<p>Software …</p>
+<h2 id="books">Books</h2>
+<p>No books are required for this course. You will be assigned readings available on the internet to be discussed at the beginning of each class.</p>
+<ul>
+<li><a href="http:www.stroustrup.com/Tour.html">A Tour of C++</a> is a quick overview of modern C++ at the expert level</li>
+<li><a href="http:www.stroustrup.com/programming.html">Programming – Principles and Practice Using C++</a> is a beginner level introduction to modern C++.</li>
+<li><a href="http://herbsutter.com/elements-of-modern-c-style/">Elements of Modern C++ Style</a> is a brief on-line guide to the new C++ features we will be using.</li>
+</ul>
+<h2 id="lessons">Lessons</h2>
+<dl>
+<dt><a href="lesson1.html">Lesson 1</a> (Sep. 8)</dt>
+<dd>The software development process
+</dd>
+<dt><a href="lesson2.html">Lesson 2</a> (Sep. 15)</dt>
+<dd>The mathematical model
+</dd>
+<dt><a href="lesson3.html">Lesson 3</a> (Sep. 22)</dt>
+<dd>Functions: Black-Scholes/Merton
+</dd>
+<dt><a href="lesson4.html">Lesson 4</a> (Sep. 29)</dt>
+<dd>Objects: Piecewise flat yield curve bootstrap
+</dd>
+<dt><a href="lesson5.html">Lesson 5</a> (Oct. 6)</dt>
+<dd>Root finding: implied volatility and forward
+</dd>
+<dt><a href="lesson6.html">Lesson 6</a> (Oct. 20)</dt>
+<dd>3rd party libraries: SVI fitting
+</dd>
+<dt><a href="lesson7.html">Lesson 7</a> (Oct. 27)</dt>
+<dd>Trinomial tree: Ho-Lee model
+</dd>
+<dt><a href="lesson8.html">Lesson 8</a> (Nov. 3)</dt>
+<dd>Monte Carlo: structured products
+</dd>
+<dt><a href="lesson9.html">Lesson 9</a> (Nov. 10)</dt>
+<dd>Variance swaps: model independent pricing
+</dd>
+<dt><a href="lesson10.html">Lesson 10</a> (Nov. 17)</dt>
+<dd>???
+</dd>
+<dt><a href="lesson10.html">Lesson 11</a> (Nov. 24)</dt>
+<dd>???
+</dd>
+<dt>Review (Dec. 1)</dt>
+<dd>???
+</dd>
+</dl>
+<!--|
+  Mon Sep 8     5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 15        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 22        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Sep 29        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 6     5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 20        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Oct 27        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 3     5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 10        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 17        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Nov 24        5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+
+  Mon Dec 1     5:00pm – 6:30pm ORIE 5914: Implementation of Financial Models  
+|-->
+</body>
+</html>

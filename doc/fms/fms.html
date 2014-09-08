@@ -1,0 +1,437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Keith A. Lewis" />
+  <title>UNIFIED DERIVATIVES</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="fms.css" type="text/css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "2em",
+    "HTML-CSS": {
+      preferredFonts: "TeX",
+      undefinedFamily:"'Arial Unicode MS',serif"
+    }
+  });
+  </script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">UNIFIED DERIVATIVES</h1>
+<h2 class="author">Keith A. Lewis</h2>
+<h3 class="date">KALX, LLC</h3>
+</div>
+<div id="TOC">
+<ul>
+<li><a href="#background">Background</a><ul>
+<li><a href="#participants">Participants</a></li>
+<li><a href="#securities">Securities</a></li>
+<li><a href="#markets">Markets</a></li>
+</ul></li>
+<li><a href="#finance">Finance</a><ul>
+<li><a href="#assumptions">Assumptions</a></li>
+<li><a href="#definitions">Definitions</a></li>
+</ul></li>
+<li><a href="#unified-derivatives">Unified Derivatives</a><ul>
+<li><a href="#arbitrage">Arbitrage</a></li>
+</ul></li>
+<li><a href="#mathematics">Mathematics</a><ul>
+<li><a href="#outcomes">Outcomes</a></li>
+<li><a href="#algebras">Algebras</a></li>
+<li><a href="#measures">Measures</a></li>
+<li><a href="#filtrations">Filtrations</a></li>
+<li><a href="#the-fundamental-theorem-of-asset-pricing">The Fundamental Theorem of Asset Pricing</a></li>
+<li><a href="#models">Models</a></li>
+<li><a href="#delta-hedging">Delta Hedging</a></li>
+</ul></li>
+</ul>
+</div>
+<h1 id="background">Background</h1>
+<p>Before learning about derivative securities you need to know something about who the market participants are, the primary securities they are based on, and the markets available for trading.</p>
+<p>The name <em>derivative securities</em> is a bit misleading. A derivative is quite different from a security like a currency, stock, or bond. If you stuff a deriviative under your mattress it will eventually be worthless. Derivatives don’t provide equity in a company that allows you to influence decisions on how it is run. If a company goes bankrupt there is no preferred treatment on the assets of the company that bond holders receive.</p>
+<blockquote>
+<p><em>A derivative is a legal contract between two counterparties for future exchanges of cash flows.</em></p>
+</blockquote>
+<p>Owning a security involves cash flows. In the spot foreign exchange market you get paid the difference between the rates of interest in the currency pairs you hold each day, stocks pay dividends on dividend dates, bonds pay coupons on a regular schedule and principal at maturity.</p>
+<p>Derivatives use market traded securities to manufacture arbitrary cash flow streams. There is a mathematical theory that can be used to determine the trades required to do so. As with any theory, it has assumptions that hold to greater or lesser degree.</p>
+<p>It is important to distinguish the <em>price</em> of an instrument from the cash flows associated with owning it. Market traded instruments have prices. We will use the term <em>value</em> for the number a model produces as a putative price.</p>
+<h2 id="participants">Participants</h2>
+<p>Every transaction has a <em>buyer</em> and a <em>seller</em>. Don’t confuse these nouns with the verbs buy and sell. The buyer always decides whether or not to buy or sell based on the prices offered by a seller. A buyer can also decide to go <em>long</em> or <em>short</em>. If a buyer goes long it means they own something that they believe increases in value if the market goes up. If a buyer goes short, they believe they make money if the market goes down. Prices are determined by the market. The value of a transaction is a subjective judgement made by a buyer, but models can be used to make this more objective.</p>
+<p>You can already figure out what <em>buy side</em>/<em>sell side</em> means. These are also referred to as price <em>taker/maker</em>.</p>
+<p>Sellers make a market for buyers. They provide prices for buyers who decide to buy at the ask, or sell at the bid. The ask price is also called the offer, but the seller is not really offering anything other than to allow the buyer to transact. The price also depends on the amount being transacted and who the buyer and seller are. Markets are never perfectly liquid, something the classical theory of mathematical finance likes to assume. Sellers make their living off of this asymmetry, among other things.</p>
+<p>There are also <em>exchanges</em> and <em>broker-dealers</em> that facilitate trading. They act as both buyers and sellers to provide <em>liquidity</em>. The exchange aggregates quotes and shows their customers the best bid/ask spread currently available. They take a fraction of that spread and make their money based on the <em>volume</em> of trades. Broker-dealers provide a similar service but often hold an inventory of trades when they can’t match a buyer and a seller or want to trade their own account. Broker-dealers can take advantage of market movements instead of making money only on the spread. Or take a hit on market movements. Unlike broker-dealers, no exchange has every gone bankrupt.</p>
+<h2 id="securities">Securities</h2>
+<p>There are many more securities than just currencies, bonds, and stocks. Commodities are also securities and futures are derivatives that allow speculators to reduce the risk producers faced. Convertible bonds start out as bonds but contain a provision allowing the holder to convert them into shares of stock. Mortgage backed securities have cash flows determined by the interest and principal paid on a collection of mortgages. Credit default swaps provide insurance in the event a company defaults.</p>
+<p>There are even securities that are based on the weather or future earnings of celebrities like <a href="view-source:http://en.wikipedia.org/wiki/Celebrity_bond#Bowie_Bonds">David Bowie</a>. The mathematical theory behind valuing these products is not up to the inventivness of those trying to make a buck off of people who have money but don’t really understand what they are buying.</p>
+<!--|
+
+### Currencies
+
+### Stocks
+Stocks are called equity because they entail partial ownership in a
+company. Owning stock gives you some say in how the company is run.
+
+### Bonds
+Bonds
+are called debt because the company issuing the bond is on the hook
+to pay it back. If a company defaults, the bond holders are first in
+line and the stock holders get what is left over. Bonds are also called
+fixed-income instruments since they usually pay a fixed coupon. This is
+not the only example of historical terminology being a hindrance to a
+unified understanding of financial products.
+## Cash Flows
+
+Owning a security involves cash flows.
+
+Exchanging currencies involves the _roll_, the difference between the
+interest rates. If another country has a higher interest rate you can
+exchange your currency and get paid that rate less your rate. If exchange
+rates stay constant, you could convert back and make the difference
+over that period of time. But exchange rates change.
+
+Stocks pay dividends. Usually. Some tech stocks pay no dividends because
+investors believe their price will grow 
+
+Bonds pay coupons
+and principal,
+Mortgages can't be shorted and pay interest and potentially early
+principal. Commodities require storage costs.
+
+Primary securities can be bundled, or repackaged into mutual funds,
+mortgage-backed securities, exchange traded funds, special purpose
+vehicles and an assortment of other securities. Often the purpose is to
+take advantage of tax, accounting, or regulatory considerations. Something
+we will assiduously avoid considering, as does most of the mathematical
+finance literature, even though these are a very important component of
+the financial world.
+
+## Derivatives
+
+A derivative security is a contract between a buyer and a seller for a
+sequence of exchanges of other securities. The most common are futures,
+forwards, and options. The following chapters will show in detail how
+these are the building blocks of all derivative securities. One example
+are swaps. They are just a portfolio of forward contracts.
+
+|-->
+
+<h2 id="markets">Markets</h2>
+<p>Exchanges provide nearly instantaneous access to transactions via <em>market orders</em>. The price cannot be guaranteed by the exchange. You get <em>filled</em> depending on the <em>limit orders</em> in the current <em>order book</em>.</p>
+<p>A limit order is a way for buyers to act like sellers. You can offer to buy or sell some quantity of an instrument at a price. If the market moves to the level you offer, then you can get filled at the price you set. But that might never happen.</p>
+<p>Opening an account on an exchange involve giving them <em>margin</em>. If the exchange sells you a <em>futures</em> the price and cash flow associated with entering the contract is zero. In fact, the price of a futures is always zero. Your margin account is adjusted each day with the change in the price of the underlying times then number of contracts you hold. If your margin goes to zero you get a <em>margin call</em>. If you cannot supply that, the exchange takes you out of your contracts and keeps your margin.</p>
+<p>OTC transaction are done between two counterparties and involve machinery more complicated than setting up a margin account with an exchange. A single trade can take weeks or months of negotiation and involve setting <em>collateral agreements</em> in place of margin accounts. Exchanges provide a fixed menu of trades, the value added by what used to be called investment banks are custom tailored trades.</p>
+<p>New ways of trading are continually invented. Dark pools are markets with limited access to enable large trades to occur without the price movements that would otherwise happen if traded on an exchange. Swap Execution Facilities (SEF) are similar to exchanges for interest rate swaps. They help standardize OTC trades and provide centralized <em>clearing</em> to mitigate counterparty risk. There are many more examples.</p>
+<p>The mathematical models and software implementations are always far behind the inventiveness of the financial world. Even the simple models currently used do not have a well developed theory for managing risk and the implementations do not permit correlations between different markets. These are difficult problems that this note will make a first stab at addressing.</p>
+<h1 id="finance">Finance</h1>
+<p>In order to apply mathematics to finance we need to map the complicated reality of the financial world to concepts amenable to mathematical analysis. This involves making assumptions, but it allows rigorous methods to be applied that can extend a trader’s intuition or mitigate a risk manager’s uncertainty.</p>
+<h2 id="assumptions">Assumptions</h2>
+<h3 id="trading-times">Trading Times</h3>
+<p>It is customary in the literature to model time as a real number, usually time in years since a given epoch. Unfortunately, this leads to unrealistic models. E.g., the <a href="../../papers/HarKre1979.pdf">Doubling Paradox</a>. We assume trading times are discrete and correspond to dates. The time increments can be arbitrarily small and there is no upper bound on time.</p>
+<h3 id="single-currency">Single Currency</h3>
+<p>To simplify exposition we will assume a single currency is used. There is a standard procedure for incorporating multiple currencies.</p>
+<h3 id="perfect-liquidity">Perfect Liquidity</h3>
+<p>This means every instrument can be bought or sold in any quantity at a single price. The previous two assumptions are innocuous, but this assumption is a drastic deviation from how markets work. Buying or selling even the smallest quantity of an instrument involves a bid-ask spread and buying large quantities typically increases the spread. There is a finite amount of any instrument available and some instruments cannot be sold short.</p>
+<h3 id="no-arbitrage">No Arbitrage</h3>
+<p>This is the most ridiculous assumption, but also the most crucial. The potential existence of arbitrage is a major driving force. Market participants get paid to identify and eliminate arbitrage. This is also a reason that makes this assumption more plausible.</p>
+<p>It has been empirically verified that giving traders models that are not arbitrage free results in them selling undervalued and buying overvalued instruments. Eventually the real world catches up and the company takes a P&amp;L hit.</p>
+<h2 id="definitions">Definitions</h2>
+<dl>
+<dt><span class="math">\((t_j)\)</span> – Trading Times</dt>
+<dd><p>The set of all times at which trading can occur.</p>
+</dd>
+<dt><span class="math">\((X_j)\)</span> – Prices</dt>
+<dd><p>Each <span class="math">\(X_j\)</span> is a vector of market instrument prices at time <span class="math">\(t_j\)</span>.</p>
+</dd>
+<dt><span class="math">\((C_j)\)</span> – Cash Flows</dt>
+<dd><p>Each <span class="math">\(X_j\)</span> is a vector of cash flows instrument holders receive at time <span class="math">\(t_j\)</span> if the instrument is held at time <span class="math">\(t_{j-1}\)</span>. Most components of <span class="math">\(C_j\)</span> are zero.</p>
+</dd>
+<dt><span class="math">\((\Gamma_j)\)</span> – Trades</dt>
+<dd><p>Each <span class="math">\(\Gamma_j\)</span> is the amount traded in each instrument at time <span class="math">\(t_j\)</span>. Most components of <span class="math">\(\Gamma_j\)</span> are zero.</p>
+</dd>
+<dt><span class="math">\((\Delta_j)\)</span> – Position</dt>
+<dd><p>Define <span class="math">\(\Delta_j = \sum_{i &lt; j} \Gamma_j\)</span>. This is the total amount of each instrument held at time <span class="math">\(t_j\)</span>.</p>
+</dd>
+<dt><span class="math">\((A_j)\)</span> – Account</dt>
+<dd><p>Define <span class="math">\(A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j\)</span>. The amount of money reflected in the trade blotter at time <span class="math">\(t_j\)</span> is the cash flows from the existing position less the cost of current securities traded. Note that no cash flows accrue to current trades.</p>
+</dd>
+</dl>
+<h1 id="unified-derivatives">Unified Derivatives</h1>
+<p>The last formula is the skeleton key to derivatives. It can be used to turn market traded instruments into any sequence of cash flows, assuming you can find the appropriate trades <span class="math">\((\Gamma_j)\)</span>. The value of the cash flows is the cost of setting up the initial trade: <span class="math">\(\Gamma_0\cdot X_0\)</span>.</p>
+<p>Unfortunately, this never happens in the real world. No hedge is perfect. Tragically, the Nobel prize winning Black-Scholes/Merton theory has had a pernicious influence on the mathematical finance world: continuous time trading and perfect replication are a mathematical fiction.</p>
+<p>The hard problem that is yet to be solved is how to manage risk under uncertainty. We are still in early stages. What follows is an attempt to map the complicated financial world more faithfully to mathematics with an eye to efficient software implementation.</p>
+<p>The starting point is a clear understanding of how arbitrage can only be defined in terms of a model.</p>
+<h2 id="arbitrage">Arbitrage</h2>
+<p>Arbitrage exists if there are trades <span class="math">\((\Gamma_j)\)</span> such that <span class="math">\(\sum_j \Gamma_j = 0\)</span>, <span class="math">\(A_0 &gt; 0\)</span>, and <span class="math">\(A_j \ge 0\)</span>, <span class="math">\(j &gt; 0\)</span>.</p>
+<p>The trading strategy must be closed out at some point, make a positive amount on the first trade, and never lose money thereafter.</p>
+<p>You can double down on losses to keep <span class="math">\(A_j\)</span> non-negative but eventually you run out of capital. Closing out Leeson’s position caused the demise of the UK’s oldest investment bank.</p>
+<p>In the literature you will see arbitrage defined as <span class="math">\(A_0 = 0\)</span>, <span class="math">\(A_j\ge0\)</span>, and <span class="math">\(A_j &gt; 0\)</span> with non-zero probability. This is sufficient to prove a mathematical theorem, but not what a trader would consider to be arbitrage without more information on how positive the payoff is and how likely it is to occur.</p>
+<p>Even this stronger definition of arbitrage <span class="citation">[@Gar1981]</span> is not sufficient. In addition to knowing how much they make up front, traders also want to know how much capital they will tie up to make that amount. A crude measure is to slap absolute values around every number and only consider trading if <span class="math">\(-\Gamma_0\cdot X_0/|\Gamma_0|\cdot|X_0|\)</span> is sufficiently large.</p>
+<p>Furthermore, the value of <span class="math">\(|\Delta_{j-1}|\cdot |C_j| - |\Gamma_j|\cdot |X_j|\)</span> over the life of the trade relative to <span class="math">\(A_j\)</span> will be something risk managers look at every day.</p>
+<p>But wait, that’s not all. If <span class="math">\(A_j\)</span> becomes significantly positive risk managers will pressure traders to modify the trading strategy to capture the value as quickly as possible.</p>
+<p>In what follows we will ignore these considerations.</p>
+<h1 id="mathematics">Mathematics</h1>
+<p>Contrary to popular belief, stochastic processes are not needed for financial modeling. All you need to know about are algebras and measures. Positive measures with mass one show up, but they are not the probability of anything.</p>
+<h2 id="outcomes">Outcomes</h2>
+<p>The set of everything that can happen, all possible <em>outcomes</em>, is denoted by <span class="math">\(\Omega\)</span>. It is usually a collection of possible instrument price trajectories but it could also include current and future news, social media data, etc. No, really. It can be the set of EVERYTHING that can happen. It may not be practical to implement, but math allows us to think big.</p>
+<h2 id="algebras">Algebras</h2>
+<p>A subset of outcomes is an <em>event</em>. The outcome of rolling a die is represented by a set: <span class="math">\(\{1,2,3,4,5,6\}\)</span>. The event of rolling an even number is the subset <span class="math">\(\{2,4,6\}\)</span>. An <em>algebra</em> is a collection of sets closed under complement and union. By <a href="http://en.wikipedia.org/wiki/De_Morgans_laws">De Morgan’s laws</a>, algebras are also closed under intersection. These are natural axioms when talking about an event not happening, or either of two events occurring.</p>
+<p>A <a href="http://en.wikipedia.org/wiki/Partition_of_a_set"><em>partition</em></a> is a collection of events, <span class="math">\((A_j)_j\)</span>, such that <span class="math">\(\Omega = \cup_j A_j\)</span> where <span class="math">\(A_i\cap A_j = \emptyset\)</span> if <span class="math">\(i\not= j\)</span>. For an algebra, <span class="math">\(\mathcal{F}\)</span>, <span class="math">\(A\in\mathcal{F}\)</span> is an <em>atom</em> if <span class="math">\(B\subseteq A\)</span>, <span class="math">\(B\in\mathcal{F}\)</span> imply <span class="math">\(B=A\)</span> or <span class="math">\(B=\emptyset\)</span>. If an algebra <span class="math">\(\mathcal{F}\)</span> is finite the atoms form a partition. (Exercise: prove this.)</p>
+<p>The algebra <span class="math">\(\{\emptyset,\Omega\}\)</span> represents no information. The <em>power set</em> <span class="math">\(\mathcal{P}(\Omega) = \{A:A\subseteq\Omega\}\)</span> represents complete information. Knowing which atom <span class="math">\(\omega\in\Omega\)</span> belongs to represents <em>partial information</em>. E.g., the partition <span class="math">\(\{\{1,3,5\},\{2,4,6\}\}\)</span> represents knowing whether a die roll is even or odd.</p>
+<h2 id="measures">Measures</h2>
+<p>A <em>(finitely additive) measure</em> is a function <span class="math">\(\Pi\colon\mathcal{F}\to\mathbb{R}\)</span> such that <span class="math">\(\Pi(A\cup B) = \Pi(A) + \Pi(B)\)</span> if <span class="math">\(A\cap B = \emptyset\)</span>. The set of finitely additive measures is denoted <span class="math">\(ba(\Omega,\mathcal{F})\)</span>.</p>
+<p>A function <span class="math">\(X\colon\Omega\to\mathbb{R}\)</span> is <em>measurable</em> if <span class="math">\(\{\omega\in\Omega: X(\omega) \le x\}\in\mathcal{F}\)</span> for all <span class="math">\(x\in\mathbb{R}\)</span>. If <span class="math">\(\mathcal{F}\)</span> is finite, measurable is the same as being constant on atoms. The set of bounded measurable functions is denoted <span class="math">\(B(\Omega, \mathcal{F})\)</span>.</p>
+<p>Finitely additive measures are the <a href="http://en.wikipedia.org/wiki/Dual_space">vector space dual</a> of bounded measurable functions. The dual pairing is <span class="math">\(\langle X,\Pi\rangle = \int_\Omega X\,d\Pi\)</span>. If <span class="math">\(\mathcal{F}\)</span> is finite the integral is just the sum over atoms.</p>
+<p>For <span class="math">\(X\in B(\Omega,\mathcal{F})\)</span> and <span class="math">\(\Pi\in ba(\Omega,\mathcal{F})\)</span> define <span class="math">\(X\Pi\in ba(\Omega,\mathcal{F})\)</span> by <span class="math">\(\langle Y,X\Pi\rangle = \langle YX,\Pi\rangle\)</span> for all <span class="math">\(Y\in B(\Omega,\mathcal{F})\)</span>.</p>
+<p>Let <span class="math">\(\Pi|_\mathcal{G}\)</span> be the measure <span class="math">\(\Pi\)</span> restricted to the algebra <span class="math">\(\mathcal{G}\)</span>. If <span class="math">\(\Pi\)</span> is a probability measure <em>conditional expectation</em>, <span class="math">\(E[X|\mathcal{G}]\)</span>, is defined by <span class="math">\(\langle E[X|\mathcal{G}],\Pi\rangle = \langle X,\Pi|_\mathcal{G}\rangle\)</span>, i.e, the adjoint of conditional expectation is restriction.</p>
+<h2 id="filtrations">Filtrations</h2>
+<p>A <em>filtration</em> is an increasing collection of algebras <span class="math">\((\mathcal{F}_t)_{t\in T}\)</span>, i.e., <span class="math">\(\mathcal{F}_t\subseteq\mathcal{F}_u\)</span> if <span class="math">\(t &lt; u\)</span>. A filtration represents information available over time.</p>
+<p>Consider flipping a coin: <span class="math">\(T\)</span>,<span class="math">\(H\)</span>,<span class="math">\(H\)</span>,<span class="math">\(\dots\)</span> can be modeled by the base 2 representation of <span class="math">\(\omega\in[0,1)\)</span>, <span class="math">\(\omega = .011\dots_2 = \sum_{j &gt; 0} \omega_j 2^{-j}\)</span>, <span class="math">\(\omega_j \in\{0,1\}\)</span>. The algebra <span class="math">\(\mathcal{F}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le i &lt; 2^j\}\)</span> represents knowing the first <span class="math">\(j\)</span> digits</p>
+<h2 id="the-fundamental-theorem-of-asset-pricing">The Fundamental Theorem of Asset Pricing</h2>
+<p>There is no arbitrage iff there exist positive scalar measures <span class="math">\((\Pi_j)\)</span> with <span class="math">\[
+X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}
+\]</span></p>
+<p>By induction <span class="math">\[
+X_j\Pi_j = (\sum_{j &lt; i\le k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{ftap}
+\]</span></p>
+<p>We can multiply the <span class="math">\((\Pi_j)\)</span> by any positive <span class="math">\(\mathcal{F}_0\)</span>-measurable function so replacing <span class="math">\(\Pi_j\)</span> by <span class="math">\(\Pi_j \Pi_0^{-1}\)</span> allows us to assume <span class="math">\(\Pi_0 = 1\)</span>.</p>
+<p>Under this assumption the deflators are unique if the market is complete (the so called Second fundamental theorem) but this is never true for realistic models</p>
+<h3 id="ftap-easy-direction">FTAP (easy direction)</h3>
+<p>Suppose there exist price deflators with <span class="math">\(X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\)</span>. Using <span class="math">\(A_{j+1} = \Delta_{j}\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1}\)</span> <span class="math">\[
+\begin{align*}
+\Delta_j\cdot X_j\Pi_j
+&amp;= \underline{\Delta_j}\cdot(\underline{C_{j+1}} +
+    X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\\
+&amp;= (\mathbf{A_{j+1} + \underline{\Gamma_{j+1}}\cdot X_{j+1}} +
+    \underline{\Delta_j}\cdot X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\\
+&amp;= (A_{j+1} + \mathbf{\Delta_{j+1}}\cdot X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\\
+\end{align*}
+\]</span> By induction <span class="math">\(\Delta_j\cdot X_j\Pi_j = (\sum_{j &lt; i\le k} A_i\Pi_i + \Delta_k\cdot X_k\Pi_k)|_{\mathcal{F}_j}\)</span>. Note if <span class="math">\(\sum_j\Gamma_j = 0\)</span> and <span class="math">\(A_i\ge0\)</span>, <span class="math">\(i&gt;0\)</span> then <span class="math">\(A_0\le0\)</span> since <span class="math">\(-A_0 = \Delta_0\cdot X_0 = \sum_j A_{j&gt;0}\Pi_j|_{\mathcal{F}_0}\ge0\)</span>.</p>
+<h3 id="ftap-hard-direction">FTAP (hard direction)</h3>
+<!--|
+Stephen Ross [@Ros1978] gave the first proof of the FTAP using
+the Hahn-Banach theorem. His primary contribution was to extend the
+Black-Scholes/Merton result from a bond, stock, and option to an
+arbitrary collection of instruments and show it was essentially
+a geometric fact. 
+
+Fischer Black and Myron Scholes gave a mathematically incorrect derivation
+of their eponymous partial differential equation that was immediately
+corrected by Robert Merton who understood the Ito calculus better than
+they did. Ross's proof neglected to establish an essential condition
+required for the application of the Hahn-Banach theorem and this led
+to a sequence of papers addressing the matter. The current state of
+the art is [@DelSch1994] that contains a 61 page proof of the current
+formulation. 
+|-->
+
+<p>Who cares? No arbitrage implies deflators exist, but we can find plenty.</p>
+<p>Using the fact that <span class="math">\(e^{-\sigma^2t/2 + \sigma B_t}\)</span> is a martingale, where <span class="math">\((B_t)\)</span> is <a href="http://en.wikipedia.org/wiki/Brownian_motion">Brownian motion</a>, it follows <span class="math">\(X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})\)</span>, <span class="math">\(\Pi_t = e^{-rt}P\)</span>, where <span class="math">\(P\)</span> is Wiener measure, is a arbitrage free model. This is the Black-Scholes/Merton model for a bond and non-dividend paying stock, only without the unneccesary detour through assuming a ‘real-world’ drift, self-financing conditions, and the complicated machinery of the Ito calculus.</p>
+<p>Finding arbitrage free models is not difficult. Finding models that reflect market dynamics with parameters that can be fitted to market data is the holy grail.</p>
+<h2 id="models">Models</h2>
+<p>Let’s define some models and start putting them to use.</p>
+<h3 id="put-call-parity">Put-Call Parity</h3>
+<p>Let <span class="math">\(T = \{0,1\}\)</span>, <span class="math">\(\Omega = [0,\infty)\)</span>, <span class="math">\(\mathcal{F}_0 = \{\Omega\}\)</span>, <span class="math">\(\mathcal{F}_1 = \mathcal{P}(\Omega)\)</span>, <span class="math">\(X_0 = (1,s,c,p)\)</span>, <span class="math">\(X_1(\omega) = (R,\omega,0,0)\)</span>, and <span class="math">\(C_1(\omega) = (0,0,\max\{\omega - k,0\},\max\{k - \omega,0\})\)</span>.</p>
+<p>This is a one period model of a bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and a call and put both struck at <span class="math">\(k\)</span>. Note the call and put have zero price at expiration. They are derivatives hence specified by their cash flows.</p>
+<p>No arbitrage implies there is a deflator, <span class="math">\(\Pi\)</span>, such that <span class="math">\[
+(1,s,c,p)
+= \langle (R,\omega,\max\{\omega - k,0\},\max\{k - \omega,0\}), \Pi\rangle.
+\]</span> Taking <span class="math">\(\Gamma_0 = (k/R, -1, 1, -1)\)</span> and computing <span class="math">\(\Gamma_0\cdot X_0\)</span> gives <span class="math">\(k/R - s + c - p = \langle k - \omega + \max\{\omega - k,0\} - \max\{k - \omega,0\}),\Pi\rangle = 0\)</span>. <em>Put-call parity</em> is <span class="math">\(c - p = s - k/R\)</span>. We don’t really need a model for this, but it illustrates how to use the mathematical framework.</p>
+<p>Note that <span class="math">\(\Pi\)</span> is not unique but no matter which <span class="math">\(\Pi\)</span> we use we come to the same conclusion. The first thing a trader will check with any new model is put-call parity. If that does not hold, the model must be wrong.</p>
+<h3 id="cost-of-carry">Cost of Carry</h3>
+<p>Let <span class="math">\(T = \{0,1\}\)</span>, <span class="math">\(\Omega = [0,\infty)\)</span>, <span class="math">\(\mathcal{F}_0 = \{\Omega\}\)</span>, <span class="math">\(\mathcal{F}_1 = \mathcal{P}(\Omega)\)</span>, <span class="math">\(X_0 = (1,s,0)\)</span>, <span class="math">\(X_1(\omega) = (R,\omega,0)\)</span>, and <span class="math">\(C_1(\omega) = (0, 0, \omega - f)\)</span></p>
+<p>This models a bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and an at-the-money forward. Forwards have price zero at expiration No arbitrage implies <span class="math">\((1,s,0) = \langle (R,\omega,\omega-f),\Pi\rangle\)</span>. Taking <span class="math">\(\Gamma_0 = (f/R, -1, 1)\)</span> and computing <span class="math">\(\Gamma_0\cdot X_0\)</span> gives <span class="math">\(f/R - s = \langle f - \omega + \omega - f,\Pi\rangle = 0\)</span>. The <em>cost-of-carry</em> is <span class="math">\(f = Rs\)</span>. We also don’t really need a model for this.</p>
+<h3 id="one-period-binomial-model">One Period Binomial Model</h3>
+<p>Let <span class="math">\(T = \{0,1\}\)</span>, <span class="math">\(\Omega = \{S^-,S^+\}\)</span>, <span class="math">\(X_0 = (1,s)\)</span>, <span class="math">\(X_1(\omega) = (R,\omega)\)</span>, and <span class="math">\(C_j = 0\)</span>. This models a bond with realized return <span class="math">\(R\)</span> and a stock that goes from <span class="math">\(s\)</span> to either <span class="math">\(S^-\)</span> or <span class="math">\(S^+\)</span>. We can find <span class="math">\(\pi^-\)</span> and <span class="math">\(\pi^+\)</span> such that <span class="math">\((1,s) = (R,S^-)\pi^- + (R,S^+)\pi^+\)</span>: <span class="math">\(\pi^- = (S^+/R - s)/(S^+ - S^-)\)</span>, <span class="math">\(\pi^+ = (s - S^-/R)/(S^+ - S^-)\)</span>. Define the measure <span class="math">\(\Pi\)</span> on <span class="math">\(\Omega\)</span> by <span class="math">\(\Pi(S^-) = \pi^-\)</span> and <span class="math">\(\Pi(S^+) = \pi^+\)</span>.</p>
+<p>Suppose a derivative pays <span class="math">\(V(\omega)\)</span> at time 1. There exists <span class="math">\(\Gamma_0 = (m,n)\)</span> such that <span class="math">\(\Gamma_0\cdot X_1 = V\)</span> on <span class="math">\(\Omega\)</span>. Solving <span class="math">\(mR + nS^- = V(S_-)\)</span>, <span class="math">\(mR + nS^+ = V(S_+)\)</span> for <span class="math">\(m,n\)</span> yields <span class="math">\(n = (V(S_+)-V(S_-))/(S_+-S_-)\)</span>, and <span class="math">\[
+v = \Gamma_0\cdot X_0 = m + ns =
+    \frac{1}{R}
+        \left(\frac{S_+-Rs}{S_+-S_-}V(S_-)
+            +\frac{Rs - S_-}{S_+-S_-}V(S_+)
+        \right)
+\]</span></p>
+<p>The deflator is unique in the one period binomial model, and this makes it a poor model. Since there are only two possible outcomes every payoff is (equivalent to) a linear payoff. And that is just wrong.</p>
+<p>Note that the stock hedge <span class="math">\(n = \partial v/\partial s\)</span> is the derivative of option value with respect to underlying.</p>
+<h4 id="alternate-parameterization">Alternate Parameterization</h4>
+<p>The above model is not the usual way of paramterizing the OPB model as taught in MBA programs.</p>
+<p>Let <span class="math">\(\Omega = \{d,u\}\)</span>, <span class="math">\(X_0 = (1,s)\)</span>, and <span class="math">\(X_1(\omega) = (R,s\omega)\)</span>. This models a bond with realized return <span class="math">\(R\)</span> and a stock that goes from <span class="math">\(s\)</span> to either <span class="math">\(sd\)</span> or <span class="math">\(su\)</span>. There exists <span class="math">\(\Gamma_0 = (m,n)\)</span> such that <span class="math">\(\Gamma_0\cdot X_1 = V\)</span>. Solving <span class="math">\(mR + nsd = V(sd)\)</span>, <span class="math">\(mR + nsu = V(su)\)</span> for <span class="math">\(m,n\)</span> gives <span class="math">\(n = (V(su)-V(sd))/(su - sd)\)</span>, and <span class="math">\[
+v = \Gamma_0\cdot X_0 = m + ns = \frac{1}{R}\left(\frac{u-R}{u-d}V(sd) + \frac{R-d}{u-d}V(su)\right)
+\]</span> Note that the stock hedge <span class="math">\(n \not= dv/ds\)</span> in general. E.g., for a butterfly spread with support inside the interval <span class="math">\((sd,su)\)</span> we have <span class="math">\(dv/ds = 0\)</span> since <span class="math">\(V&#39;(sd) = V&#39;(su) = 0\)</span>.</p>
+<p>Parameterization is important.</p>
+<h2 id="delta-hedging">Delta Hedging</h2>
+<p>Suppose an option pays <span class="math">\(V(\omega)\)</span> in a general one period model. If we can find <span class="math">\(\Gamma_0\)</span> such that <span class="math">\(\Gamma_0\cdot (C_1 + X_1) = V\)</span> then using the existance of a deflator, <span class="math">\(\Pi_1 = \Pi\)</span>, we have <span class="math">\(v = \Gamma_0\cdot X_0 = \langle \Gamma_0\cdot (C_1 + X_1),\Pi\rangle\)</span> is the value of the option. We can find the <em>delta hedge</em> by <span class="math">\(\Gamma_0 = dv/dX_0\)</span>.</p>
+<p>If the market is not complete we aren’t guaranteed that we can find a hedge that replicates the option payoff. If we fix a deflator then we can minimize the mean square error: <span class="math">\[
+    \min_{\Gamma_0} \langle (\Gamma_0\cdot (C_1 + X_1) - V)^2,\Pi\rangle.
+\]</span> Of course this depends on the deflator but, as we will see, there are usually canonical deflators available for a model.</p>
+<p>We can use this minimum as a measure of the quality of the hedge.</p>
+<!--|
+Derivatives
+-----------
+
+-   Prices and cash flows satisfy $\color{blue}X_j\Pi_j =
+    \sum_{j < i\le k}\color{red}C_i\Pi_i +
+    \color{blue}X_k\Pi_k|_{\mathcal{F}_j}$
+-   For any trades $(\Gamma_j)$, $\color{blue}\Delta_j\cdot
+    \color{blue}X_j\Pi_j = \sum_{j < i\le k}
+    \color{red}A_i\Pi_i + \color{blue}\Delta_k\cdot
+    \color{blue}X_k\Pi_k|_{\mathcal{F}_j}$
+-   The position determines the value $\color{blue}\Delta_j\cdot
+    \color{blue}X_j$...
+-   ...and the account determines the cash flows $\color{red}A_j$
+    for a derivative instrument
+-   This is how to create synthetic instruments
+
+Delta Hedging
+-------------
+
+-   Assuming $\Pi_0 = 1$ and $\Delta_j$ is eventually zero
+    $$ \Delta_0\cdot X_0 = \sum_{0 <
+    i}A_i\Pi_i|_{\mathcal{F}_0} $$
+-   "The value of a derivative is the expected value of discounted cash
+    flows"
+-   _If_ a hedge exists the initial hedge is given by $$\Gamma_0 =
+    \Delta_0 = \frac{\partial(\Delta_0\cdot X_0)}{\partial
+    X_0} = \frac{\partial}{\partial X_0}E[\sum_{0 <
+    i}A_i\Pi_i]$$
+-   For a one period model with $C_j = 0$ we could solve
+    $\min_{\Gamma_0}||\Gamma_0\cdot X_1 - A_1||^2$ and get a
+    measure of the hedging error
+
+A Multiperiod Model
+-------------------
+
+-   $\Omega = [0,\infty)^n$
+-   $X_0 = (1,s,0)$, $X_j = (R_j, \omega_j,
+    \phi_j(\omega_j))$, $X_n = (R_n, \omega_n, 0)$
+-   $C_j = 0$, $0\le j < n$, $C_n = (0, 0, \omega_n -
+    f)$
+-   Multiperiod stock and forward contract
+-   The $\phi_j$ are determined by the no arbitrage condition
+-   $\langle R_j,\Pi_j\rangle = \langle R_n, \Pi_n\rangle$
+-   $\langle \omega_j, \Pi_j\rangle = \langle \omega_n,
+    \Pi_n\rangle$
+-   $\langle \phi_j(\omega_j), \Pi_j\rangle = \langle
+    \omega_n - f, \Pi_n\rangle = \langle \omega_j -
+    fR_n/R_j,\Pi_j\rangle$,
+-   so $\phi_j(\omega_j) = \omega_j - fR_n/R_j$
+
+Fixed Dividends
+---------------
+
+-   $\Omega = [0,\infty)^n$
+-   $X_0 = (1,s,0)$, $X_j = (R_j, \omega_j,
+    \phi_j(\omega_j))$, $X_n = (R_n, \omega_n, 0)$
+-   $C_0 = 0$, $C_j = (0,d_j,0)$, $0 < j < n$,
+    $C_n = (0, d_n, \omega_n - f)$
+-   Multiperiod stock paying dividends and forward contract
+-   The $\phi_j$ are determined by the no arbitrage condition
+-   $\langle R_j,\Pi_j\rangle = \langle R_n, \Pi_n\rangle$
+-   $\langle \omega_j, \Pi_j\rangle = \sum_{j < k <
+    n}\langle d_k, \Pi_k\rangle + \langle \omega_n + d_n,
+    \Pi_n\rangle$
+-   $\langle \phi_j(\omega_j), \Pi_j\rangle = \langle
+    \omega_n - f, \Pi_n\rangle = \langle \omega_j -
+    \sum_{j < k\le n}d_kR_n/R_k - fR_n/R_j,\Pi_j\rangle$,
+-   so $\phi_j(\omega_j) = \omega_j - R_N(f/R_j +
+    \sum_{j < k\le n}d_k/R_k)$
+
+General Models
+--------------
+
+-   Specify a probability measure $P$ on $\Omega$
+-   Choose $\pi_j\in B(\Omega,\mathcal{F}_j)$ and let
+    $\Pi_j = \pi_jP|_{\mathcal{F}_j}$
+-   Arbitrage free if $X_j\Pi_j = (C_{j+1} +
+    X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}$
+-   Customary to assume $\mathcal{F}_0 = \{\emptyset,\Omega\}$
+    and $\pi_0 = 1$
+-   The cash flows are usually specified by the market
+-   The difficult part is specifying the prices and deflators
+
+Canonical Price Deflator
+------------------------
+
+-   If $X_t = R(t)$ is deterministic and $C_t = 0$ then
+    $\Pi_t = R(t)^{-1}P|_{\mathcal{F}_t}$ for any probability
+    measure $P$ is a deflator for that single instrument
+-   Assume for each time there is an instrument with $X_j = 1$ and
+    $C_{j+1} = R_j$
+-   $R_j$ is the _short realized return_ over $t_j$ to
+    $t_{j+1}$
+-   Define _canonical price deflators_ $$\Pi_j = (R_0\cdots
+    R_{j-1})^{-1}P|_{\mathcal{F}_j}$$
+-   Easy to show $\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}$
+-   Note $\Pi_j$ is $\mathcal{F}_{j-1}$ measurable (aka
+    _predictable_)
+-   There are many possible deflators, but this is canonical
+
+Zero Coupon Bonds
+-----------------
+
+-   A zero coupon bond maturing at $u$ has $X_0 = D(u)$ and
+    $C_u = 1$
+-   $D(u)\Pi_0 = \Pi_u|_{\mathcal{F}_0}$ so $D(u) =
+    \Pi_u(\Omega)$
+-   Let $D_t(u)$ be the price at time $t$
+-   $D_t(u)\Pi_t = \Pi_u|_{\mathcal{F}_t}$ so $$ D_t(u) =
+    \Pi_u/\Pi_t|_{\mathcal{F}_t} = \Pi_{t\le s <
+    u}R_s^{-1}P|_{\mathcal{F}_t} $$
+
+Forward Rate Agreements
+-----------------------
+
+-   have price $X_0 = 0$ and two cash flows
+    -   $C_u = -1$, $C_v = 1 + F(u,v)\delta_{u,v}$
+-   $\delta_{u,v}$ is the _day count fraction_ that is
+    approximately $v - u$ in years depending on the [day count
+    convention](http://en.wikipedia.org/wiki/Day_count_convention)
+-   Since $0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)$ we have $$
+    F(u,v) = \frac{1}{\delta_{u,v}}\left(\frac{D(u)}{D(v)} -
+    1\right) =
+    \frac{1}{\delta_{u,v}}\left(\frac{\Pi_u}{\Pi_v}\bigr|_{\mathcal{F}_0}
+    - 1\right) $$
+-   Let $F_t(u,v)$ be the forward at time $t$ over $[u,v]$
+-   Since $X_t = 0 = -D_t(u) + (1 +
+    F_t(u,v)\delta_{u,v})D_t(v)$ we have $$ F_t(u,v) =
+    \frac{1}{\delta_{u,v}}\left(\frac{D_t(u)}{D_t(v)} - 1\right)
+    =
+    \frac{1}{\delta_{u,v}}\left(\frac{\Pi_u}{\Pi_v}\bigr|_{\mathcal{F}_t}
+    - 1\right) $$
+
+Forward Rate Agreements w/o Notional
+------------------------------------
+
+-   Can also be specified as a single cash flow
+-   price $X_0 = 0$ and forward $f(u,v)$ with
+    -   $C_v = (F_u(u,v) - f(u,v))\delta_{u,v}$
+-   Prevailing forward rate at start of period versus fixed
+-   Note $0 = (F_u(u,v) -
+    f(u,v))\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u -
+    \Pi_v - f(u,v)\delta{u,v})|_{\mathcal{F}_0}$
+-   and $F_0(u,v)\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u
+    - \Pi_v)|_{\mathcal{F}_0}$
+-   so $f(u,v) = F_0(u,v)$
+-   These two contracts have very different risk profiles
+
+Counterparty Risk
+-----------------
+
+-   Assume default time $T$ and recovery $R$ on remaining cash
+    flows
+-   $R$ assumed to be a constant, $T$ is a random variable
+-   Assume $T$ is independent of the deflators
+-   Augment sample space to $\Omega' = \Omega\times [0,\infty)$
+-   Augment filtration to $\mathcal{F}_t' = \mathcal{F}_t \times
+    \mathcal{B}_t$,
+-   Where $B_t$ contains the set $(t,\infty)$ and any
+    $B\subset [0,t]$
+-   At time $t$ we either know the default time exactly or only that
+    it has some value greater than $t$
+
+|-->
+</body>
+</html>

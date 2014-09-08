@@ -1,0 +1,189 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={Finance, Mathematics, Software},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+\title{Finance, Mathematics, Software}
+\author{true}
+
+\begin{document}
+\maketitle
+
+This slim pamphlet describes a unified approach to pricing, hedging, and
+evaluating the risk of derivative securities. The foreign exchange,
+fixed income, equity, and commodity arenas have developed models that
+get attached to a string of pioneers: Garman-Kohlhagen,
+Black-Scholes/Merton, Heston, Black-Derman-Toy, Vasicek,
+Heath-Jarrow-Morton, Gabillion. The simple fact is that they are all
+stochastic processes with parameters that get tuned to the market and
+are then used to come up with a putative price based on the cost of the
+initial hedge. The current theory is not very good at evaluating the
+practical risks involved with the theoretical hedge.
+
+You may not understand the following statement yet: There is only one
+mathematical model for derivative securities, a vector-valued stochastic
+process; it is simply a matter of how you parameterize it. The goal is
+to make this obvious and even useful.
+
+\section{Finance}\label{finance}
+
+Before learning about derivative securities, you need to know something
+about the primary securities they are based on: who the market
+participants are, what kinds of securities are traded, the markets
+available for trading, and the motivations of the participants.
+
+Every financial transaction is the exchange of some quantity of a
+security for a quantity of another security at some point in time
+between two counterparties. Usually one of the securities is the
+currency of the country you live in. Owning a security involves cash
+flows. In the foreign exchange market you get paid the difference
+between the rates of interest in the currencies pairs you hold each day,
+in fixed income you get paid coupons on a regular schedule, stocks pay
+uncertain dividends on dividend dates. It is important to distinguish
+the price of a security from the cash flows associated with owning it.
+
+It is also useful to think of every security as a currency. This point
+of view allows a unified approach to the problem of pricing, hedging,
+and managing the risk of derivative securities. It might seem odd at
+first to consider a stock to be a currency, but anything that can be
+converted to or from a currency is fungible.
+
+\subsection{Participants}\label{participants}
+
+Every transaction has a buyer and a seller. Don't confuse these nouns
+with the verbs buy and sell. The buyer always decides whether or not to
+buy or sell based on the prices offered by a seller. A buyer can also
+decide to go long or short. If a buyer goes long it means they own
+something that they believe increases in value if the market goes up. If
+a buyer goes short, they believe they make money if market goes down.
+Prices are determined by the market. The value of a position is a
+subjective judgement made by a buyer often based on a model.
+
+You can already figure out what buy side/sell side means. These are also
+referred to as retail/wholesale and price taker/maker.
+
+Sellers make a market for buyers. They provide prices for buyers who
+decide to buy at the ask, or sell at the bid. The ask price is also
+called the offer, but the seller is not really offering anything other
+than to allow the buyer to transact. The price also depends on the
+amount being transacted and who the buyer and seller are. Markets are
+never perfectly liquid, something the classical theory of mathematical
+finance likes to assume. Sellers make their living off of this
+asymmetry, among other things.
+
+There are also exchanges and broker-dealers that facilitate trading.
+They act as both buyers and sellers to facilitate transactions.
+Exchanges provide their customers access to liquidity providers. The
+exchange aggregates these quotes and show their customers the best
+bid/ask spread currently available. Broker-dealers provide a similar
+service but often hold an inventory of trades when they can't match a
+buyer and a seller or want to trade their own account. Exchanges make
+money proportional to the volume of trades whereas broker-dealers are
+can take advantage of market movements instead of making money only on
+the spread. Or take a hit on market movements. No exchange has every
+gone bankrupt.
+
+\subsection{Securities}\label{securities}
+
+A security is the catch-all term we will use for any financial
+instrument. The primary securities are currencies, bonds, stocks,
+mortgages, and commodities. Stocks are called equity because they entail
+partial ownership in a company. Owning stock gives you some say in how
+the company is run. Bonds are called debt because the company issuing
+the bond is on the hook to pay it back. If a company defaults, the bond
+holders are first in line and the stock holders get what is left over.
+Bonds are also called fixed-income instruments since they usually pay a
+fixed coupon. This is not the only example of historical terminology
+being a hindrance to a unified understanding of financial products.
+
+\subsection{Cash Flows}\label{cash-flows}
+
+Owning a security involves cash flows. Exchanging currencies involves
+the difference between the interest rates (roll), bonds pay coupons and
+principal, stocks pay dividends if long or may require carry if short.
+Mortgages can't be shorted and pay interest and potentially early
+principal. Commodities require storage costs.
+
+Primary securities can be bundled, or repackaged into mutual funds,
+mortgage-backed securities, exchange traded funds, special purpose
+vehicles and an assortment of other securities. Often the purpose is to
+take advantage of tax, accounting, or regulatory considerations.
+Something we will assiduously avoid considering, as does most of the
+mathematical finance literature, even though these are a very important
+component of the financial world.
+
+\subsection{Derivatives}\label{derivatives}
+
+A derivative security is a contract between a buyer and a seller for a
+sequence of exchanges of other securities. The most common are futures,
+forwards, and options. The following chapters will show in detail how
+these are the building blocks of all derivative securities. One example
+are swaps. They are just a portfolio of forward contracts.
+
+\subsection{Markets}\label{markets}
+
+Immediate transactions are called spot (or cash) trades. These can be
+exchange traded or over-the-counter.
+
+Exchanges provide nearly instantaneous access to transactions via market
+orders. The price cannot be guaranteed by the exchange. It depends on
+the current order book and other market orders that might get placed
+before yours.
+
+The order book consists of limit orders. A limit order is a way for
+buyers to act like sellers. You can offer to buy or sell some quantity
+of an instrument at a price. If the market moves to the level you offer,
+then you can acquire or relinquish the underlying at the price you set.
+
+OTC transaction are done directly between two counterparties and involve
+machinery more complicated than setting up a margin account with an
+exchange. A single trade can take weeks or months of negotiation and
+often involves setting up collateral agreements in place of margin
+accounts. Exchanges provide a fixed menu of trades, the value added by
+what used to be called investment banks are custom tailored trades. That
+is the primary topic of this treatise.
+
+Swap Execution Facilities (SEF) are similar to exchanges that trade
+interest rate swaps. They were created to streamline OTC transactions
+for vanilla swaps.
+
+\end{document}

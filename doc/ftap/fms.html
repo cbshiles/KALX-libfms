@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Keith A. Lewis" />
+  <title>Unified Derivatives</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="ftap.css" type="text/css" />
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "2em",
+    "HTML-CSS": {
+      preferredFonts: "TeX",
+      webFont:"Neo-Euler",
+      undefinedFamily:"'Arial Unicode MS',serif"
+    }
+  });
+  </script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Unified Derivatives</h1>
+<h2 class="author">Keith A. Lewis</h2>
+<h3 class="date">KALX, LLC</h3>
+</div>
+<h1 id="background">Background</h1>
+<p>Before learning about derivative securities, you need to know something about the primary securities they are based on: who the market participants are, what kinds of securities are traded, the markets available for trading, and the motivations of the participants.</p>
+<p>Every financial transaction is the exchange of some quantity of a security for a quantity of another security at some point in time between two counterparties. Usually one of the securities is the currency of the country you live in. Owning a security involves cash flows. In the foreign exchange market you get paid the difference between the rates of interest in the currencies pairs you hold each day, in fixed income you get paid coupons on a regular schedule, stocks pay uncertain dividends on dividend dates. It is important to distinguish the price of a security from the cash flows associated with owning it.</p>
+<p>It is also useful to think of every security as a currency. This point of view allows a unified approach to the problem of pricing, hedging, and managing the risk of derivative securities. It might seem odd at first to consider a stock to be a currency, but anything that can be converted to or from a currency is fungible.</p>
+<h2 id="participants">Participants</h2>
+<p>Every transaction has a buyer and a seller. Don’t confuse these nouns with the verbs buy and sell. The buyer always decides whether or not to buy or sell based on the prices offered by a seller. A buyer can also decide to go long or short. If a buyer goes long it means they own something that they believe increases in value if the market goes up. If a buyer goes short, they believe they make money if market goes down. Prices are determined by the market. The value of a position is a subjective judgement made by a buyer often based on a model.</p>
+<p>You can already figure out what buy side/sell side means. These are also referred to as retail/wholesale and price taker/maker.</p>
+<p>Sellers make a market for buyers. They provide prices for buyers who decide to buy at the ask, or sell at the bid. The ask price is also called the offer, but the seller is not really offering anything other than to allow the buyer to transact. The price also depends on the amount being transacted and who the buyer and seller are. Markets are never perfectly liquid, something the classical theory of mathematical finance likes to assume. Sellers make their living off of this asymmetry, among other things.</p>
+<p>There are also exchanges and broker-dealers that facilitate trading. They act as both buyers and sellers to facilitate transactions. Exchanges provide their customers access to liquidity providers. The exchange aggregates these quotes and show their customers the best bid/ask spread currently available. Broker-dealers provide a similar service but often hold an inventory of trades when they can’t match a buyer and a seller or want to trade their own account. Exchanges make money proportional to the volume of trades whereas broker-dealers are can take advantage of market movements instead of making money only on the spread. Or take a hit on market movements. No exchange has every gone bankrupt.</p>
+<h2 id="securities">Securities</h2>
+<p>A security is the catch-all term we will use for any financial instrument. The primary securities are currencies, bonds, stocks, mortgages, and commodities. Stocks are called equity because they entail partial ownership in a company. Owning stock gives you some say in how the company is run. Bonds are called debt because the company issuing the bond is on the hook to pay it back. If a company defaults, the bond holders are first in line and the stock holders get what is left over. Bonds are also called fixed-income instruments since they usually pay a fixed coupon. This is not the only example of historical terminology being a hindrance to a unified understanding of financial products.</p>
+<h2 id="cash-flows">Cash Flows</h2>
+<p>Owning a security involves cash flows. Exchanging currencies involves the difference between the interest rates (roll), bonds pay coupons and principal, stocks pay dividends if long or may require carry if short. Mortgages can’t be shorted and pay interest and potentially early principal. Commodities require storage costs.</p>
+<p>Primary securities can be bundled, or repackaged into mutual funds, mortgage-backed securities, exchange traded funds, special purpose vehicles and an assortment of other securities. Often the purpose is to take advantage of tax, accounting, or regulatory considerations. Something we will assiduously avoid considering, as does most of the mathematical finance literature, even though these are a very important component of the financial world.</p>
+<h2 id="derivatives">Derivatives</h2>
+<p>A derivative security is a contract between a buyer and a seller for a sequence of exchanges of other securities. The most common are futures, forwards, and options. The following chapters will show in detail how these are the building blocks of all derivative securities. One example are swaps. They are just a portfolio of forward contracts.</p>
+<h2 id="markets">Markets</h2>
+<p>Immediate transactions are called spot (or cash) trades. These can be exchange traded or over-the-counter.</p>
+<p>Exchanges provide nearly instantaneous access to transactions via market orders. The price cannot be guaranteed by the exchange. It depends on the current order book and other market orders that might get placed before yours.</p>
+<p>The order book consists of limit orders. A limit order is a way for buyers to act like sellers. You can offer to buy or sell some quantity of an instrument at a price. If the market moves to the level you offer, then you can acquire or relinquish the underlying at the price you set.</p>
+<p>OTC transaction are done directly between two counterparties and involve machinery more complicated than setting up a margin account with an exchange. A single trade can take weeks or months of negotiation and often involves setting up collateral agreements in place of margin accounts. Exchanges provide a fixed menu of trades, the value added by what used to be called investment banks are custom tailored trades. That is the primary topic of this treatise.</p>
+<p>Swap Execution Facilities (SEF) are similar to exchanges that trade interest rate swaps. They were created to streamline OTC transactions for vanilla swaps.</p>
+<h1 id="finance">Finance</h1>
+<p>I order to apply mathematics to finance we need to map financial concepts to mathematical concepts. This involves making assumptions to simplify messy reality.</p>
+<h2 id="assumptions">Assumptions</h2>
+<h3 id="trading-times">Trading Times</h3>
+<p>It is customary in the literature to model time as a real number, usually time in years since a given epoch. Unfortunately, this leads to unrealistic models. E.g., the [Doubling Paradox] We assume trading times are discrete and correspond to dates. The time increments can be arbitrarily small and there is no upper bound on time.</p>
+<h3 id="single-currency">Single Currency</h3>
+<p>To simplfy exposition we will assume a single currency is used. There is a standard procedure for incorporating multiple currencies.</p>
+<h3 id="perfect-liquidity">Perfect Liquidity</h3>
+<p>This means every instrument can be bought or sold in any quantity at a single price. The previous two assumptions are innocuous, but this assumption is a drastic deviation from how markets work. Buying or selling even the smallest quantity of an instrument involves a bid-ask spread and buying large quantities typically increases the spread. There is a finite amount of any instrument available at which point price loses meaning. There are also instruments that cannot be shorted.</p>
+<h3 id="no-arbitrage">No Arbitrage</h3>
+<p>This is the most ridiculous assumption, but also the most crucial. The (potential) existence of arbitrage is a major driving force. A significant number of market participants get paid to identify and eliminate arbitrage. This is also a reason that makes this assumption more plausible.</p>
+<p>It has been empirically verified that giving traders models that are not arbitrage free results in them selling undervalued and buying overvalued instruments. Eventually the real world catches up, they get fired, and the company takes a P&amp;L hit.</p>
+<p>The Fundamental Theorem of Asset Pricing shows assuming a model is arbitrage free places constraints on price dynamics.</p>
+<h2 id="definitions">Definitions</h2>
+<dl>
+<dt><span class="math">\((t_j)\)</span> – Trading Times</dt>
+<dd><p>The set of all times at which trading can occur.</p>
+</dd>
+<dt><span class="math">\((X_j)\)</span> – Prices</dt>
+<dd><p>Each <span class="math">\(X_j\)</span> is a vector of market instrument prices at time <span class="math">\(t_j\)</span>.</p>
+</dd>
+<dt><span class="math">\((C_j)\)</span> – Cash Flows</dt>
+<dd><p>Each <span class="math">\(X_j\)</span> is a vector of cash flows instrument holders receive at time <span class="math">\(t_j\)</span> if the instrument is held at time <span class="math">\(t_{j-1}\)</span>. Most components of <span class="math">\(C_j\)</span> are zero.</p>
+</dd>
+<dt><span class="math">\((\Gamma_j)\)</span> – Trades</dt>
+<dd><p>Each <span class="math">\(\Gamma_j\)</span> is the amount traded in each instrument at time <span class="math">\(t_j\)</span>. Most components of <span class="math">\(\Gamma_j\)</span> are zero.</p>
+</dd>
+<dt><span class="math">\((\Delta_j)\)</span> – Position</dt>
+<dd><p>Define <span class="math">\(\Delta_j = \sum_{i\lt j} \Gamma_j\)</span>. This is the total amount of each instrument held at time <span class="math">\(t_j\)</span>.</p>
+</dd>
+<dt><span class="math">\((A_j)\)</span> – Account</dt>
+<dd><p>Define <span class="math">\(A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j\)</span>. The amount of money reflected in the trade blotter at time <span class="math">\(t_j\)</span> is the cash flows from the existing position less the cost of current securities traded. Note that no cash flows accrue to current trades.</p>
+</dd>
+<dt>Arbitrage</dt>
+<dd><p>A sequence of trades <span class="math">\((\Gamma_j)\)</span> such that</p>
+<ol style="list-style-type: lower-roman">
+<li><span class="math">\(\sum_j \Gamma_j = 0\)</span>, i.e., the trading strategy is closed out at some point.</li>
+<li><span class="math">\(A_0 \gt 0\)</span>, you make a positive amount on the first trade.</li>
+<li><span class="math">\(A_j \ge 0\)</span>, <span class="math">\(j\gt 0\)</span>, you never lose money thereafter.</li>
+</ol>
+</dd>
+</dl>
+<h3 id="remarks">Remarks</h3>
+<p>Trading times correspond to dates, but are often modeled as floating point numbers since some epoch. In the C++ <code>&lt;chrono&gt;</code> class they are called <code>time_point</code>s.</p>
+<p>Cash flows typically have some period between when the instrument is purchased and when the cash flows are available. E.g., ex-dividend period for stocks. The model is misspecified if <span class="math">\(t_j - t_{j-1}\)</span> is</p>
+<p>The definition of arbitrage is not sufficient for traders. In addition to knowing how much they make up front, <span class="math">\(A_0 = \Gamma_0\cdot X_0\)</span>, they also want to know how much capital they will tie up to make that amount, <span class="math">\(|\Gamma_0|\cdot|X_0|\)</span>.</p>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title>Implementation of Financial Models</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+  <link rel="stylesheet" href="main.css" type="text/css">
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    displayAlign: "left",
+    displayIndent: "2em",
+    "HTML-CSS": {
+      preferredFonts: "TeX",
+  /*    webFont:"Neo-Euler", */
+      undefinedFamily:"'Arial Unicode MS',serif"
+    }
+  });
+  </script>
+</head>
+<body>
+<div id="header">
+<h1 class="title"><a href="index.html">Implementation of Financial Models</a></h1>
+</div>
+<h1 id="lesson-3">Lesson 3</h1>
+<blockquote>
+<p><i>“I think that object orientedness is almost as much of a hoax as Artificial Intelligence. I have yet to see an interesting piece of code that comes from these OO people.”</i></p>
+</blockquote>
+<h2 id="functions">Functions</h2>
+<p>Reading: <a href="http://www.stepanovpapers.com/LoRusso_Interview.htm">An Interview with A. Stepanov</a></p>
+<p>Complexity is the bane of software engineering and it is best to keep things simple from the start. If you can write something as a global function, do it. If it more than a few lines of code, split it into two or more global functions. Use simple, descriptive names and C++ namespaces to avoid collisions.</p>
+<p>In this lesson we will implement a Black-Scholes/Merton option pricer. The model is <span class="math">\(X_t = (R_t, S_t) = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})\)</span> where <span class="math">\(B_t\)</span> is standard Brownian motion. The deflator is <span class="math">\(e^{-rt}P\)</span> where <span class="math">\(P\)</span> is Weiner measure. Since <span class="math">\(e^{(r - \sigma^2/2)t + \sigma B_t}\)</span> is a martingale, this model is arbitrage free.</p>
+<p>A call option with strike <span class="math">\(k\)</span> and expiration <span class="math">\(t\)</span> has a single cash flow of <span class="math">\(\max\{S_t - k, 0\}\)</span> so the option value is <span class="math">\(E \max\{S_t - k, 0\}e^{-rt}\)</span>.</p>
+</body>
+</html>
