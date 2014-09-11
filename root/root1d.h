@@ -58,7 +58,7 @@ namespace root1d {
 		template<class X>
 		inline bool epsilon(X x, X x_)
 		{
-			return 1 + (x - x_) == 1;
+			return 1 + (x > X(1) || x < X(-1) ? x_/x - 1 : x_ - x) == 1;
 		}
 
 		template<class X>
@@ -88,7 +88,9 @@ namespace root1d {
 		{
 			X x_(x);
 
+			DEBUG_(int i = 0;)
 			do {
+				DEBUG_(++i;)
 				X _x = step::newton(x, f(x), df(x));
 				if (_x == x_) // cycle
 					return step::bisect(x, x_);
@@ -102,9 +104,9 @@ namespace root1d {
 		template<class X, class Y>
 		inline X secant(X x, X x_, const std::function<Y(X)>& f)
 		{
-			X x_(x);
-
+			DEBUG_(int i = 0;)
 			do {
+				DEBUG_(++i;)
 				X _x = step::secant(x, f(x), x_, f(x_)); // !!! don't recompute y !!!
 				if (_x == x_) // cycle
 					return step::bisect(x, x_);
@@ -153,10 +155,32 @@ inline void test_root1d_done()
 template<class X, class Y>
 inline void test_root1d_find(void)
 {
-	X x1(1), x2(2);
+	auto f = [](const X& x) { return Y(x*x - 2); };
+	auto df = [](const X& x) { return Y(2*x);};
 
-	auto x = find::newton<X,Y>(x1, [](const X& x) { return x*x - 2; }, [](const X& x) { return 2*x;});
-	ensure (done::epsilon(x, sqrt(x2)));
+	auto x = find::newton<X,Y>(X(1), f, df);
+	if (typeid(x) == typeid(double)) {
+		ensure (!done::epsilon(x, sqrt(X(2)))); // surprise!!!
+		x = nextafter(x, X(2));
+		auto y = sqrt(X(2));
+		ensure (done::epsilon(x, y));
+		ensure (x == y);
+	}
+	else {
+		ensure (done::epsilon(x, sqrt(X(2))));
+	}
+
+	x = find::secant<X,Y>(X(1), X(2), f);
+	if (typeid(x) == typeid(double)) {
+		ensure (!done::epsilon(x, sqrt(X(2)))); // surprise!!!
+		x = nextafter(x, X(2));
+		auto y = sqrt(X(2));
+		ensure (done::epsilon(x, y));
+		ensure (x == y);
+	}
+	else {
+		ensure (done::epsilon(x, sqrt(X(2))));
+	}
 }
 
 inline void test_root1d(void)
@@ -169,6 +193,9 @@ inline void test_root1d(void)
 	test_root1d_done<double,double>();
 
 	test_root1d_find<double,double>();
+	test_root1d_find<float,float>();
+	test_root1d_find<float,double>();
+	test_root1d_find<double,float>();
 }
 
 #endif // _DEBUG
