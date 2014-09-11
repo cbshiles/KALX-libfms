@@ -54,12 +54,12 @@
 <h2 id="floating-point-numbers">Floating Point Numbers</h2>
 <p>The project <a href="http://xllfloat.codeplex.com/">xllfloat</a> contains routines for inspecting IEEE 64-bit floating point numbers. A subset of these have been included in the <code>xllfms</code> Excel add-in project.</p>
 <h1 id="homework">Homework</h1>
-<p>Each exercise is worth 20 points. Give a mathematicaly convincing argument for your work.</p>
+<p>Due September 15 at 5pm. Late homework will not be accepted. Each exercise is worth 20 points. Give a mathematicaly convincing argument for your work.</p>
 <p><em>Exercise 1</em>. The error function is <span class="math">\(\mathrm{erf}(x) = c\int_0^x e^{-t^2}\,dt\)</span> with <span class="math">\(c\)</span> chosen so that <span class="math">\(\lim_{x\to\infty}\mathrm{erf}(x) = 1\)</span>. Use <span class="math">\(\int_{-\infty}^\infty e^{-\pi t^2}\,dt = 1\)</span> to find <span class="math">\(c\)</span>.</p>
 <p><em>Exercise 2</em>. The standard normal cumulative distribution is <span class="math">\(N(x)=\int_{-\infty}^x e^{-t^2/2}\,dt/\sqrt{2\pi}\)</span>. Express this in terms of the complementary error function <span class="math">\(\mathrm{erfc}(x) = 1 - \mathrm{erf}(x)\)</span>.</p>
 <p><em>Exercise 3</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N = e^{E\,N + \mathrm{Var}(N)/2}\)</span>.</p>
 <p><em>Exercise 4</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N f(N) = Ee^N E f(N + \mathrm{Var}(N))\)</span>.</p>
 <p>More generally, <span class="math">\(Ee^N f(N_1,\dots) = Ee^N E f(N + \mathrm{Cov}(N,N_1),\dots)\)</span> if <span class="math">\(N\)</span>, <span class="math">\(N_1\)</span>, are jointly normal.</p>
-<p><em>Exercise</em> 5. If <span class="math">\(N\)</span> and <span class="math">\(N_1\)</span> are jointly normal show <span class="math">\(EN f(N_1) = EN Ef(N_1) + E f&#39;(N_1)\)</span>. (<em>Hint</em>: Take the derivative of <span class="math">\(Ee^{aN} f(N_1)\)</span> with respect to <span class="math">\(a\)</span>.)</p>
+<p><em>Exercise</em> 5. If <span class="math">\(N\)</span> and <span class="math">\(N_1\)</span> are jointly normal show <span class="math">\(EN f(N_1) = EN Ef(N_1) + \mathrm{Cov}(N,N_1) E f&#39;(N_1)\)</span>. (<em>Hint</em>: Take the derivative of <span class="math">\(Ee^{aN} f(N_1)\)</span> with respect to <span class="math">\(a\)</span>.)</p>
 </body>
 </html>

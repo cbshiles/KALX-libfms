@@ -28,10 +28,14 @@
 	#else
 		#define ensure(e) if (!(e)) { __builtin_trap(); }
 	#endif
+
+	#define DEBUG_(e) e
 #else // release
 	#define ensure(e) if (!(e)) \
 		throw std::runtime_error(ENSURE_SPOT "\nensure: \"" #e "\" failed"); \
 		else (void)0;
+
+	#define DEBUG_(e)
 #endif
 
 #endif // ensure

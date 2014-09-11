@@ -36,7 +36,7 @@ LPOPERX WINAPI xll_$Replace$(double arg)
   catch (const std::exception& ex) {
     XLL_ERROR(ex.what());
             
-    o = ErrX(xlerrNum);
+    o = OPERX(xlerr::Num);
   }
 
   return &o;
@@ -116,7 +116,7 @@ LPOPER WINAPI xll_$Replace$(double arg)
   catch (const std::exception& ex) {
     XLL_ERROR(ex.what());
             
-    o = Err(xlerrNum);
+    o = OPER(xlerr::Num);
   }
 
   return &o;
@@ -196,7 +196,7 @@ LPOPER12 WINAPI xll_$Replace$(double arg)
   catch (const std::exception& ex) {
     XLL_ERROR(ex.what());
             
-    o = Err12(xlerrNum);
+    o = OPER12(xlerr::Num);
   }
 
   return &o;

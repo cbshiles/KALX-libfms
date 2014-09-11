@@ -98,8 +98,9 @@ included in the `xllfms` Excel add-in project.
 
 # Homework
 
-Each exercise is worth 20 points.
-Give a mathematicaly convincing argument for your work.
+Due September 15 at 5pm. Late homework will not be accepted. Each
+exercise is worth 20 points. Give a mathematicaly convincing argument
+for your work.
 
 _Exercise 1_. The error function is $\mathrm{erf}(x) = c\int_0^x e^{-t^2}\,dt$
 with $c$ chosen so that $\lim_{x\to\infty}\mathrm{erf}(x) = 1$.
@@ -120,5 +121,5 @@ More generally, $Ee^N f(N_1,\dots) = Ee^N E f(N + \mathrm{Cov}(N,N_1),\dots)$
 if $N$, $N_1$, \dots are jointly normal.
 
 _Exercise_ 5. If $N$ and $N_1$ are jointly normal
-show $EN f(N_1) = EN Ef(N_1) + E f'(N_1)$.
+show $EN f(N_1) = EN Ef(N_1) + \mathrm{Cov}(N,N_1) E f'(N_1)$.
 (_Hint_: Take the derivative of $Ee^{aN} f(N_1)$ with respect to $a$.)

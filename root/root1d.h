@@ -1,7 +1,7 @@
 // root1d.h - One dimensional root finding
 #pragma once
 #include <functional>
-#include <deque>
+#include "ensure.h"
 
 namespace fms {
 namespace root1d {
@@ -9,6 +9,7 @@ namespace root1d {
 	// next guess
 	namespace step {
 
+		// midpoint of [x0, x1]
 		template<class X>
 		inline X bisect(X x0, X x1)
 		{
@@ -16,12 +17,12 @@ namespace root1d {
 		}
 
 		// root of line through (x0, y0) having slope m
-		template<class X, class Y, class M>
-		inline X newton(X x0, X y0, M m)
+		template<class X, class Y>
+		inline X newton(X x0, Y y0, decltype(y0/x0) m)
 		{
 			ensure (m != 0);
 
-			return x0 - y0/m;
+			return x0 - X(y0/m);
 		}
 
 		// root of line through (x0, y0) and (x1, y1)
@@ -53,6 +54,13 @@ namespace root1d {
 	// termination criteria: x is current, x_ is previous
 	namespace done {
 
+		// agree to machine epsilon
+		template<class X>
+		inline bool epsilon(X x, X x_)
+		{
+			return 1 + (x - x_) == 1;
+		}
+
 		template<class X>
 		inline bool absolute(X x, X x_, X abs)
 		{
@@ -73,56 +81,94 @@ namespace root1d {
 		
 	} // done
 
-	template<class X, class Y>
-	class find {
-		std::deque<X> x_;
-		std::deque<Y> y_;
-		const std::function<Y(const X&)> f_, df_;
-	public:
-		find(const std::function<Y(X)>& f)
-			: f_(f), df_(df)
-		{ }
-		find(const std::function<Y(X)>& f, const std::function<Y(X)>& df)
-			: f_(f), df_(df)
-		{ }
-		find(const find&) = delete;
-		find& operator=(const find&) = delete;
-		~find()
-		{ }
-		size_t size() const
+	namespace find {
+		
+		template<class X, class Y>
+		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df)
 		{
-			return x_.size();
-		}
-		std::pair<X,Y> operator[](size_t i) const
-		{
-			return std::make_pair(x_[i], y_[i]);
-		}
-
-		X newton(X x0, X rel, X abs = 0)
-		{
-			ensure (rel != 0 || abs != 0);
-
-			auto done = [=abs,rel](const X& x0, const X& x1) {
-				if (rel && abs)
-					return done::relative(x0, x1, rel) && done::absolute(x0, x1, abs);
-				else if (rel)
-					return done::relative(x0, x1, rel);
-				else {
-					return done::absolute(x0, x1, abs);
-				}
-			};
-
-			x_.push_front(x0);
-			y_.push_front(f_(x0));
+			X x_(x);
 
 			do {
-				x_.push_front(step::newton(x_[0], y_[0], df_(x_[0])));
-				y_.push_front(f_(x_[0]));
-			} while (!done(x_[0], x_[1]));
+				X _x = step::newton(x, f(x), df(x));
+				if (_x == x_) // cycle
+					return step::bisect(x, x_);
+				x_ = x;
+				x = _x;
+			} while (!done::epsilon(x, x_));
 
-			return x_[0];
+			return x;
 		}
-	};
+		
+		template<class X, class Y>
+		inline X secant(X x, X x_, const std::function<Y(X)>& f)
+		{
+			X x_(x);
+
+			do {
+				X _x = step::secant(x, f(x), x_, f(x_)); // !!! don't recompute y !!!
+				if (_x == x_) // cycle
+					return step::bisect(x, x_);
+				x_ = x;
+				x = _x;
+			} while (!done::epsilon(x, x_));
+
+			return x;
+		}
+
+	} // find
 
 } // root1d
 } // fms
+
+#ifdef _DEBUG
+
+using namespace fms::root1d;
+
+template<class X, class Y>
+inline void test_root1d_step()
+{
+	X x1(1), x2(2), x3(3);
+
+	ensure (step::bisect(x1, x2) == (x1 + x2)/2);
+
+	auto f = [](const X& x) { return 1 + 2*Y(x); };
+	auto x_ = step::newton<X,Y>(x1, f(x1), 2);
+	ensure (f(x_) == 0);
+
+	x_ = step::secant(x1, f(x1), x2, f(x2));
+	ensure (f(x_) == 0);
+
+	auto g = [](const X& x) { return x*x; };
+	x_ = step::inverse_quadratic(g(x1), x1, g(x2), x2, g(x3), x3);
+	ensure (g(x_) == 0);
+}
+
+template<class X, class Y>
+inline void test_root1d_done()
+{
+	ensure (done::epsilon<X>(1, 1 + std::numeric_limits<X>::epsilon()/2));
+	ensure (!done::epsilon<X>(1, 1 + std::numeric_limits<X>::epsilon()));
+}
+
+template<class X, class Y>
+inline void test_root1d_find(void)
+{
+	X x1(1), x2(2);
+
+	auto x = find::newton<X,Y>(x1, [](const X& x) { return x*x - 2; }, [](const X& x) { return 2*x;});
+	ensure (done::epsilon(x, sqrt(x2)));
+}
+
+inline void test_root1d(void)
+{
+	test_root1d_step<double,double>();
+	test_root1d_step<float,float>();
+	test_root1d_step<float,double>();
+	test_root1d_step<double,float>();
+
+	test_root1d_done<double,double>();
+
+	test_root1d_find<double,double>();
+}
+
+#endif // _DEBUG
