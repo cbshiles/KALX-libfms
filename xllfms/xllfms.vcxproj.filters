@@ -42,6 +42,12 @@
     <ClCompile Include="float\ulp.cpp">
       <Filter>float</Filter>
     </ClCompile>
+    <ClCompile Include="xlllogistic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xllblack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xllfms.h">

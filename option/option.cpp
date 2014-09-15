@@ -1,13 +1,11 @@
-// prob.cpp - test prob module
+// option.cpp - test option module
 #include <iostream>
-#include "logistic.h"
-#include "normal.h"
+#include "black.h"
 
 int main()
 {
 	try {
-		test_prob_logistic();
-		test_prob_normal();
+		test_option_black();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

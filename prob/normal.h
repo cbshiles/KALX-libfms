@@ -1,6 +1,8 @@
 // normal.h - normal distribution
 #pragma once
 #include "ensure.h"
+#include "logistic.h"
+#include "../root/root1d.h"
 #include <cmath>
 
 // template<typename T> constexpr T M_PI = 4*atan(T(1));
@@ -14,10 +16,6 @@
 // template<typename T> constexpr T M_SQRT2PI = sqrt(2*M_PI<T>);
 #ifndef M_SQRT2PI
 #define M_SQRT2PI 2.50662827463100050242
-#endif
-// template<typename T> constexpr T M_CRTPISQ_3 = pow(M_PI*M_PI/3, T(1)/T(3));
-#ifndef M_CRTPISQ_3
-#define M_CRTPISQ_3 1.48728031630047437905
 #endif
 
 namespace fms {
@@ -36,38 +34,19 @@ namespace prob {
 		{
 			return erfc(-x/X(M_SQRT2))/2;
 		}
-		// logistic approximation with mean 0, variance 1
-		// int_R x^2 exp(-x)/(1 + exp(-x))^2 dx = pi^2/3
-		template<class X>
-		inline X cdf_logistic(const X& x)
-		{
-			return 1/(1 + exp(-M_CRTPISQ_3*X(x)));
-		}
 
 		template<class X>
 		inline X inv(const X& p)
 		{
-			ensure (0 <= p && p <= 1);
+			ensure (0 < p && p < 1);
 
 			// if (p < ?) return ?
 			// if (p > ?) return ?
+			auto p0 = fms::prob::logistic::inv(p);
+			auto f = [p](const X& x) { return cdf(x) - p; };
+			auto df = [](const X& x) { return pdf(x); };
 
-			X x, x_ = inv_logistic(p);
-			DEBUG_(int count = 0;)
-			do {
-				DEBUG_(++count;) 
-				x = x_;
-				x_ = x - (cdf(x) - p)/pdf(x);
-			} while (1 + (x_ - x) != 1);
-
-			return x;
-		}
-		// logistic approximation with mean 0, variance 1
-		// cdf is 1/(1 + exp(-a x)) where a = (pi^2/3)^(1/3)
-		template<class X>
-		inline X inv_logistic(const X& p)
-		{
-			return -log(1/X(p) - 1)/X(M_CRTPISQ_3);
+			return fms::root1d::find::newton<X,X>(p0, f, df);
 		}
 	};
 
@@ -83,13 +62,13 @@ inline void test_sqrt2()
 {
 	X two = X(M_SQRT2)*X(M_SQRT2);
 	
-	X sqrt2p = nextafter(X(M_SQRT2), X(2));
+	X sqrt2p = nextafter(X(M_SQRT2), X(2)); // next representable larger float
 	ensure (fabs(2 - two) <= fabs(2 - sqrt2p*sqrt2p));
 	sqrt2p = nextafter(sqrt2p, X(2));
 	ensure (fabs(2 - two) < fabs(2 - sqrt2p*sqrt2p));
 
-	X sqrt2m = nextafter(X(M_SQRT2), X(1));
-	ensure (fabs(2 - two) <= fabs(2 - sqrt2m*sqrt2m));
+	X sqrt2m = nextafter(X(M_SQRT2), X(1)); // next representable smaller float
+	ensure (fabs(X(2) - two) <= fabs(X(2) - sqrt2m*sqrt2m));
 	sqrt2m = nextafter(sqrt2m, X(1));
 	ensure (fabs(2 - two) < fabs(2 - sqrt2m*sqrt2m));
 }
@@ -121,6 +100,8 @@ inline void test_prob_normalinv()
 
 	for (p = X(0.1); p <= 0.9; p += X(0.1)) {
 		x = normal::inv(p);
+		auto y = p - normal::cdf<X>(x);
+		ensure (y == y);
 	}
 }
 

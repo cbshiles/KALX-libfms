@@ -28,67 +28,17 @@
 <blockquote>
 <p><i>“The manifest characteristic of (21) is the number of variables that it does not depend on”</i></p>
 </blockquote>
-<h2 id="the-mathematical-model">The Mathematical Model</h2>
-<p>Reading: <a href="http://kalx.net/Mer1973.pdf">Theory of rational option pricing</a>, <a href="http://kalx.net/ftapd.pdf">The Fundamental Theorem of Asset Pricing</a></p>
-<p>This lesson provides a mathematical framework for valuing and hedging every financial product. First we map the real world to the mathematical model.</p>
-<dl>
-<dt>Trading Times</dt>
-<dd><span class="math">\(t_0\lt t_1\lt \cdots\)</span> – when market instruments can be traded
-</dd>
-<dt>Market Prices</dt>
-<dd><span class="math">\(X_0, X_1, \dots\)</span> – in terms of a base currency
-</dd>
-<dt>Cash Flows</dt>
-<dd><span class="math">\(C_0, C_1, \dots\)</span> – payments to the holder of an insturment
-</dd>
-<dt>Trades</dt>
-<dd><span class="math">\(\Gamma_0, \Gamma_1, \dots\)</span> – amount traded in each instrument
-</dd>
-<dt>Position</dt>
-<dd><span class="math">\(\Delta_j = \sum_{i\le j} \Gamma_i\)</span> – amount held in each instrument
-</dd>
-<dt>Value</dt>
-<dd><span class="math">\(\Delta_j\cdot X_j\)</span> – the marked-to-market value of the position
-</dd>
-<dt>Account</dt>
-<dd><span class="math">\(A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j\)</span>
-</dd>
-</dl>
-<p>The last item is the amount you see on the account statement from your broker or on your trade blotter. At time <span class="math">\(t_j\)</span> you receive cash flows associated with the position that you already hold. This includes stock dividends, bond coupons, etc. You trade <span class="math">\(\Gamma_j\)</span> at price <span class="math">\(X_j\)</span> so the product is the dollar amount that will be deducted from your account.</p>
-<dl>
-<dt>Arbitrage</dt>
-<dd>Trades <span class="math">\((\Gamma_j)\)</span> with <span class="math">\(\sum_j \Gamma_j = 0\)</span>, <span class="math">\(A_0\gt0\)</span>, and <span class="math">\(A_j\ge0\)</span> for <span class="math">\(j\gt0\)</span>
-</dd>
-</dl>
-<p>In words, arbitrage is a sequence of trades that are eventually closed out that make a strictly positive amount up front and never lose money thereafter. In the real world this definition is not strong enough. Traders and risk managers will look at <span class="math">\(|\Gamma_0|\cdot|X_0|\)</span> too. This is a measure of how much capital will be tied up to make a profit of <span class="math">\(A_0 = \Gamma_0\cdot X_0\)</span>. In the real real world (this actually happened to me) even that is not sufficient. Traders also want to know the <strong>gamma profile</strong> of the trading strategy: under what conditions will future <span class="math">\(\Gamma_j\)</span> become large? That is a pain point for them. If <span class="math">\(A_j\)</span> gets significantly bigger than 0, the RM’s will get after the traders to nail that down by winding down the trade.</p>
-<h3 id="the-fundamental-theorem-of-asset-pricing">The Fundamental Theorem of Asset Pricing</h3>
-<p>Market prices, cash flows, trades, etc. are vector-valued functions on a set, <span class="math">\(\Omega\)</span>, of possible outcomes. A simple one-period model for a bond having realized return <span class="math">\(R\)</span>, a stock with initial price <span class="math">\(s\)</span> and final price any positive value, and an at-the-money forward struck at <span class="math">\(f\)</span> is <span class="math">\(\Omega = \{\omega : 0\lt\omega\lt\infty\}\)</span>, <span class="math">\(X_0 = (1, s, 0)\)</span>, <span class="math">\(X_1(\omega) = (R, \omega, 0)\)</span>, we always assume <span class="math">\(C_0 = 0\)</span>, and <span class="math">\(C_1(\omega) = (0, 0, \omega - f)\)</span>.</p>
-<p>I prefer writing <span class="math">\(R\)</span> instead of <span class="math">\(e^{rt}\)</span>. Fewer symbols. Note that the forward has price 0 at expiration. The contract holder receives a cash flow at expiration. It is important to distinguish between prices and cash flows.</p>
-<p>One thing we also have to specify for a model is a <strong>filtration</strong>: an increasing sequence of algebras. Prices, cash flows, etc. must be <strong>adapted</strong> to the filtration.</p>
-<p><em>Theorem</em>. (The Fundamental Theorem of Asset Pricing) A model is arbitrage free if and only if there exist positive scalar measures, <span class="math">\(\Pi_j\)</span>, on <span class="math">\(\mathscr{A}_j\)</span> such that <span class="math">\[
-\color{#4040B0}{X_j}\Pi_j = (\color{#B04040}{C_{j+1}}
-+ \color{#4040B0}{X_{j+1}})\Pi_{j+1}|_{\mathscr{A}_j}.
-\]</span></p>
-<p>The positive scalar measures are called <strong>deflators</strong>. One direction of the proof is easy, as we will soon show. The difficult direction of the proof is that no arbitrage implies the existence of deflators. Fortunately, we don’t care about that direction because it straighforward to find explict deflators that satisfy the no arbitrage condition.</p>
-<p><em>Lemma</em>. If a model is arbitrage free then <span class="math">\[
-\color{#4040D0}{\Delta_j\cdot X_j}\Pi_j
-= (\color{#D04040}{A_{j+1}} + \color{#4040D0}{\Delta_{j+1}\cdot X_{j+1}})
-\Pi_{j+1}|_{\mathscr{A}_j}.
-\]</span></p>
-<p><em>Exercise</em>. Use <span class="math">\(A_{j+1} = \Delta_j\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1}\)</span> to prove this lemma.</p>
-<p>Note how the value <span class="math">\(\color{#4040F0}{\Delta_j\cdot X_j}\)</span> corresponds to the price <span class="math">\(\color{#4040F0}{X_j}\)</span> and the account <span class="math">\(\color{#F04040}{A_{j+1}}\)</span> corresponds to the cash flow <span class="math">\(\color{#F04040}{C_{j+1}}\)</span> in the above two formulas. <em>This is the foundation of derivative securities</em>. You can create synthetic instruments from market instruments using active trading.</p>
-<p>After proving the easy direction of the FTAP we will see how to determine the trades.</p>
-<p>By induction we have <span class="math">\(\Delta_j\cdot X_j\Pi_j = \sum_{j\lt i\le k}A_i\Pi_i|_{\mathscr{A}_j} + \Delta_k\cdot X_k\Pi_k|_{\mathscr{A}_j}\)</span> so if <span class="math">\(\sum_j\Gamma_j = 0\)</span> we have <span class="math">\[
-A_0 = \Delta_0\cdot X_0 = \Gamma_0\cdot X_0|_{\mathscr{A}_0}
-= \sum_{i}A_i\Pi_i|_{\mathscr{A}_0}.
-\]</span></p>
-<h3 id="algebraspartitions">Algebras/Partitions</h3>
-<p>Partial information is modeled by an <a href="http://en.wikipedia.org/wiki/Algebra_of_sets">algebra</a>, <span class="math">\(\mathscr{A}\)</span>, on <span class="math">\(\Omega\)</span>. An <strong>atom</strong>, <span class="math">\(A\)</span>, is a set in the algebra such that if <span class="math">\(B\subseteq A\)</span> and <span class="math">\(B\)</span> is in the algebra, then either <span class="math">\(B=\emptyset\)</span> or <span class="math">\(B=A\)</span>.</p>
-<p><em>Exercise.</em> Show that if an algebra is finite then the atoms form a <a href="http://en.wikipedia.org/wiki/Partition_of_a_set">partition</a> of <span class="math">\(\Omega\)</span>.</p>
-<p>A simple example of modeling partial information is knowing if the roll of a single die is either even or odd. The possible outcomes are <span class="math">\(\{1,2,3,4,5,6\}\)</span> and the partition is <span class="math">\(\{\{1,3,5\},\{2,4,6\}\}\)</span></p>
-<p>The power set algeba, <span class="math">\(P(\Omega) = \{A:A\subseteq\Omega\}\)</span> represents complete information. The atoms are singletons, <span class="math">\(\{\omega\}\)</span>, <span class="math">\(\omega\in\Omega\)</span>. The trival algebra having <span class="math">\(\Omega\)</span> as the only atom represents having no information.</p>
-<p>In general, partial information is modeled by knowing only which atom an outcome belongs to, not the exact outcome.</p>
-<p>[!!!measurable function???]</p>
-<p>[!!!measures, restriction???]</p>
+<p>Reading: <a href="http://kalx.net/BlaSch1973.pdf">The Pricing of Options and Corporate Liabilities</a>, <a href="http://kalx.net/Mer1973.pdf">Theory of rational option pricing</a>, <a href="http://kalx.net/bms.pdf">Black-Scholes/Merton</a>.</p>
+<h2 id="black-scholesmerton">Black-Scholes/Merton</h2>
+<p>The value of an European put option is <span class="math">\(v = e^{-rt}E\max\{k - S_t,0\}\)</span>, where <span class="math">\(S_t = se^{rt - \sigma^2t/2 + \sigma B_t}\)</span>. Here, <span class="math">\(r\)</span> is the continuously compounded risk-free rate, <span class="math">\(t\)</span> is the time in years to option expiration, <span class="math">\(k\)</span> is the strike of the option, <span class="math">\(s\)</span> is the current stock price, <span class="math">\(\sigma\)</span> is the volatility, and <span class="math">\(B_t\)</span> is standard Brownian motion.</p>
+<p>It is more convenient to work with the Black formula for the forward value of the option <span class="math">\(E\max\{k - F_t,0\}\)</span>, where <span class="math">\(F_t = fe^{-\sigma^2t/2 + \sigma B_t}\)</span> and <span class="math">\(f = se^{rt}\)</span> is the forward value of the stock at time <span class="math">\(t\)</span>.</p>
+<p>If <span class="math">\(F\)</span> is lognormal, i.e., <span class="math">\(F = e^N\)</span> for some normally distributed random variable <span class="math">\(N\)</span>, <span class="math">\(EF \phi(F) = EF E\phi(Fe^{\mathrm{Var}(\log F)})\)</span>, hence</p>
+<p><span class="math">\[\begin{align*}
+E\max\{k - F,0\} &amp;= E(k - F)1(F\le k)\\
+ &amp;= kE1(F\le k) - EF E1(Fe^{\sigma^2t}\le k)\\
+ &amp;= kP(F\le k) - fP(Fe^{\sigma^2t}\le k).\\
+\end{align*}\]</span></p>
+<p><em>Exercise 1</em>. Show <span class="math">\(F\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} + \sigma\sqrt{t}/2\)</span> and <span class="math">\(Fe^{\sigma^2t}\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2\)</span>.</p>
+<p>If <span class="math">\(F\)</span> is lognormal then <span class="math">\(dE\phi(F)/df = E\phi&#39;(F)e^{-\sigma^2t/2+\sigma B_t} = E\phi&#39;(Fe^{\sigma^2t})\)</span>. Since <span class="math">\(d\max\{k - x,0\}/dx = 1(x\le k)\)</span> we have delta is <span class="math">\(dE(k - F)^+/df = P(F^{\sigma^2t}\le k)\)</span>.</p>
 </body>
 </html>

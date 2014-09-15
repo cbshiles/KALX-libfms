@@ -15,15 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="normal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="logistic.h">
+    <ClInclude Include="black.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="prob.cpp">
+    <ClCompile Include="option.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

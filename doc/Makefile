@@ -1,5 +1,6 @@
 LESS = $(wildcard lesson*.md)
-HTML = index.html $(LESS:.md=.html)
+SOLN = $(wildcard solutions*.md)
+HTML = index.html $(LESS:.md=.html) $(SOLN:.md=.html)
 
 $(HTML): %.html: %.md
 	pandoc -S --mathjax -H header.html -B before.html -A after.html $< -o $@

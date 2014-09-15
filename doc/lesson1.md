@@ -117,7 +117,7 @@ show $Ee^N = e^{E\,N + \mathrm{Var}(N)/2}$.
 _Exercise 4_. If $N$ is a normally distributed random variable
 show $Ee^N f(N) = Ee^N E f(N + \mathrm{Var}(N))$.
 
-More generally, $Ee^N f(N_1,\dots) = Ee^N E f(N + \mathrm{Cov}(N,N_1),\dots)$
+More generally, $Ee^N f(N_1,\dots) = Ee^N E f(N_1 + \mathrm{Cov}(N,N_1),\dots)$
 if $N$, $N_1$, \dots are jointly normal.
 
 _Exercise_ 5. If $N$ and $N_1$ are jointly normal

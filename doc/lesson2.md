@@ -27,12 +27,36 @@ $F_t = fe^{-\sigma^2t/2 + \sigma B_t}$ and $f = se^{rt}$ is the forward value
 of the stock at time $t$.
 
 If $F$ is lognormal, i.e., $F = e^N$ for some normally distributed
-random variable $N$, $EF \phi(F) = EF E\phi(Fe^{\mathrm{Var}(\log F)})$.
+random variable $N$, $EF \phi(F) = EF E\phi(Fe^{\mathrm{Var}(\log F)})$,
+hence
 
-_Exercise 1_. Use this to show
-$E\max\{k - F,0\} = kP(F\le k) - fP(Fe^{\sigma^2t}\le k)$.
+$$\begin{align*}
+E\max\{k - F,0\} &= E(k - F)1(F\le k)\\
+ &= kE1(F\le k) - EF E1(Fe^{\sigma^2t}\le k)\\
+ &= kP(F\le k) - fP(Fe^{\sigma^2t}\le k).\\
+\end{align*}$$
 
-_Exercise 2_. Show $F\le k$ if and only if
+_Exercise 1_. (20 points) Show $F\le k$ if and only if
 $B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} + \sigma\sqrt{t}/2$ and
 $Fe^{\sigma^2t}\le k$ if and only if
-$B_t/\sqrt{t}\le (\log k/f)/sigma\sqrt{t} - \sigma\sqrt{t}/2$.
+$B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2$.
+
+If $F$ is lognormal then $dE\phi(F)/df
+= E\phi'(F)e^{-\sigma^2t/2+\sigma B_t}
+= E\phi'(Fe^{\sigma^2t})$. Since $d\max\{k - x,0\}/dx = -1(x\le k)$
+we have delta is $dE(k - F)^+/df = -P(F^{\sigma^2t}\le k)
+= -N((\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2)$.
+
+From this we get gamma, $d^2E(k - F)^+/df^2
+= N'((\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2)/f\sigma\sqrt{t}$.
+
+_Exercise 2_. (20 points) Show vega
+$dE(k-F)^+/d\sigma = ...$.
+(Hint: ...)
+
+_Exercise 3_. (20 points) Show theta
+$dE(k - F)^+/dt = ...$.
+
+_Exercise 4_. (40 points) Implement the Black greeks i
+[black.h]()
+and add-ins [xllblack.cpp]()

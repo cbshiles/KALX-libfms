@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="logistic.h" />
     <ClInclude Include="normal.h" />
   </ItemGroup>
   <ItemGroup>
