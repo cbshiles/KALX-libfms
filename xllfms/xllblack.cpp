@@ -31,8 +31,3 @@ LPOPERX WINAPI xll_option_black_value(double f, double s, double k, double t)
 	return &o;
 }
 
-//!!! implement the following add-ins !!!
-//static AddInX xai_option_black_delta(
-//static AddInX xai_option_black_gamma(
-//static AddInX xai_option_black_vega(
-//static AddInX xai_option_black_theta(

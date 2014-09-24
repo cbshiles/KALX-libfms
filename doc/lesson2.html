@@ -14,7 +14,7 @@
     displayIndent: "2em",
     "HTML-CSS": {
       preferredFonts: "TeX",
-      webFont:"Neo-Euler",
+  /*    webFont:"Neo-Euler", */
       undefinedFamily:"'Arial Unicode MS',serif"
     }
   });
@@ -38,7 +38,28 @@ E\max\{k - F,0\} &amp;= E(k - F)1(F\le k)\\
  &amp;= kE1(F\le k) - EF E1(Fe^{\sigma^2t}\le k)\\
  &amp;= kP(F\le k) - fP(Fe^{\sigma^2t}\le k).\\
 \end{align*}\]</span></p>
-<p><em>Exercise 1</em>. Show <span class="math">\(F\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} + \sigma\sqrt{t}/2\)</span> and <span class="math">\(Fe^{\sigma^2t}\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2\)</span>.</p>
-<p>If <span class="math">\(F\)</span> is lognormal then <span class="math">\(dE\phi(F)/df = E\phi&#39;(F)e^{-\sigma^2t/2+\sigma B_t} = E\phi&#39;(Fe^{\sigma^2t})\)</span>. Since <span class="math">\(d\max\{k - x,0\}/dx = 1(x\le k)\)</span> we have delta is <span class="math">\(dE(k - F)^+/df = P(F^{\sigma^2t}\le k)\)</span>.</p>
+<h1 id="homework">Homework</h1>
+<p>Due September 22 at 5pm. Late homework will not be accepted. Each exercise is worth 20 points. Give a mathematicaly convincing argument for your work.</p>
+<p><em>Exercise 1</em>. (20 points) Show <span class="math">\(F\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} + \sigma\sqrt{t}/2\)</span> and <span class="math">\(Fe^{\sigma^2t}\le k\)</span> if and only if <span class="math">\(B_t/\sqrt{t}\le (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2\)</span>.</p>
+<p>If <span class="math">\(F\)</span> is lognormal then <span class="math">\(dE\phi(F)/df = E\phi&#39;(F)e^{-\sigma^2t/2+\sigma B_t} = E\phi&#39;(Fe^{\sigma^2t})\)</span>.</p>
+<p><em>Exercise 2</em>. (20 points) Show delta <span class="math">\(dE(k - F)^+/df = -N((\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2)\)</span>.</p>
+<p><em>Exercise 3</em>. (20 points) Implement delta in <a href="http://libfms.codeplex.com/SourceControl/latest#option/black.h">black.h</a></p>
+<p><em>Exercise 4</em>. (20 points) Add a test for delta at the end of <code>black.h</code>.</p>
+<p><em>Exercise 5</em>. (20 points) Implement an add-in for delta in <a href="http://libfms.codeplex.com/SourceControl/latest#xllfms/xllblack.cpp">xllblack.cpp</a></p>
+<h3 id="appendix">Appendix</h3>
+<p>Define the <em>moneyness</em> <span class="math">\(z(k;f,\sigma,t) = (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2\)</span>. Note <span class="math">\(z^{-1}(y) = fe^{-\sigma^2t/2 + \sigma\sqrt{t}y} Recall \)</span>Fk$ iff <span class="math">\(B_t/\sqrt{t} \le \phi(k)\)</span>.</p>
+<p>The payoff of a put (<span class="math">\(c = -1\)</span>) or call (<span class="math">\(c = 1\)</span>) is <span class="math">\(\max\{c(x - k),0\}\)</span>.</p>
+<h4 id="delta">Delta</h4>
+<p>Since <span class="math">\(\partial v/\partial f = E\phi&#39;(Fe^{\sigma^2t})\)</span> the delta of a put or call is <span class="math">\(Ec1(cx\ge ck) = cP(cF\ge ck) = cN(z(cke^{\sigma^2t}))\)</span>.</p>
+<p>If <span class="math">\(X\)</span> has cumulative distribution function <span class="math">\(F\)</span>, then <span class="math">\(\psi(X)\)</span> has cdf <span class="math">\(G = F\circ\psi^{-1}\)</span> and so the the probability density function (if it exists) is <span class="math">\(g = G&#39; = F&#39;\circ\psi^{-1}(\psi^{-1})&#39;\)</span>.</p>
+<h4 id="gamma">Gamma</h4>
+<p>Since <span class="math">\(\partial^2 v/\partial f^2 = E\phi&#39;&#39;(Fe^{2\sigma^2t}) = Ec\delta_{k}(Fe^{2\sigma^2t})\)</span>, where <span class="math">\(\delta_k\)</span> is a delta function with unit mass at <span class="math">\(k\)</span>, we have</p>
+<h4 id="vega">Vega</h4>
+<p>Vega is <span class="math">\(B_t/P\)</span> is bm iff <span class="math">\(B_t - \sigma t/Q\)</span> is bm where <span class="math">\(dQ/dP = e^{-\sigma^2t/2 + \sigma B_t}\)</span>.</p>
+<p><span class="math">\[\begin{align*}
+\partial v/\partial\sigma &amp;= E\phi&#39;(F)F(-\sigma t + \sigma B_t)\\
+ &amp;= fE\phi&#39;(F^{\sigma^2t})B_t\\
+\end{align*}\]</span></p>
+<h4 id="theta">Theta</h4>
 </body>
 </html>

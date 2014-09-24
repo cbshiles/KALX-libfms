@@ -42,11 +42,11 @@ namespace prob {
 
 			// if (p < ?) return ?
 			// if (p > ?) return ?
-			auto p0 = fms::prob::logistic::inv(p);
-			auto f = [p](const X& x) { return cdf(x) - p; };
-			auto df = [](const X& x) { return pdf(x); };
+			auto x0 = fms::prob::logistic::inv(p);
+			auto x1 = fms::root1d::step::newton(x0, cdf(x0) - p, pdf(x0));
+			//auto f = [p](const X& x) { return cdf(x) - p; };
 
-			return fms::root1d::find::newton<X,X>(p0, f, df);
+			return fms::root1d::find::secant<X,X>(x0, x1, [p](const X& x) { return cdf(x) - p; });
 		}
 	};
 
@@ -54,7 +54,7 @@ namespace prob {
 } // math
 
 #ifdef _DEBUG
-
+#include <random>
 using namespace fms::prob;
 
 template<class X>
@@ -94,14 +94,18 @@ inline void test_prob_normalcdf()
 }
 
 template<class X>
-inline void test_prob_normalinv()
+inline void test_prob_normalinv(size_t n = 1000)
 {
 	X p, x;
 
-	for (p = X(0.1); p <= 0.9; p += X(0.1)) {
+	std::default_random_engine e;
+	std::uniform_real_distribution<X> u(0,1);
+
+	while (--n) {
+		p = u(e);
 		x = normal::inv(p);
-		auto y = p - normal::cdf<X>(x);
-		ensure (y == y);
+		auto y = normal::cdf<X>(x) - p;
+		ensure (fabs(y) <= std::numeric_limits<X>::epsilon());
 	}
 }
 
@@ -111,7 +115,7 @@ inline void test_prob_normal()
 	test_sqrt2<float>();
 	test_prob_normalpdf<double>();
 	test_prob_normalcdf<double>();
-	test_prob_normalinv<float>();
+//	test_prob_normalinv<float>();
 	test_prob_normalinv<double>();
 }
 

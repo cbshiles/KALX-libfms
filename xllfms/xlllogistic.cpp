@@ -3,6 +3,7 @@
 #include "../prob/logistic.h"
 
 using namespace xll;
+using namespace fms::prob;
 
 static AddInX xai_prob_logistic_pdf(
 	FunctionX(XLL_DOUBLEX,_T("?xll_prob_logistic_pdf"),_T("PROB.LOGISTIC.PDF"))

@@ -14,7 +14,7 @@
     displayIndent: "2em",
     "HTML-CSS": {
       preferredFonts: "TeX",
-      webFont:"Neo-Euler",
+  /*    webFont:"Neo-Euler", */
       undefinedFamily:"'Arial Unicode MS',serif"
     }
   });
@@ -61,5 +61,6 @@
 <p><em>Exercise 4</em>. If <span class="math">\(N\)</span> is a normally distributed random variable show <span class="math">\(Ee^N f(N) = Ee^N E f(N + \mathrm{Var}(N))\)</span>.</p>
 <p>More generally, <span class="math">\(Ee^N f(N_1,\dots) = Ee^N E f(N_1 + \mathrm{Cov}(N,N_1),\dots)\)</span> if <span class="math">\(N\)</span>, <span class="math">\(N_1\)</span>, are jointly normal.</p>
 <p><em>Exercise</em> 5. If <span class="math">\(N\)</span> and <span class="math">\(N_1\)</span> are jointly normal show <span class="math">\(EN f(N_1) = EN Ef(N_1) + \mathrm{Cov}(N,N_1) E f&#39;(N_1)\)</span>. (<em>Hint</em>: Take the derivative of <span class="math">\(Ee^{aN} f(N_1)\)</span> with respect to <span class="math">\(a\)</span>.)</p>
+<p>This shows if <span class="math">\(N\)</span> and <span class="math">\(\log F\)</span> are jointly normal then <span class="math">\(EN g(F) = EN Eg(F) + \mathrm{Cov}(N,\log F) Eg&#39;(F)F\)</span>. The last term can be reduced to <span class="math">\(EFg&#39;(F) = EF Eg&#39;(Fe^{\mathrm{Var}(F)})\)</span>.</p>
 </body>
 </html>

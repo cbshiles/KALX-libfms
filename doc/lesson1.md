@@ -123,3 +123,7 @@ if $N$, $N_1$, \dots are jointly normal.
 _Exercise_ 5. If $N$ and $N_1$ are jointly normal
 show $EN f(N_1) = EN Ef(N_1) + \mathrm{Cov}(N,N_1) E f'(N_1)$.
 (_Hint_: Take the derivative of $Ee^{aN} f(N_1)$ with respect to $a$.)
+
+This shows if $N$ and $\log F$ are jointly normal then
+$EN g(F) = EN Eg(F) + \mathrm{Cov}(N,\log F) Eg'(F)F$.
+The last term can be reduced to $EFg'(F) = EF Eg'(Fe^{\mathrm{Var}(F)})$.

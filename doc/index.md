@@ -36,9 +36,9 @@ is a brief on-line guide to the new C++ features we will be using.
 [Lesson 1](lesson1.html) (Sep. 8)
   ~ The software development process
 [Lesson 2](lesson2.html) (Sep. 15)
-  ~ The mathematical model
-[Lesson 3](lesson3.html) (Sep. 22)
   ~ Functions: Black-Scholes/Merton
+[Lesson 3](lesson3.html) (Sep. 22)
+  ~ Root Finding
 [Lesson 4](lesson4.html) (Sep. 29)
   ~ Objects: Piecewise flat yield curve bootstrap
 [Lesson 5](lesson5.html) (Oct. 6)
