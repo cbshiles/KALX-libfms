@@ -30,7 +30,7 @@ namespace option {
 			// boundary cases
 			if (f == 0 || s == 0 || t == 0) {
 				if (df) *df += 1.*(c*f > c*k);
-				if (ddf) *ddf += 0; // really delta function at k
+				if (ddf) *ddf += f == k ? c*std::numeric_limits<K>::infinity() : 0;
 
 				return c*f > c*k ? c*(f - k) : 0;
 			}
@@ -80,7 +80,7 @@ inline void test_option_black()
 	struct {
 		double f, s, k, t, v, df, ddf, ds, dt;
 	} data [] = {
-	{ 100, .2, 100, .25, 3.9877748080386084, 0.519938874040193, 0.39844391409476404, 19.9221957047382, -7.968878281895281}
+		{ 100, .2, 100, .25, 3.9877611676744920, 0.51993880583837249, 0.039844391409476397, 19.922195704738197, -7.9688782818952797 }
 	};
 	
 	double v, df, ddf, ds, dt;
