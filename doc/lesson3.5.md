@@ -30,11 +30,9 @@ _Homework 1_. Show $|(\tilde{f}(x + h) - \tilde{f}(x))/h - f'(x)|
 Show the value of $|h|$ that minimizes this expression
 is approximately $2\sqrt{|\epsilon f(x)/f''(x)|}$.
 
-<!--
 _Solution 1_. The derivative with respect to $|h|$ is
 $-(|f(x+h)| + |f(x)|)\epsilon/|h|^2 + (1/2)|f''(x)|$,
 hence the optimum value for $|h|$ is approximately $2\sqrt{\epsilon |f(x)/f''(x)|}$.
--->
 
 _Homework 2_. Write a version of `fms::option::black::value` that
 uses references instead of pointers. How would you handle optional values?

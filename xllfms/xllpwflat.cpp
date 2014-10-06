@@ -10,7 +10,7 @@ static AddInX xai_pwflat_value(
 	.Arg(XLL_DOUBLEX, _T("Time"), _T("is time at which the piecewise constant curve is to be evaluated"))
 	.Arg(XLL_FPX, _T("Times"), _T("is an array of times"))
 	.Arg(XLL_FPX, _T("Forwards"), _T("is an array of forwards"))
-	.Arg(XLL_DOUBLEX, _T("?Extrapolate"), _T("is an optional value used to extrapolate. Default is 0"))
+	.Arg(XLL_DOUBLEX, _T("_Extrapolate"), _T("is an optional value used to extrapolate. Default is 0"))
 	.Category(CATEGORY)
 	.FunctionHelp(_T("Evaluate a piecewise flat curve at Time."))
 );

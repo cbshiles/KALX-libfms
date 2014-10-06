@@ -154,3 +154,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/doc/lesson3.5.html
+/doc/lesson4.md.bak
+/doc/solutions1.html
+/xllfms/Book1.xlsx

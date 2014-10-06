@@ -21,9 +21,6 @@
     <ClInclude Include="cash_deposit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ensure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="euribor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -40,6 +37,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pwflat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pwflat_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
