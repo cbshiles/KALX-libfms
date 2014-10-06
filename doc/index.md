@@ -24,9 +24,9 @@ Software ...
 No books are required for this course. You will be assigned readings
 available on the internet to be discussed at the beginning of each class.
 
-- [A Tour of C++](http:www.stroustrup.com/Tour.html)
+- [A Tour of C++](http://www.stroustrup.com/Tour.html)
 is a quick overview of modern C++ at the expert level
-- [Programming -- Principles and Practice Using C++](http:www.stroustrup.com/programming.html)
+- [Programming -- Principles and Practice Using C++](http://www.stroustrup.com/programming.html)
 is a beginner level introduction to modern C++.
 - [Elements of Modern C++ Style](http://herbsutter.com/elements-of-modern-c-style/)
 is a brief on-line guide to the new C++ features we will be using.

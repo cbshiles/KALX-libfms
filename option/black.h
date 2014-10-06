@@ -66,16 +66,42 @@ namespace option {
 			return c*(f*Nd1 - k*Nd2);
 		}
 
+		template<class X>
+		inline X vega(const X& f, const X& s, const X& k, const X& t)
+		{
+			X ds{0};
+
+			value<X,X,X,X>(f, s, k, t, 0, 0, &ds);
+
+			return ds;
+		}
+
+		// Find the volatility given the option price.
+		template<class X>
+		inline X implied_volatility(const X& f, const X& p, const X& k, const X& t)
+		{
+			// ensure price in 0 - infty vol range
+			ensure (t > 0);
+			ensure (k > 0 ? p > (std::max)(f - k, X(0)) : p > (std::max)(-k - f, X(0)));
+			ensure (k > 0 ? p < f : p < -k);
+
+			auto F = [f,p,k,t](const X& s) -> X { return black::value(f, s, k, t) - p; };
+			auto dF = [f,p,k,t](const X& s) -> X{ return black::vega(f, s, k, t); };
+
+			return fms::root1d::find::newton<X,X>(0.2, F, dF);
+		}
 	} // black
 } // option
 } // fms
 
 #ifdef _DEBUG
+#include <algorithm>
+#include <random>
 
 using namespace fms::option;
 
 
-inline void test_option_black()
+inline void test_option_black(int N = 1000)
 {
 	struct {
 		double f, s, k, t, v, df, ddf, ds, dt;
@@ -93,7 +119,27 @@ inline void test_option_black()
 		ensure (ddf == d.ddf);
 		ensure (ds == d.ds);
 		ensure (dt == d.dt);
+
+//		ensure (d.df == black::delta(d.f, d.s, d.k, d.t));
 	}
+
+	std::default_random_engine e;
+	std::normal_distribution<double> X(0,1);
+
+	double f{100}, s{.2}, k{100}, t{.25};
+	double c{0}, p{0};
+	double srt = s*sqrt(t);
+
+	for (int n = 1; n < N; ++n) {
+		double F = f*exp(-srt*srt/2 + srt*X(e));
+		double v = (std::max)(F - k, 0.);
+		c += (v - c)/n;
+		v = (std::max)(k - F, 0.);
+		p += (v - p)/n;
+	}
+
+	ensure (fabs(c - black::value(f, s, k, t)) < 2*c/sqrt(N));
+	ensure (fabs(p - black::value(f, s, -k, t)) < 2*p/sqrt(N));
 }
 
 #endif // _DEBUG

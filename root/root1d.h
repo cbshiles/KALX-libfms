@@ -77,14 +77,16 @@ namespace root1d {
 
 	namespace find {
 
+		// deliberately small iteration count
 		template<class X, class Y>
-		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df)
+		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 10)
 		{
 			X x_(x);
 
 			DEBUG_(int i = 0;)
 			do {
 				DEBUG_(++i;)
+				ensure (iter--);
 				Y y = f(x), dy = df(x);
 				
 				if (dy == 0)
@@ -101,13 +103,14 @@ namespace root1d {
 		}
 		
 		template<class X, class Y>
-		inline X secant(X x, X x_, const std::function<Y(X)>& f)
+		inline X secant(X x, X x_, const std::function<Y(X)>& f, size_t iter = 10)
 		{
 			Y y = f(x), y_ = f(x_);
 
 			DEBUG_(int i = 0;)
 			do {
 				DEBUG_(++i;)
+				ensure (iter--);
 
 				if (y == y_) {
 					return x;

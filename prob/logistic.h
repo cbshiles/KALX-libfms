@@ -1,6 +1,7 @@
 // logistic.h - logistic distribution
 #pragma once
 #include <cmath>
+#include <type_traits>
 #include "ensure.h"
 
 // template<typename T> constexpr T M_PI = 4*atan(T(1));
@@ -17,9 +18,13 @@ namespace prob {
 
 	namespace logistic {
 
+#define IS_FLOATING_POINT(X) (std::is_floating_point<X>::value, "the type of " #X " must be floating point")
+
 		template<class X>
 		inline X pdf(const X& x)
 		{
+			static_assert IS_FLOATING_POINT(X);
+
 			X e = exp(-x*X(M_PI_SQRT3));
 
 			return X(M_PI_SQRT3)*e/((1 + e)*(1 + e));
@@ -28,16 +33,22 @@ namespace prob {
 		template<class X>
 		inline X cdf(const X& x)
 		{
+			static_assert IS_FLOATING_POINT(X);
+
 			return 1/(1 + exp(-x*X(M_PI_SQRT3)));
 		}
 
 		template<class X>
 		inline X inv(const X& p)
 		{
+			static_assert IS_FLOATING_POINT(X);
+
 			ensure (0 < p && p < 1);
 
 			return -log(1/X(p) - 1)/X(M_PI_SQRT3);
 		}
+
+#undef IS_FLOATING_POINT
 
 	} // logistic
 } // prob

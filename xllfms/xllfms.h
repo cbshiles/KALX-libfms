@@ -9,3 +9,4 @@
 #endif
 
 typedef xll::traits<XLOPERX>::xword xword;
+typedef xll::traits<XLOPERX>::xfp xfp;
