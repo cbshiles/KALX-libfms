@@ -175,6 +175,7 @@
     <ClCompile Include="xlllogistic.cpp" />
     <ClCompile Include="xllmath.cpp" />
     <ClCompile Include="xllnormal.cpp" />
+    <ClCompile Include="xllpwflat.cpp" />
     <ClCompile Include="xllroot.cpp" />
   </ItemGroup>
   <ItemGroup>

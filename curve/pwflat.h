@@ -21,43 +21,52 @@
 namespace fms {
 namespace pwflat {
 
+	// move to pwflat_functions.h!!!
+
 	// value at single point
 	template<class T, class F>
-	inline F value(const T& t, size_t n, const T* pt, const F* pf, const F& f_ = 0)
+	inline F value(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
 		if (n == 0)
 			return f_;
 
-		ptrdiff_t i = std::lower_bound(pt, pt + n, t) - pt; // t[i-1] < t <= t[i]
+		size_t i = std::lower_bound(t, t + n, u) - t; // t[i-1] < u <= t[i]
 	
-		return i == n ? f_ : pf[i];
+		return i == n ? f_ : f[i];
 	}
 
-	// integral from 0 to t
+	// integral from 0 to u
 	template<class T, class F>
-	inline F integral(const T& t, size_t n, const T* pt, const F* pf, const F& f_ = 0)
+	inline F integral(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
 		if (n == 0)
-			return f_*t;
+			return f_*u;
 
 		T t0{0};
 		F I{0};
 
-		for (; n && *pt <= t; ++pt, ++pf, --n) {
-			I += (*pf)*(*pt - t0);
-			t0 = *pt;
+		for (; n && *t <= u; ++t, ++f, --n) {
+			I += (*f)*(*t - t0);
+			t0 = *t;
 		}
 
-		I += (n == 0 ? f_ : *pf)*(t - t0);
+		I += (n == 0 ? f_ : *f)*(u - t0);
 
 		return I;
 	}
 
-	// e^{-int_0^t f(s) ds}
+	// continuously compounded spot rate
 	template<class T, class F>
-	inline F discount(const T& t, size_t n, const T* pt, const F* pf, const F& f_ = 0)
+	inline F spot(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return exp(-integral(t, n, pt, pf, f_));
+		return 1 == 1 + u ? value(0, n, t, ff, f_) : integral(u, n, t, f, f_)/u;
+	}
+
+	// e^{-int_0^u f(s) ds}
+	template<class T, class F>
+	inline F discount(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
+	{
+		return exp(-integral(u, n, t, f, f_));
 	}
 
 	// sum_i c[i] D(t[i])
@@ -73,6 +82,27 @@ namespace pwflat {
 		return pv;
 	}
 
+	// d(pv)/df for parallel shift past t0
+	// (d/df) sum c[i] D(u[i])*exp(-f*(u[i] - t0)) 1(u[i] > t0)
+	template<class T, class F>
+	inline F duration(T t0, size_t m, const T* u, const F* c, size_t n, const T* t, const F* f, const F& f_ = 0)
+	{
+		F dur{0};
+
+		while (m && *u <= t0) {
+			--m;
+			++u;
+			++c;
+		}
+		while (m--) {
+			dur -= (*u - t0)*(*c)*discount(*u, n, t, f, f_);
+			++u;
+			++c;
+		}
+			
+		return dur;
+	}
+
 	// piecewise flat curve base class
 	template<class T = double, class F = double>
 	class curve {
@@ -86,6 +116,26 @@ namespace pwflat {
 		curve& operator=(const curve&) = default;
 		virtual ~curve()
 		{ }
+
+		bool operator==(const curve& c) const
+		{
+			return extrapolate() == c.extrapolate()
+				&& size() == c.size() 
+				&& std::equal(t(), t() + size(), c.t())
+				&& std::equal(f(), f() + size(), c.f())
+		}
+		bool operator!=(const curve& c) const
+		{
+			return !operator==(c);
+		}
+		// value(t) < c(t) for all t
+		bool operator<(const curve& c) const
+		{
+			// more efficent to use operator[]!!!
+			return extrapolate() < c.extrapolate()
+				&& std::all_of(t(), t() + size(), [this,&c](const T& t) { return value(t) < c(t); })
+				&& std::all_of(c.t(), c.t() + c.size(), [this,&c](const T& t) { return value(t) < c(t); });
+		}
 
 		// get extrapolation value
 		F extrapolate(void) const
@@ -320,9 +370,9 @@ inline fms::pwflat::vector_curve<T,F> operator+(const F& s, fms::pwflat::vector_
 	return a += s; // a is passed by value
 }
 template<class T, class F>
-inline fms::pwflat::vector_curve<T,F> operator+(fms::pwflat::vector_curve<T,F> a, const fms::pwflat::vector_curve<T,F>& b)
+inline fms::pwflat::vector_curve<T,F> operator+(const fms::pwflat::vector_curve<T,F>& a, const fms::pwflat::vector_curve<T,F>& b)
 {
-	return a += b; // a is passed by value
+	return fms::pwflat::vector_curve<T,F>(a) += b;
 }
 
 #ifdef _DEBUG
@@ -366,7 +416,32 @@ void test_pwflat_integral()
 
 }
 
-void test_pwflat_curve()
+inline void test_pwflat_spot()
+{
+	// airc1209
+}
+
+inline void test_pwflat_present_value()
+{
+	// bsf48 
+}
+
+inline void test_pwflat_duration()
+{
+	// cxccxlcxc 
+}
+
+inline void test_pwflat_curve()
+{
+	// dgtsx 
+}
+
+inline void test_pwflat_pointer_curve()
+{
+	// giorgiovitale 
+}
+
+inline void test_pwflat_vector_curve()
 {
 	vector_curve<> c;
 	ensure (c.size() == 0);

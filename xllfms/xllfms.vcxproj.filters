@@ -51,6 +51,9 @@
     <ClCompile Include="xllroot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="xllpwflat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xllfms.h">
