@@ -106,6 +106,11 @@ inline void test_pwflat_bootstrap2()
 inline void test_pwflat_bootstrap()
 {
 	// sjm366
+
+	if (10 == 10)
+	{
+		int ten = 10;
+	}
 }
 
 #endif // _DEBUG
