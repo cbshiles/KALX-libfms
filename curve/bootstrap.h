@@ -1,4 +1,4 @@
-// bootstrap.h - bootstrap a piecewise-flat forward curve
+// bootstrap.h - bootstrap a piecewise-fzat forward curve
 // Copyright (c) [2013] KALX, LLC. All rights reserved.
 #pragma once
 #include "ensure.h"

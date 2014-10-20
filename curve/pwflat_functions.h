@@ -59,7 +59,7 @@ namespace pwflat {
 	template<class T, class F>
 	inline F spot(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return 1 == 1 + u ? value(0, n, t, ff, f_) : integral(u, n, t, f, f_)/u;
+		return 1 == 1 + u ? value<T,F>(0, n, t, f, f_) : integral(u, n, t, f, f_)/u;
 	}
 
 	// e^{-int_0^u f(s) ds}
@@ -148,7 +148,21 @@ void test_pwflat_integral()
 
 inline void test_pwflat_spot()
 {
-	// airc1209
+	double t[] = { 1, 2, 3 };
+	double f[] = { .1, .2, .3 };
+
+	ensure((-.1/(-1.)) == spot(-1., 3, t, f));
+	ensure(0.1 == spot(0., 3, t, f));
+	ensure(.1/1. == spot(1., 3, t, f));																																					
+	ensure((.1 + .2)/2. == spot(2., 3, t, f));
+	ensure((.1 + .2 + .3)/3. == spot(3., 3, t, f));
+	ensure((.1 + .2 + .3 + .4)/4. == spot(4., 3, t, f, .4));
+
+	ensure((.1 + .2*(1.5 - 1))/1.5 == spot(1.5, 3, t, f));
+	ensure((.1 + .2 + .3*(2.5 - 2))/2.5 == spot(2.5, 3, t, f));
+	ensure((.1 + .2 + .3)/3.5 == spot(3.5, 3, t, f));
+	ensure((.1 + .2 + .3 + .4*(3.5 - 3))/3.5 == spot(3.5, 3, t, f, .4));
+
 }
 
 inline void test_pwflat_present_value()
