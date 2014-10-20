@@ -22,7 +22,7 @@ namespace pwflat {
 		bool operator==(const curve& c) const
 		{
 			return extrapolate() == c.extrapolate()
-				&& size() == c.size() 
+				&& size() == c.size()
 				&& std::equal(t(), t() + size(), c.t())
 				&& std::equal(f(), f() + size(), c.f())
 		}
@@ -284,7 +284,47 @@ using namespace fms::pwflat;
 
 inline void test_pwflat_curve()
 {
-	// dgtsx 
+	//default
+	curve<> c1;
+	ensure(c1.size() == 0);
+	ensure(c1.t() == 0);
+	ensure(c1.f() == 0);
+
+	//copy
+	curve<> c2 = c1;
+	ensure(c2.size() == 0);
+	ensure(c2.t() == 0);
+	ensure(c2.f() == 0);
+	ensure(c1 == c2);
+
+	//copy assignment 
+	curve<> c3(1);
+	curve<> c4;
+	c4 = c3;
+	ensure(c3 == c4);
+	ensure(c3 != c1);
+
+	//extrapolations
+	ensure(c3.extrapolate() == 1);
+	c3.extrapolate(3);
+	ensure(c3.extrapolate() == 3);
+
+	//comparison
+	ensure(c1 < c3);
+
+	// non-virtual interface
+	ensure(c1.value(0) == 0);
+	ensure(c1(0) == 0);
+	ensure(c1.integral(0) == 0);
+	ensure(c3.integral(1) == 3);
+	ensure(c1.present_value(0, 0, 0) == 0);
+
+	// convenience functions
+	ensure(c1.t(0) == 0);
+	ensure(c1.f(0) == 0);
+	ensure(std::make_pair(0., 0.) == c1[0]);
+
+	//dgtsx
 }
 
 inline void test_pwflat_pointer_curve()
