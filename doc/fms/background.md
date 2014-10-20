@@ -10,20 +10,22 @@ the primary securities they are based on,
 and the markets available for trading.
 
 The name _derivative securities_ is a bit misleading. A derivative is
-quite different from a security like a currency, stock, or bond. If
+quite different from a security like a stock, bond, or currency. If
 you stuff a deriviative under your mattress it will eventually be
 worthless.  Derivatives don't provide equity in a company that allows
 you to influence decisions on how it is run. If a company goes bankrupt
 there is no preferred treatment on the assets of the company that bond
-holders receive.
+holders receive. Currencies are a very different creature that big
+banks control access to. 
 
 > _A derivative is a legal contract between two counterparties for
 > future exchanges of cash flows._
 
-Owning a security involves cash flows. In the spot foreign exchange
-market you get paid the difference between the rates of interest in the
-currency pairs you hold each day, stocks pay dividends on dividend dates,
-bonds pay coupons on a regular schedule and principal at maturity.
+Owning a security involves cash flows.
+Stocks pay dividends.
+Bonds pay coupons on a regular schedule and principal at maturity.
+In the spot foreign exchange market you get paid the difference between
+the rates of interest in the currency pairs you hold each day.
 
 Derivatives use market traded securities to manufacture arbitrary cash
 flow streams. There is a mathematical theory that can be used to determine
@@ -32,8 +34,15 @@ that hold to greater or lesser degree.
 
 It is important to distinguish the _price_ of an instrument from the
 cash flows associated with owning it. Market traded instruments have
-prices. We will use the term _value_ for the number a model
-produces as a putative price.
+prices. There is a mathematial theory that can provide a _value_
+for a derivative instrument given the cash flows specified in a contract.
+
+The value a model provides is not a price.
+It is used for pricing derivatives, and people do transactions based
+on that, but one of
+the serious shortcomings of the theory is that it does not provide a
+good measure of how accuate the value is. Risk management of that
+uncertainty is still in it's early stages.
 
 ## Participants
 
@@ -118,8 +127,7 @@ over that period of time. But exchange rates change.
 Stocks pay dividends. Usually. Some tech stocks pay no dividends because
 investors believe their price will grow 
 
-Bonds pay coupons
-and principal,
+Bonds pay coupons and principal,
 Mortgages can't be shorted and pay interest and potentially early
 principal. Commodities require storage costs.
 

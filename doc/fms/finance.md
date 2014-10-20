@@ -79,6 +79,12 @@ $(A_j)$ -- Account
 	 securities traded.
      Note that no cash flows accrue to current trades.
 
+$\Delta_j\cdot X_j$ -- Value
+
+:	The position time price gives the (marked-to-market)
+	value of a position.
+	It is the amount you would receive from liquidating the position.
+
 # Unified Derivatives
 
 The last formula is the skeleton key to derivatives. It can be used

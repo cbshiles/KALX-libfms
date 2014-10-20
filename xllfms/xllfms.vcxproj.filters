@@ -16,6 +16,9 @@
     <Filter Include="float">
       <UniqueIdentifier>{53341c80-6c85-4eec-b44f-e25164823c19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="datetime">
+      <UniqueIdentifier>{477563aa-c3e2-445a-813a-e35e9689ec07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xllmath.cpp">
@@ -53,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="xllpwflat.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="datetime\datetime.cpp">
+      <Filter>datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="datetime\xlltime.cpp">
+      <Filter>datetime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

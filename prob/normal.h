@@ -44,9 +44,9 @@ namespace prob {
 			// if (p > ?) return ?
 			auto x0 = fms::prob::logistic::inv(p);
 			auto x1 = fms::root1d::step::newton(x0, cdf(x0) - p, pdf(x0));
-			//auto f = [p](const X& x) { return cdf(x) - p; };
+			auto f = [p](const X& x) { return cdf(x) - p; };
 
-			return fms::root1d::find::secant<X,X>(x0, x1, [p](const X& x) { return cdf(x) - p; });
+			return fms::root1d::find::secant<X,X>(x0, x1, f);
 		}
 	};
 

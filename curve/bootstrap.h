@@ -3,12 +3,10 @@
 #pragma once
 #include "ensure.h"
 #include "../root/root1d.h"
-#include "pwflat.h"
+#include "pwflat_functions.h"
 
 namespace fms {
 namespace pwflat {
-
-	// move to bootstrap_functions.h!!!
 
 	// cash deposit, c = 1 + rate usually
 	// 1 = c D0 exp(-f(u - t0))

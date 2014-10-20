@@ -51,3 +51,18 @@ time in years. We choose the convention that one year consists
 of 365.25 days(`DAYS_PER_YEAR`). This is slightly arbitrary, but
 as long as it is used consistently there is no problem in practice.
 
+# Homework
+
+Due October 20 at 5pm. Late homework will not be accepted.
+
+Pull a fresh copy of [libfms](https://git01.codeplex.com/libfms).
+In Visual Studio go to `Team Explorer`, `Home`, `Branches`, `New Branch`.
+Use your codeplex id for the name of your branch.
+Make sure `Checkout branch` is selected.
+Click on `Create Branche`.
+
+Find your codeplex id in the solution. (Ctrl-F is your friend.)
+If you are adding tests, use the existing tests as a model.
+If you are implementing an add-in, use existing add-ins as a model.
+
+Commit your code and push to the repository. 

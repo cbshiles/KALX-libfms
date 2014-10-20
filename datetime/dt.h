@@ -2,16 +2,11 @@
 // Copyright (c) 2011 KALX, LLC. All rights reserved. No warranty is made.
 #pragma once
 #pragma warning(disable: 4996) // _timezone warings. Should use _get_timezone.
-#ifndef ensure
-#include <cassert>
-#define ensure(x) assert(x)
-#endif
+#include "../include/ensure.h"
 #include <cmath>
 #include <ctime>
-#include <utility>
 
-using namespace std::rel_ops;
-
+namespace fms {
 namespace datetime {
 
 	static const double SECS_PER_DAY
@@ -47,11 +42,11 @@ namespace datetime {
 	inline long 
 	dst(time_t t) 
 	{
-		struct tm* ptm;
+		struct tm tm;
 		
-		ensure (0 != (ptm = ::localtime(&t))); // too slow!!!
+		ensure (0 == localtime_s(&tm, &t)); // too slow!!!
 
-		return ptm->tm_isdst*3600;
+		return tm.tm_isdst*3600;
 	}
 
 	// Excel local time to UTC.
@@ -72,30 +67,5 @@ namespace datetime {
 		return EXCEL_EPOCH + (t - _timezone + (nodst ? 0 : dst(t)))/SECS_PER_DAY; 
 	}
 
-	// breakdown double of the form yyyymmdd.hhnnss
-	inline void
-	breakdown(double d, int* py = 0, int* pm = 0, int* pd = 0, int* ph = 0, int* pn = 0, int* ps = 0)
-	{
-		int t = static_cast<int>(0.5 + 1e6*fmod(d, 1));
-
-		if (py) {
-			*py = static_cast<int>(d/1e4);
-			if (pm) {
-				*pm = static_cast<int>((d - 1e4* *py)/1e2);
-				if (pd) {
-					*pd = static_cast<int>(d - 1e4* *py - 1e2* *pm);
-				}
-			}
-		}
-		if (ph) {
-			*ph = static_cast<int>(t/1e4);
-			if (pn) {
-				*pn = static_cast<int>((t - 1e4* *ph)/1e2);
-				if (ps) {
-					*ps = static_cast<int>(t - 1e4* *ph - 1e2* *pn);
-				}
-			}
-		}
-	}
-
 } // namespace datetime
+} // namespace fms

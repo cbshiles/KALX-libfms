@@ -1,5 +1,5 @@
 // pwflat_functions.h - pure functions for pwflat curves
-// Piecewise-flat forward curves are modeled by arrays t and f, and an extrapolated value _f;
+// Piecewise-flat forward curves are modeled by arrays t and f, and an extrapolated value f_;
 // 
 // 	       { f[0] : t <= t[0]
 // 	f(t) = { f[i] : t[i-1] < t <= t[i], i = 1,...,n-1
@@ -20,8 +20,6 @@
 
 namespace fms {
 namespace pwflat {
-
-	// move to pwflat_functions.h!!!
 
 	// value at single point
 	template<class T, class F>
@@ -84,6 +82,7 @@ namespace pwflat {
 
 	// d(pv)/df for parallel shift past t0
 	// (d/df) sum c[i] D(u[i])*exp(-f*(u[i] - t0)) 1(u[i] > t0)
+	// = sum_{u[i] > t0} (u[i] - t0) c[i] D(u[i])
 	template<class T, class F>
 	inline F duration(T t0, size_t m, const T* u, const F* c, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{

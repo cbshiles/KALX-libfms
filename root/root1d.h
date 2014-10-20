@@ -73,6 +73,13 @@ namespace root1d {
 			return fabs(y) < abs;
 		}
 
+		// x is in (min(a,b), max(a,b))
+		template<class X>
+		inline bool between(const X& x, const X& a, const X& b)
+		{
+			return (x - a)*(x - b) < 0;
+		}
+
 	} // done
 
 	namespace find {
@@ -128,6 +135,37 @@ namespace root1d {
 			return x;
 		}
 		
+		// HP sovle routine
+		template<class X, class Y>
+		inline X kahan(X x, X x_, const std::function<Y(X)>& f, size_t iter = 10)
+		{
+			Y y = f(x), y_ = f(x_);
+
+			DEBUG_(int i = 0;)
+			do {
+				DEBUG_(++i;)
+				ensure (iter--);
+
+				if (y == y_) {
+					return x;
+				}
+
+				X _x = step::secant(x, y, x_, y_);
+				if (_x == x_) // cycle
+					return step::bisect(x, x_);
+
+				if (y*y_ < 0 && !done::between(_x, x, x_)) {
+					_x = step::bisect(x, x_);
+				}
+
+				x_ = x;
+				x = _x;
+				y_ = y;
+				y = f(x);
+			} while (!done::absolute(x, x_));
+
+			return x;
+		}
 	} // find
 
 } // root1d
@@ -161,6 +199,13 @@ inline void test_root1d_done()
 {
 	ensure (done::absolute<X>(X(1), X(1) + X(0.5)*std::numeric_limits<X>::epsilon()));
 	ensure (!done::absolute<X>(X(1), X(1) + X(4)*std::numeric_limits<X>::epsilon()));
+	ensure (done::between(2, 1, 3));
+	ensure (done::between(2, 3, 1));
+	ensure (!done::between(1, 2, 3));
+	ensure (!done::between(1, 3, 2));
+	ensure (!done::between(3, 1, 2));
+	ensure (!done::between(3, 2, 1));
+
 }
 
 template<class X, class Y>
