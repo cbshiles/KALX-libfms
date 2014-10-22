@@ -1,15 +1,17 @@
 // fixed_income.h - fixed income routines
 // Copyright (c) 2013 KALX, LLC. All rights reserved. No warranty made.
 #pragma once
+#include "../include/ensure.h"
 #include <algorithm>
 #include <functional>
+#include <numeric>
 #include <vector>
 
 namespace fms {
 namespace fixed_income {
 
 	// fixed cash flows
-	template<class T = double, class C = double>
+	template<class T = double, class C = double, class D = double>
 	class instrument {
 		std::vector<T> u_;
 		std::vector<C> c_;
@@ -28,9 +30,16 @@ namespace fixed_income {
 		{
 			ensure (increasing(u, u + n)); // test before constructing???
 		}
-		instrument(const std::initializer_list<C>& u, const std::initializer_list<C>& c)
+		instrument(const std::initializer_list<T>& u, const std::initializer_list<C>& c)
 			: u_(u), c_(c)
 		{
+			ensure (increasing(u_.begin(), u_.end()));
+		}
+		instrument(const std::initializer_list<std::pair<T,C>>& i)
+		{
+			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { u_.push_back(p.first); });
+			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { c_.push_back(p.second); });
+
 			ensure (increasing(u_.begin(), u_.end()));
 		}
 
@@ -49,31 +58,12 @@ namespace fixed_income {
 		virtual ~instrument()
 		{ }
 
-		size_t size() const
+		// provide date and rate/coupon to determine cash flows
+		virtual instrument& fix(const D& d, const C& r)
 		{
-			return u_.size();
-		}
+			c_ = std::vector<C>(size(), r);
 
-		const T* time() const
-		{
-			return u_.data();
-		}
-		T time(size_t i) const
-		{
-			ensure (i < size());
-
-			return u_[i];
-		}
-
-		const C* cash() const
-		{
-			return c_.data();
-		}
-		C cash(size_t i) const
-		{
-			ensure (i < size());
-
-			return c_[i];
+			return *this;
 		}
 
 		instrument& set(size_t n, const T* u, const C* c)
@@ -86,6 +76,80 @@ namespace fixed_income {
 			return *this;
 		}
 
+		bool operator==(const instrument& i) const
+		{
+			return u_ == i.u_ && c_ == i.c_;
+		}
+		bool operator!=(const instrument& i) const
+		{
+			return !operator==(i);
+		}
+		// cumulative cash flows strictly less than
+		bool operator<(const instrument& i) const
+		{
+			return std::all_of(u_.begin(), u_.end(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); })
+				&& std::all_of(i.u_.begin(), i.u_.end(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); }); 
+		}
+
+		size_t size() const
+		{
+			return u_.size();
+		}
+
+		const T* time() const
+		{
+			return u_.data();
+		}
+		const T& time(size_t i) const
+		{
+			ensure (i < size());
+
+			return u_[i];
+		}
+
+		const C* cash() const
+		{
+			return c_.data();
+		}
+		const C& cash(size_t i) const
+		{
+			ensure (i < size());
+
+			return c_[i];
+		}
+
+		// sum of cash flows to time t
+		C accumulate(const T& t) const
+		{
+			auto it = std::upper_bound(u_.begin(), u_.end(), t);
+
+			return std::accumulate(c_.begin(), c_.begin() + (it - u_.begin()), 0);
+		}
+
+		// insert one cash flow
+		instrument& add(const T& u, const C& c)
+		{
+			auto iu = std::lower_bound(u_.begin(), u_.end(), u);
+
+			if (iu != u_.end() && *iu == u) {
+				c_[iu - u_.begin()] += c;
+			}
+			else {
+				c_.insert(c_.begin() + (iu - u_.begin()), c);
+				u_.insert(iu, u);
+			}
+
+			return *this;
+		}
+
+		instrument& operator+=(const instrument& i)
+		{
+			for (size_t i = 0; i < i.size(); ++i)
+				add(i.time(i), i.cash(i));
+
+			return *this;
+		}
+
 	private:
 		// strictly increasing
 		template<class I>
@@ -93,7 +157,7 @@ namespace fixed_income {
 		{
 			typedef std::iterator_traits<I>::value_type T;
 
-			return std::adjacent_find(b, e, std::greater_equal<T>()) == u_.end();
+			return std::adjacent_find(b, e, std::greater_equal<T>()) == e;
 		}
 
 	};
@@ -105,7 +169,11 @@ namespace fixed_income {
 
 using namespace fms::fixed_income;
 
-inline void test_fixed_income_instrument()
+inline void test_fixed_income_instrument_ops()
+{
+}
+
+inline void test_fixed_income_instrument_adt()
 {
 	instrument<> i;
 	ensure (i.size() == 0);
@@ -121,6 +189,35 @@ inline void test_fixed_income_instrument()
 	ensure (i3.time(1) == 2);
 	ensure (i3.cash(0) == 3);
 	ensure (i3.cash(1) == 4);
+
+	instrument<int,int> i4{i3};
+	ensure (i4.size() == 2);
+	ensure (i4.time(0) == 1);
+	ensure (i4.time(1) == 2);
+	ensure (i4.cash(0) == 3);
+	ensure (i4.cash(1) == 4);
+
+	instrument<int,int> i5;
+	i5 = i4;
+	ensure (i5.size() == 2);
+	ensure (i5.time(0) == 1);
+	ensure (i5.time(1) == 2);
+	ensure (i5.cash(0) == 3);
+	ensure (i5.cash(1) == 4);
+
+	ensure (i5.accumulate(-1) == 0);
+	ensure (i5.accumulate(0) == 0);
+	ensure (i5.accumulate(1) == 3);
+	ensure (i5.accumulate(2) == 7);
+	ensure (i5.accumulate(3) == 7);
+
+	instrument<int,int> i6{{1,3},{2,4}};
+	ensure (i5 == i6);
 }
 
+inline void test_fixed_income_instrument()
+{
+	test_fixed_income_instrument_adt();
+	test_fixed_income_instrument_ops();
+}
 #endif // _DEBUG

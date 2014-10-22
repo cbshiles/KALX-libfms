@@ -5,41 +5,40 @@
 #include "fixed_income.h"
 
 using fms::datetime::date;
-using fms::datetime::holiday_calendar;
+
 
 namespace fms {
 namespace fixed_income {
 
 	template<class T = double, class C = double>
-	class cash_deposit : public instrument<T,C> {
+	class cash_deposit : public instrument<T,C, date> {
 	public:
 		// indicative data
-		int eff_; // number of days until settlement
-		int count_; time_unit unit_; // e.g., 2, UNIT_WEEKS
-		day_count_basis dcb_;
-		roll_convention roll_;
-		holiday_calendar cal_;
+		unsigned int eff_; // number of days until settlement
+		unsigned int count_; fms::datetime::time_unit unit_; // e.g., 2, UNIT_WEEKS
+		fms::datetime::day_count_basis dcb_;
+		fms::datetime::roll_convention roll_;
+		fms::datetime::holiday_calendar cal_;
 
 		// typical cash deposit conventions
 		cash_deposit() 
-		:   t_(2), c_(2),
-			eff_(2) // T+2
-		  	count_(1), unit_(UNIT_DAYS), 
-			dcb_(DCB_ACTUAL_360), 
-			roll_(ROLL_MODIFIED_FOLLOWING), 
-			cal_(0)
+		:
+			eff_(2), // T+2
+		  	count_(1), unit_(fms::datetime::UNIT_DAYS), 
+			dcb_(fms::datetime::DCB_ACTUAL_360), 
+			roll_(fms::datetime::ROLL_MODIFIED_FOLLOWING), 
+			cal_(fms::datetime::CALENDAR_NONE)
 		{ }
 		cash_deposit(
 			int eff,
-			int count, time_unit unit,
-			day_count_basis dcb = DCB_30U_360,
-			roll_convention roll = ROLL_MODIFIED_FOLLOWING,
-			const holiday_calendar& cal = CALENDAR_NONE)
-		:   t_(2), c_(2),
+			int count, fms::datetime::time_unit unit,
+			fms::datetime::day_count_basis dcb = DCB_30U_360,
+			fms::datetime::roll_convention roll = ROLL_MODIFIED_FOLLOWING,
+			fms::datetime::holiday_calendar cal = CALENDAR_NONE)
+		:
 			eff_(eff), count_(count), unit_(unit),
 		    dcb_(dcb), roll_(roll), cal_(cal)
 		{
-			ensure (count > 0);
 		}
 
 		cash_deposit(const cash_deposit&) = default;
@@ -50,13 +49,13 @@ namespace fixed_income {
 
 		//!!! return fixed_income::instrument
 		// create cash flows given valuation and rate
-		cash_deposit& fix(const date& val, T rate) override
+		cash_deposit& fix(const date& val, const C& rate) override
 		{
 			T t_[2];
 			C c_[2];
 
 			datetime::date d0(val);
-			d0.incr(eff_, UNIT_DAYS).adjust(roll_, cal_);
+			d0.incr(eff_, fms::datetime::UNIT_DAYS).adjust(roll_, cal_);
 			t_[0] = d0.diffyears(val);
 			c_[0] = -1;
 
@@ -79,9 +78,27 @@ namespace fixed_income {
 
 #ifdef _DEBUG
 
+using namespace fms::fixed_income;
+
 void test_fixed_income_cash_deposit()
 {
+	cash_deposit<> cd;
+	ensure (cd.size() == 0); // must call fix()
 
+	instrument<double,double,date>& i{cd};
+	date d(2014,1,1);
+	i.fix(d, 0.01);
+	ensure (i.size() == 2);
+
+	date d1;
+	d = d.addyears(i.time(0));
+	int ymd;
+	ymd = d.ymd();
+	d = d.addyears(i.time(1));
+	ymd = d.ymd();
+	double r;
+	r = i.cash(0);
+	r = i.cash(1);
 }
 
 #endif // _DEBUG
