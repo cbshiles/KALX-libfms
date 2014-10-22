@@ -237,11 +237,11 @@ namespace pwflat {
 			return *this;
 		}
 		// add a vector_curve
-		vector_curve& operator+=(const vector_curve& s)
+		vector_curve& operator+=(const curve& s)
 		{
 			std::vector<T> t(t_);
 
-			t.insert(t.end(), s.t_.begin(), s.t_.end());
+			t.insert(t.end(), s.t(), s.t() + s.size());
 			std::inplace_merge(t.begin(), t.begin() + size(), t.end());
 			auto ti = std::unique(t.begin(), t.end());
 			t.resize(ti - t.begin());

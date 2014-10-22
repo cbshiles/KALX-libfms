@@ -1,4 +1,5 @@
 // xlltime.cpp - <ctime> functions
+#ifndef _WIN64
 #define _USE_32BIT_TIME_T
 #include <ctime>
 #include "../../xll8/xll/xll.h"
@@ -134,3 +135,4 @@ time_t WINAPI xll_mktime(const xfp* py, SHORT m, SHORT d, SHORT h, SHORT n, SHOR
 
 	return t;
 }
+#endif
