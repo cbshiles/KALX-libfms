@@ -11,6 +11,7 @@
 #include <vector>
 #include "dt.h"
 
+namespace fms {
 namespace datetime {
 
 typedef enum time_unit {
@@ -807,6 +808,7 @@ datetime_periodic(T begin, T end, payment_frequency freq, roll_convention roll,
 }
 */
 } // namespace datetime
+} // namespace fms
 /*
 inline bool operator==(const datetime::date& t0, const datetime::date& t1)
 {

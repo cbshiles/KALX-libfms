@@ -2,19 +2,22 @@
 // Copyright (c) 2013 KALX, LLC. All rights reserved. No warranty made.
 #pragma once
 
+namespace fms {
 namespace fixed_income {
 
-	template<class T = double, class D = void*>
+	template<class T = double, class C = void*>
 	struct instrument {
 		size_t n;
 		const T* t;
-		const T* c;
-		instrument(size_t n_ = 0, const T* t_ = 0, const T* c_ = 0)
+		const C* c;
+		instrument(size_t n_ = 0, const T* t_ = 0, const C* c_ = 0)
 			: n(n_), t(t_), c(c_)
 		{ }
+		instrument(const instrument&) = delete;
+		instrument& operator=(const instrument&) = delete;
 		virtual ~instrument()
 		{ }
-		const instrument<T,D>& set(size_t n_, const T* t_, const T* c_)
+		const instrument& set(size_t n_, const T* t_, const C* c_)
 		{
 			n = n_;
 			t = t_;
@@ -23,24 +26,11 @@ namespace fixed_income {
 			return *this;
 		}
 		// typically valuation date and coupon
-		virtual const instrument& fix(const D&, T)
+		template<class D> 
+		virtual const instrument& fix(const D&, C) const
 		{
 			return *this;
 		}
 	};
-	// c[0] is coupon, c[i] is daycount fraction for i > 0
-	template<class T = double, class D = void*>
-	struct fixed_leg : public instrument<T,D> {
-		fixed_leg(size_t m, const T* t_, const T* c_)
-			: instrument<T,D>(m, t_, c_)
-		{
-		}
-	};
-	template<class T = double, class D = void*>
-	struct float_leg : public instrument <T,D> {
-		float_leg(size_t m, const T* t_)
-			: instrument<T,D>(m, t_, 0)
-		{
-		}
-	};
 } // namespace fixed_income
+} // namespace fms

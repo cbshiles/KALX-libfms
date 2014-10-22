@@ -83,7 +83,6 @@
     <ClInclude Include="euribor.h" />
     <ClInclude Include="eurodollar.h" />
     <ClInclude Include="eurodollar_futures.h" />
-    <ClInclude Include="fi.h" />
     <ClInclude Include="fixed_income.h" />
     <ClInclude Include="pwflat.h" />
     <ClInclude Include="pwflat_functions.h" />

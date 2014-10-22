@@ -1,12 +1,13 @@
 // cash_deposit.h - cash deposit indicative data and cash flows
 // Copyright (c) 2011 KALX, LLC. All rights reserved.
 #pragma once
-#include "../fmsdatetime/datetime.h"
+#include "../datetime/datetime.h"
 #include "fixed_income.h"
 
-using datetime::date;
-using datetime::holiday_calendar;
+using fms::datetime::date;
+using fms::datetime::holiday_calendar;
 
+namespace fms {
 namespace fixed_income {
 
 	template<class T = double>
@@ -47,14 +48,15 @@ namespace fixed_income {
 
 		//!!! return fixed_income::instrument
 		// create cash flows given valuation and rate
-		const cash_deposit& fix(const datetime::date& val, T rate)
+		template<class>
+		const cash_deposit& fix<date>(const date& val, T rate) override
 		{
 			datetime::date d0(val);
 			d0.incr(eff_, UNIT_DAYS).adjust(roll_, cal_);
 			t_[0] = d0.diffyears(val);
 			c_[0] = -1;
 
-			datetime::date d1(val);
+			datetime::date d1(d0);
 			d1.incr(count_, unit_).adjust(roll_, cal_);
 			t_[1] = d1.diffyears(val);
 			c_[1] = 1 + rate*d1.diff_dcb(d0, dcb_);
@@ -69,4 +71,4 @@ namespace fixed_income {
 	};
 
 } // namespace fixed_income
-
+} // namespace fms

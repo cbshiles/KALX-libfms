@@ -30,9 +30,6 @@
     <ClInclude Include="eurodollar_futures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="fixed_income.h">
       <Filter>Header Files</Filter>
     </ClInclude>

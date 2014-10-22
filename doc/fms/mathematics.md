@@ -66,12 +66,16 @@ For $X\in B(\Omega,\mathcal{F})$ and $\Pi\in ba(\Omega,\mathcal{F})$
 define $X\Pi\in ba(\Omega,\mathcal{F})$ by $\langle Y,X\Pi\rangle =
 \langle YX,\Pi\rangle$ for all $Y\in B(\Omega,\mathcal{F})$.
 
-Let $\Pi|_\mathcal{G}$ be the measure $\Pi$ restricted to
+Let $\Pi|_\mathcal{G}$ be the measure $\Pi$ _restricted_ to
 the algebra $\mathcal{G}$.
-If $\Pi$ is a probability measure _conditional expectation_,
+If $\Pi$ is a probability measure, the _conditional expectation_,
 $E[X|\mathcal{G}]$, is defined by $\langle E[X|\mathcal{G}],\Pi\rangle
 = \langle X,\Pi|_\mathcal{G}\rangle$, i.e, the
 adjoint of conditional expectation is restriction.
+
+If you know something about the classical theory, you can forget about
+using conditional expectation. Using the much simpler (but equivalent)
+notion of restriction of measure is all you need.
 
 ## Filtrations
 
@@ -80,15 +84,20 @@ $(\mathcal{F}_t)_{t\in T}$, i.e., $\mathcal{F}_t\subseteq\mathcal{F}_u$
 if $t < u$.  A filtration represents information available over time.
 
 Consider flipping a coin: $T$,$H$,$H$,$\dots$ can be modeled by
-the base 2 representation of $\omega\in[0,1)$, $\omega = .011\dots_2
-= \sum_{j > 0} \omega_j 2^{-j}$, $\omega_j \in\{0,1\}$. 
+the base 2 representation of $\omega\in[0,1)$, $\omega = .011\dots_2$,
+where $T$ is 0 and $H$ is 1.
+Any sequence of flips, $\omega_1$, $\omega_2$, $\omega_3, \dots$
+can be encoded by a single $\omega\in[0,1)$:
+$\omega = \sum_{j > 0} \omega_j 2^{-j}$, $\omega_j \in\{0,1\}$. 
 The algebra $\mathcal{F}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le
 i < 2^j\}$ represents knowing the first $j$ digits
 
 ## The Fundamental Theorem of Asset Pricing
 
-There is no arbitrage iff there exist positive scalar measures
-$(\Pi_j)$ with
+Given a filtration $(\mathcal{F}_j)$ and adapted vector valued functions
+$X_j,C_j\colon \Omega\to\mathbf{R}^m$, 
+there is no arbitrage if and only if there exist positive scalar measures
+$\Pi_j\in ba(\Omega,\mathcal{F}_j)$ with
 $$
 X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}
 $$
@@ -102,12 +111,12 @@ We can multiply the $(\Pi_j)$ by any positive $\mathcal{F}_0$-measurable
 function so replacing
 $\Pi_j$ by $\Pi_j \Pi_0^{-1}$ allows us to assume $\Pi_0 = 1$.
 
-Under this assumption the deflators are unique if the market is complete
+The deflators are unique if the market is complete
 (the so called Second fundamental theorem) but this is never true for
 realistic models. We will see later that there is a canonical way
 of choosing deflators for most models. In the case of non-stochastic
-rates $\Pi_j = D(j)P$ where $D(j) is the discount to time $t_j$ and
-$P$ is a probability measure.
+interest rates $\Pi_j = D(j)P$ where $D(j)$ is the discount to time $t_j$ and
+$P$ is some probability measure.
 
 ### FTAP (easy direction)
 
@@ -152,7 +161,7 @@ instruments.
 
 Reread the above paragraph.
 
-The '_If_' is a big if. This can never be achieve in practice, but
+The '_If_' is a big if. This can never be achieved in practice, but
 the classical theory of mathematical finance tends to ignore this reality. 
 It is fun to ignore because then the theory tells us how to find the
 trades that 'replicate' the cash flows.
@@ -172,27 +181,40 @@ all the delta's over the life of the trade.
 Stephen Ross [@Ros1978] gave the first proof of the FTAP using
 the Hahn-Banach theorem. His primary contribution was to extend the
 Black-Scholes/Merton result from a bond, stock, and option to an
-arbitrary collection of instruments and show it was essentially
-a geometric fact. 
+arbitrary collection of instruments and show the FTAP is essentially
+a geometric fact. It has nothing to to with the probability of
+anything. Positive measures with mass one just happen to make a showing.
 
 Fischer Black and Myron Scholes gave a mathematically incorrect derivation
 of their eponymous partial differential equation that was immediately
 corrected by Robert Merton who understood the Ito calculus better than
-they did. Ross's proof neglected to establish an essential condition
-required for the application of the Hahn-Banach theorem and this led
+they did.
+
+Unfortunately, Brownian motion is just a binomial model in
+continuous time wolf's clothing.
+Using that as a model of stock prices leads to mathematical nonsense.
+Among other defects, it exhibits infinite oscillatory behavior. The
+price of a barrier option that knocks in (or out) the 1 millionth
+time it hits a barrier has the same value, as a one touch barrier option.
+
+Ross's proof neglected to establish an essential condition of an interior
+point required for the application of the Hahn-Banach theorem and this led
 to a sequence of papers addressing the matter. The current state of
 the art is [@DelSch1994] that contains a 61 page proof of the current
-formulation. 
+formulation comprehensible only to a handful of experts.
 
-_But who cares_? No arbitrage implies deflators exist, but we can find plenty.
+__But who cares__?
+No arbitrage implies deflators exist, but we can find plenty without
+the help of Messrs. Hahn and Banach.
 
 Using the fact that $e^{-\sigma^2t/2 + \sigma B_t}$ is a martingale, where
 $(B_t)$ is [Brownian motion](http://en.wikipedia.org/wiki/Brownian_motion),
 it follows $X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})$, $\Pi_t =
-e^{-rt}P$, where $P$ is Wiener measure, is a arbitrage free model.  This is
+e^{-rt}P$, where $P$ is Wiener measure, is an arbitrage free model.  This is
 the Black-Scholes/Merton model for a bond and non-dividend paying stock,
 only without the unnecessary detour through assuming a 'real-world' drift,
-self-financing conditions, and the complicated machinery of the Ito calculus.
+self-financing conditions, change of measure,
+and the assorted machinery of the Ito calculus.
 
 Finding arbitrage free models is not difficult.  Finding models that
 reflect market dynamics with parameters that can be fit to market
@@ -310,7 +332,7 @@ For a one period model, $X_1 = 0$.
 If we can find $\Gamma_0$ such
 that $\Gamma_0\cdot C_1 = V$ then using the existence of
 a deflator, $\Pi_1 = \Pi$, we have
-$v = \Gamma_0\cdot X_0 = \langle \Gamma_0\cdot C_1),\Pi\rangle$
+$v = \Gamma_0\cdot X_0 = \langle \Gamma_0\cdot C_1,\Pi\rangle$
 is the value of the option. We can find the _delta hedge_ by
 $\Gamma_0 = dv/dX_0$.
 
@@ -415,8 +437,8 @@ General Models
 ## Canonical Price Deflator
 
 If $X_t$ is deterministic and $C_t = 0$ then
-$\Pi_t = X(t)^{-1}P|_{\mathcal{F}_t}$ for any probability
-measure $P$ is a deflator.
+$\Pi_t = X(t)^{-1}P|_{\mathcal{F}_t}$, for any probability
+measure $P$, is a deflator.
 
 Assume for each time there is an instrument with $X_j = 1$,
 $C_{j+1} = R_j$, and $X_k = 0$ for $k > j$.
@@ -430,6 +452,9 @@ It is easy to see $\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}$.
 Note $\Pi_j$ is $\mathcal{F}_{j-1}$ measurable (aka _predictable_).
 There are many possible deflators, but this is canonical given
 a short rate process.
+
+One interesting fact about the fixed income world is that the
+price deflator determines the price of every instrument.
 
 ### Zero Coupon Bonds
 
@@ -445,7 +470,7 @@ $$
 
 ### Forward Rate Agreements
 
-Have price $X_0 = 0$ and two cash flows
+FRA's have price $X_0 = 0$ and two cash flows
 $C_u = -1$ and $C_v = 1 + F(u,v)\delta_{u,v}$, where
 $\delta_{u,v}$ is the _day count fraction_ that is
 approximately $v - u$ in years depending on the
@@ -467,8 +492,8 @@ $$
 
 ### Forward Rate Agreements w/o Notional
 
-Can also be specified as a single cash flow
-price $X_0 = 0$ and forward $f(u,v)$ with
+FRA's can also be specified as a single cash flow
+having price $X_0 = 0$ and forward $f(u,v)$ with
 $C_v = (F_u(u,v) - f(u,v))\delta_{u,v}$, i.e, 
 the prevailing forward rate at start of period versus fixed.
 Note $0 = (F_u(u,v) - f(u,v))\delta_{u,v}\Pi_v|_{\mathcal{F}_0}
@@ -492,7 +517,7 @@ a tenor (the lifetime of the trade) and the _fixed_ and _floating
 rate legs_. The fixed leg pays a fixed _coupon_ at some
 _frequency_ (monthly, quarterly, semiannually, etc) calculated
 with a given daycount basis. The floating leg pay the then
-current floating rates at a possibly differenct frequency.
+current floating rates at a possibly different frequency.
 The tenor determines the _termination date_ of the swap.
 
 Using the notation above, if the calculation dates are $(u_j)$ then
@@ -504,7 +529,7 @@ daycount basis.
 A fundamental fact about floating rate legs is that they can be modeled
 by a portfolio of two zero coupon bonds.
 $$
-\sum_{j=1}^n F_{u_j}(u_{j-1},u_j)\delta_{u_{j-1},u_j}\Pi_{u_j}|_{\mathcal{F}_0}
+\sum_{j=1}^n F_{u_{j-1}}(u_{j-1},u_j)\delta_{u_{j-1},u_j}\Pi_{u_j}|_{\mathcal{F}_0}
 = 1 - \Pi_n|_{\mathcal{F}_0}
 $$
 The intuition is that the floating leg can be replicated by investing
@@ -517,6 +542,7 @@ $$
 F_t(u_0, \dots, u_n) = \frac{D_t(u_0) - D_t(u_n)}
 {\sum_{j=1}^n D_t(u_j)\delta_{u_{j-1},u_j}}.
 $$
+For the case $n = 1$ this reduces to the forward rate of an FRA.
 
 <!--|
 Counterparty Risk

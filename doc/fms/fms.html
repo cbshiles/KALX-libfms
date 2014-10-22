@@ -143,30 +143,30 @@ are swaps. They are just a portfolio of forward contracts.
 <p>It has been empirically verified that giving traders models that are not arbitrage free results in them selling undervalued and buying overvalued instruments. Eventually the real world catches up and the company takes a P&amp;L hit.</p>
 <h2 id="definitions">Definitions</h2>
 <dl>
-<dt><span class="math">\((t_j)\)</span> – Trading Times</dt>
+<dt><span class="math">\(t_j\)</span> – Trading Times</dt>
 <dd><p>The set of all times at which trading can occur.</p>
 </dd>
-<dt><span class="math">\((X_j)\)</span> – Prices</dt>
+<dt><span class="math">\(X_j\)</span> – Prices</dt>
 <dd><p>Each <span class="math">\(X_j\)</span> is a vector of market instrument prices at time <span class="math">\(t_j\)</span>.</p>
 </dd>
-<dt><span class="math">\((C_j)\)</span> – Cash Flows</dt>
+<dt><span class="math">\(C_j\)</span> – Cash Flows</dt>
 <dd><p>Each <span class="math">\(X_j\)</span> is a vector of cash flows instrument holders receive at time <span class="math">\(t_j\)</span> if the instrument is held at time <span class="math">\(t_{j-1}\)</span>. Most components of <span class="math">\(C_j\)</span> are zero.</p>
 </dd>
-<dt><span class="math">\((\Gamma_j)\)</span> – Trades</dt>
+<dt><span class="math">\(\Gamma_j\)</span> – Trades</dt>
 <dd><p>Each <span class="math">\(\Gamma_j\)</span> is the amount traded in each instrument at time <span class="math">\(t_j\)</span>. Most components of <span class="math">\(\Gamma_j\)</span> are zero.</p>
 </dd>
-<dt><span class="math">\((\Delta_j)\)</span> – Position</dt>
+<dt><span class="math">\(\Delta_j\)</span> – Position</dt>
 <dd><p>Define <span class="math">\(\Delta_j = \sum_{i &lt; j} \Gamma_j\)</span>. This is the total amount of each instrument held at time <span class="math">\(t_j\)</span>.</p>
 </dd>
-<dt><span class="math">\((A_j)\)</span> – Account</dt>
+<dt><span class="math">\(A_j\)</span> – Account</dt>
 <dd><p>Define <span class="math">\(A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j\)</span>. The amount of money reflected in the trade blotter at time <span class="math">\(t_j\)</span> is the cash flows from the existing position less the cost of current securities traded. Note that no cash flows accrue to current trades.</p>
 </dd>
 <dt><span class="math">\(\Delta_j\cdot X_j\)</span> – Value</dt>
-<dd><p>The position time price gives the (marked-to-market) value of a position. It is the amount you would receive from liquidating the position.</p>
+<dd><p>The position times price gives the (marked-to-market) value of a position. It is the amount you would receive from liquidating the position.</p>
 </dd>
 </dl>
 <h1 id="unified-derivatives">Unified Derivatives</h1>
-<p>The last formula is the skeleton key to derivatives. It can be used to turn market traded instruments into any sequence of cash flows, assuming you can find the appropriate trades <span class="math">\((\Gamma_j)\)</span>. The value of the cash flows is the cost of setting up the initial trade: <span class="math">\(\Gamma_0\cdot X_0\)</span>.</p>
+<p>The formula for the account is the skeleton key to derivatives. It can be used to turn market traded instruments into any sequence of cash flows, assuming you can find the appropriate trades <span class="math">\((\Gamma_j)\)</span>. The value of the cash flows is the cost of setting up the initial trade: <span class="math">\(\Gamma_0\cdot X_0\)</span>.</p>
 <p>Unfortunately, this never happens in the real world. No hedge is perfect. Tragically, the Nobel prize winning Black-Scholes/Merton theory has had a pernicious influence on the mathematical finance world: continuous time trading and perfect replication are a mathematical fiction.</p>
 <p>The hard problem that is yet to be solved is how to manage risk under uncertainty. We are still in early stages. What follows is an attempt to map the complicated financial world more faithfully to mathematics with an eye to efficient software implementation.</p>
 <p>The starting point is a clear understanding of how arbitrage can only be defined in terms of a model.</p>
@@ -192,19 +192,20 @@ are swaps. They are just a portfolio of forward contracts.
 <p>A function <span class="math">\(X\colon\Omega\to\mathbb{R}\)</span> is <em>measurable</em> if <span class="math">\(\{\omega\in\Omega: X(\omega) \le x\}\in\mathcal{F}\)</span> for all <span class="math">\(x\in\mathbb{R}\)</span>. If <span class="math">\(\mathcal{F}\)</span> is finite, measurable is the same as being constant on atoms. The set of bounded measurable functions is denoted <span class="math">\(B(\Omega, \mathcal{F})\)</span>.</p>
 <p>Finitely additive measures are the <a href="http://en.wikipedia.org/wiki/Dual_space">vector space dual</a> of bounded measurable functions. The dual pairing is <span class="math">\(\langle X,\Pi\rangle = \int_\Omega X\,d\Pi\)</span>. If <span class="math">\(\mathcal{F}\)</span> is finite the integral is just the sum over atoms.</p>
 <p>For <span class="math">\(X\in B(\Omega,\mathcal{F})\)</span> and <span class="math">\(\Pi\in ba(\Omega,\mathcal{F})\)</span> define <span class="math">\(X\Pi\in ba(\Omega,\mathcal{F})\)</span> by <span class="math">\(\langle Y,X\Pi\rangle = \langle YX,\Pi\rangle\)</span> for all <span class="math">\(Y\in B(\Omega,\mathcal{F})\)</span>.</p>
-<p>Let <span class="math">\(\Pi|_\mathcal{G}\)</span> be the measure <span class="math">\(\Pi\)</span> restricted to the algebra <span class="math">\(\mathcal{G}\)</span>. If <span class="math">\(\Pi\)</span> is a probability measure <em>conditional expectation</em>, <span class="math">\(E[X|\mathcal{G}]\)</span>, is defined by <span class="math">\(\langle E[X|\mathcal{G}],\Pi\rangle = \langle X,\Pi|_\mathcal{G}\rangle\)</span>, i.e, the adjoint of conditional expectation is restriction.</p>
+<p>Let <span class="math">\(\Pi|_\mathcal{G}\)</span> be the measure <span class="math">\(\Pi\)</span> <em>restricted</em> to the algebra <span class="math">\(\mathcal{G}\)</span>. If <span class="math">\(\Pi\)</span> is a probability measure, the <em>conditional expectation</em>, <span class="math">\(E[X|\mathcal{G}]\)</span>, is defined by <span class="math">\(\langle E[X|\mathcal{G}],\Pi\rangle = \langle X,\Pi|_\mathcal{G}\rangle\)</span>, i.e, the adjoint of conditional expectation is restriction.</p>
+<p>If you know something about the classical theory, you can forget about using conditional expectation. Using the much simpler (but equivalent) notion of restriction of measure is all you need.</p>
 <h2 id="filtrations">Filtrations</h2>
 <p>A <em>filtration</em> is an increasing collection of algebras <span class="math">\((\mathcal{F}_t)_{t\in T}\)</span>, i.e., <span class="math">\(\mathcal{F}_t\subseteq\mathcal{F}_u\)</span> if <span class="math">\(t &lt; u\)</span>. A filtration represents information available over time.</p>
-<p>Consider flipping a coin: <span class="math">\(T\)</span>,<span class="math">\(H\)</span>,<span class="math">\(H\)</span>,<span class="math">\(\dots\)</span> can be modeled by the base 2 representation of <span class="math">\(\omega\in[0,1)\)</span>, <span class="math">\(\omega = .011\dots_2 = \sum_{j &gt; 0} \omega_j 2^{-j}\)</span>, <span class="math">\(\omega_j \in\{0,1\}\)</span>. The algebra <span class="math">\(\mathcal{F}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le i &lt; 2^j\}\)</span> represents knowing the first <span class="math">\(j\)</span> digits</p>
+<p>Consider flipping a coin: <span class="math">\(T\)</span>,<span class="math">\(H\)</span>,<span class="math">\(H\)</span>,<span class="math">\(\dots\)</span> can be modeled by the base 2 representation of <span class="math">\(\omega\in[0,1)\)</span>, <span class="math">\(\omega = .011\dots_2\)</span>, where <span class="math">\(T\)</span> is 0 and <span class="math">\(H\)</span> is 1. Any sequence of flips, <span class="math">\(\omega_1\)</span>, <span class="math">\(\omega_2\)</span>, <span class="math">\(\omega_3, \dots\)</span> can be encoded by a single <span class="math">\(\omega\in[0,1)\)</span>: <span class="math">\(\omega = \sum_{j &gt; 0} \omega_j 2^{-j}\)</span>, <span class="math">\(\omega_j \in\{0,1\}\)</span>. The algebra <span class="math">\(\mathcal{F}_j = \{[\frac{i}{2^j},\frac{i+1}{2^j}) : 0\le i &lt; 2^j\}\)</span> represents knowing the first <span class="math">\(j\)</span> digits</p>
 <h2 id="the-fundamental-theorem-of-asset-pricing">The Fundamental Theorem of Asset Pricing</h2>
-<p>There is no arbitrage iff there exist positive scalar measures <span class="math">\((\Pi_j)\)</span> with <span class="math">\[
+<p>Given a filtration <span class="math">\((\mathcal{F}_j)\)</span> and adapted vector valued functions <span class="math">\(X_j,C_j\colon \Omega\to\mathbf{R}^m\)</span>, there is no arbitrage if and only if there exist positive scalar measures <span class="math">\(\Pi_j\in ba(\Omega,\mathcal{F}_j)\)</span> with <span class="math">\[
 X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}
 \]</span></p>
 <p>By induction <span class="math">\[
 X_j\Pi_j = (\sum_{j &lt; i\le k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{ftap}
 \]</span></p>
 <p>We can multiply the <span class="math">\((\Pi_j)\)</span> by any positive <span class="math">\(\mathcal{F}_0\)</span>-measurable function so replacing <span class="math">\(\Pi_j\)</span> by <span class="math">\(\Pi_j \Pi_0^{-1}\)</span> allows us to assume <span class="math">\(\Pi_0 = 1\)</span>.</p>
-<p>Under this assumption the deflators are unique if the market is complete (the so called Second fundamental theorem) but this is never true for realistic models. We will see later that there is a canonical way of choosing deflators for most models. In the case of non-stochastic rates <span class="math">\(\Pi_j = D(j)P\)</span> where <span class="math">\(D(j) is the discount to time \)</span>t_j$ and <span class="math">\(P\)</span> is a probability measure.</p>
+<p>The deflators are unique if the market is complete (the so called Second fundamental theorem) but this is never true for realistic models. We will see later that there is a canonical way of choosing deflators for most models. In the case of non-stochastic interest rates <span class="math">\(\Pi_j = D(j)P\)</span> where <span class="math">\(D(j)\)</span> is the discount to time <span class="math">\(t_j\)</span> and <span class="math">\(P\)</span> is some probability measure.</p>
 <h3 id="ftap-easy-direction">FTAP (easy direction)</h3>
 <p>Suppose there exist price deflators with <span class="math">\(X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\)</span>. Using <span class="math">\(A_{j+1} = \Delta_{j}\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1}\)</span> <span class="math">\[
 \begin{align*}
@@ -226,14 +227,16 @@ X_j\Pi_j = (\sum_{j &lt; i\le k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{fta
 |_{\mathcal{F}_j}
 \]</span> This is the foundation of a unified approach to derivative securities. A derivative is an exchange of cash flows. <em>If</em> we can find trades <span class="math">\((\Gamma_j)\)</span> such that the account <span class="math">\((A_j)\)</span> replicates those cash flows then the value <span class="math">\(\Delta_j\cdot X_j\)</span> plays the analog of the price of a market instrument. Dynamically trading market instruments allows us to synthetically create (approximations to) new market-like instruments.</p>
 <p>Reread the above paragraph.</p>
-<p>The ‘<em>If</em>’ is a big if. This can never be achieve in practice, but the classical theory of mathematical finance tends to ignore this reality. It is fun to ignore because then the theory tells us how to find the trades that ‘replicate’ the cash flows.</p>
+<p>The ‘<em>If</em>’ is a big if. This can never be achieved in practice, but the classical theory of mathematical finance tends to ignore this reality. It is fun to ignore because then the theory tells us how to find the trades that ‘replicate’ the cash flows.</p>
 <p>Since <span class="math">\(-A_0 = \Gamma_0\cdot X_0 = \sum_{j&gt;0} A_j\Pi_j|_{\mathcal{F}_0}\)</span> we can find the initial trade by taking a derivative with respect to price at time <span class="math">\(t_0\)</span>: <span class="math">\(\Gamma_0 = (d/dX_0)\sum_{j&gt;0} A_j\Pi_j(\Omega)\)</span>. Note <span class="math">\(\Gamma_0 = \Delta_0\)</span> and this is our initial delta hedge in the classical theory.</p>
 <p>In fact, <span class="math">\(\Delta_j = (d/dX_j)\sum_{k&gt;j} A_k \Pi_k/\Pi_j|_{\mathcal{F}_j}\)</span> can be given rigorous mathematical meaning to allow us to calculate all the delta’s over the life of the trade.</p>
 <h3 id="ftap-hard-direction">FTAP (hard direction)</h3>
-<p>Stephen Ross <span class="citation">[@Ros1978]</span> gave the first proof of the FTAP using the Hahn-Banach theorem. His primary contribution was to extend the Black-Scholes/Merton result from a bond, stock, and option to an arbitrary collection of instruments and show it was essentially a geometric fact.</p>
-<p>Fischer Black and Myron Scholes gave a mathematically incorrect derivation of their eponymous partial differential equation that was immediately corrected by Robert Merton who understood the Ito calculus better than they did. Ross’s proof neglected to establish an essential condition required for the application of the Hahn-Banach theorem and this led to a sequence of papers addressing the matter. The current state of the art is <span class="citation">[@DelSch1994]</span> that contains a 61 page proof of the current formulation.</p>
-<p><em>But who cares</em>? No arbitrage implies deflators exist, but we can find plenty.</p>
-<p>Using the fact that <span class="math">\(e^{-\sigma^2t/2 + \sigma B_t}\)</span> is a martingale, where <span class="math">\((B_t)\)</span> is <a href="http://en.wikipedia.org/wiki/Brownian_motion">Brownian motion</a>, it follows <span class="math">\(X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})\)</span>, <span class="math">\(\Pi_t = e^{-rt}P\)</span>, where <span class="math">\(P\)</span> is Wiener measure, is a arbitrage free model. This is the Black-Scholes/Merton model for a bond and non-dividend paying stock, only without the unnecessary detour through assuming a ‘real-world’ drift, self-financing conditions, and the complicated machinery of the Ito calculus.</p>
+<p>Stephen Ross <span class="citation">[@Ros1978]</span> gave the first proof of the FTAP using the Hahn-Banach theorem. His primary contribution was to extend the Black-Scholes/Merton result from a bond, stock, and option to an arbitrary collection of instruments and show the FTAP is essentially a geometric fact. It has nothing to to with the probability of anything. Positive measures with mass one just happen to make a showing.</p>
+<p>Fischer Black and Myron Scholes gave a mathematically incorrect derivation of their eponymous partial differential equation that was immediately corrected by Robert Merton who understood the Ito calculus better than they did.</p>
+<p>Unfortunately, Brownian motion is just a binomial model in continuous time wolf’s clothing. Using that as a model of stock prices leads to mathematical nonsense. Among other defects, it exhibits infinite oscillatory behavior. The price of a barrier option that knocks in (or out) the 1 millionth time it hits a barrier has the same value, as a one touch barrier option.</p>
+<p>Ross’s proof neglected to establish an essential condition of an interior point required for the application of the Hahn-Banach theorem and this led to a sequence of papers addressing the matter. The current state of the art is <span class="citation">[@DelSch1994]</span> that contains a 61 page proof of the current formulation comprehensible only to a handful of experts.</p>
+<p><strong>But who cares</strong>? No arbitrage implies deflators exist, but we can find plenty without the help of Messrs. Hahn and Banach.</p>
+<p>Using the fact that <span class="math">\(e^{-\sigma^2t/2 + \sigma B_t}\)</span> is a martingale, where <span class="math">\((B_t)\)</span> is <a href="http://en.wikipedia.org/wiki/Brownian_motion">Brownian motion</a>, it follows <span class="math">\(X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})\)</span>, <span class="math">\(\Pi_t = e^{-rt}P\)</span>, where <span class="math">\(P\)</span> is Wiener measure, is an arbitrage free model. This is the Black-Scholes/Merton model for a bond and non-dividend paying stock, only without the unnecessary detour through assuming a ‘real-world’ drift, self-financing conditions, change of measure, and the assorted machinery of the Ito calculus.</p>
 <p>Finding arbitrage free models is not difficult. Finding models that reflect market dynamics with parameters that can be fit to market data is the holy grail.</p>
 <h2 id="examples">Examples</h2>
 <p>Let’s define some models and start putting them to use.</p>
@@ -266,7 +269,7 @@ v = \Gamma_0\cdot X_0 = m + ns = \frac{1}{R}\left(\frac{u-R}{u-d}V(sd) + \frac{R
 \]</span> Note that the stock hedge <span class="math">\(n \not= dv/ds\)</span> in general. E.g., for a butterfly spread with support inside the interval <span class="math">\((sd,su)\)</span> we have <span class="math">\(dv/ds = 0\)</span> since <span class="math">\(V&#39;(sd) = V&#39;(su) = 0\)</span>.</p>
 <p>Parameterization is important.</p>
 <h2 id="delta-hedging">Delta Hedging</h2>
-<p>Suppose an option pays <span class="math">\(V(\omega)\)</span> in a general one period model. For a one period model, <span class="math">\(X_1 = 0\)</span>. If we can find <span class="math">\(\Gamma_0\)</span> such that <span class="math">\(\Gamma_0\cdot C_1 = V\)</span> then using the existence of a deflator, <span class="math">\(\Pi_1 = \Pi\)</span>, we have <span class="math">\(v = \Gamma_0\cdot X_0 = \langle \Gamma_0\cdot C_1),\Pi\rangle\)</span> is the value of the option. We can find the <em>delta hedge</em> by <span class="math">\(\Gamma_0 = dv/dX_0\)</span>.</p>
+<p>Suppose an option pays <span class="math">\(V(\omega)\)</span> in a general one period model. For a one period model, <span class="math">\(X_1 = 0\)</span>. If we can find <span class="math">\(\Gamma_0\)</span> such that <span class="math">\(\Gamma_0\cdot C_1 = V\)</span> then using the existence of a deflator, <span class="math">\(\Pi_1 = \Pi\)</span>, we have <span class="math">\(v = \Gamma_0\cdot X_0 = \langle \Gamma_0\cdot C_1,\Pi\rangle\)</span> is the value of the option. We can find the <em>delta hedge</em> by <span class="math">\(\Gamma_0 = dv/dX_0\)</span>.</p>
 <p>If the market is not complete we aren’t guaranteed that we can find a hedge that replicates the option payoff. If we fix a deflator then we can minimize the mean square error: <span class="math">\[
     \min_{\Gamma_0} \langle (\Gamma_0\cdot C_1 - V)^2,\Pi\rangle.
 \]</span> Of course this depends on the deflator but, as we will see, there are usually canonical deflators available for a model. The solution to this problem is <span class="math">\(\Gamma_0 = \langle C_1C_1^T,\Pi\rangle^{-1} \langle VC_1,\Pi\rangle\)</span>.</p>
@@ -357,17 +360,18 @@ General Models
 |-->
 
 <h2 id="canonical-price-deflator">Canonical Price Deflator</h2>
-<p>If <span class="math">\(X_t\)</span> is deterministic and <span class="math">\(C_t = 0\)</span> then <span class="math">\(\Pi_t = X(t)^{-1}P|_{\mathcal{F}_t}\)</span> for any probability measure <span class="math">\(P\)</span> is a deflator.</p>
+<p>If <span class="math">\(X_t\)</span> is deterministic and <span class="math">\(C_t = 0\)</span> then <span class="math">\(\Pi_t = X(t)^{-1}P|_{\mathcal{F}_t}\)</span>, for any probability measure <span class="math">\(P\)</span>, is a deflator.</p>
 <p>Assume for each time there is an instrument with <span class="math">\(X_j = 1\)</span>, <span class="math">\(C_{j+1} = R_j\)</span>, and <span class="math">\(X_k = 0\)</span> for <span class="math">\(k &gt; j\)</span>. <span class="math">\(R_j\)</span> is the <em>short realized return</em> over the interval <span class="math">\(t_j\)</span> to <span class="math">\(t_{j+1}\)</span>. Define <em>canonical price deflators</em> <span class="math">\[
     \Pi_j = (R_0\cdots R_{j-1})^{-1}P|_{\mathcal{F}_j}
 \]</span> It is easy to see <span class="math">\(\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}\)</span>. Note <span class="math">\(\Pi_j\)</span> is <span class="math">\(\mathcal{F}_{j-1}\)</span> measurable (aka <em>predictable</em>). There are many possible deflators, but this is canonical given a short rate process.</p>
+<p>One interesting fact about the fixed income world is that the price deflator determines the price of every instrument.</p>
 <h3 id="zero-coupon-bonds">Zero Coupon Bonds</h3>
 <p>A zero coupon bond maturing at <span class="math">\(u\)</span> has <span class="math">\(X_0 = D(u)\)</span> and <span class="math">\(C_u = 1\)</span>. <span class="math">\(D(u)\Pi_0 = \Pi_u|_{\mathcal{F}_0}\)</span> so <span class="math">\(D(u) = \Pi_u(\Omega)\)</span>. Let <span class="math">\(D_t(u)\)</span> be the price at time <span class="math">\(t\)</span>, then <span class="math">\(D_t(u)\Pi_t = \Pi_u|_{\mathcal{F}_t}\)</span> so <span class="math">\[
 D_t(u) = \Pi_u/\Pi_t|_{\mathcal{F}_t}
 = \Pi_{t\le s &lt; u}R_s^{-1}P|_{\mathcal{F}_t}
 \]</span></p>
 <h3 id="forward-rate-agreements">Forward Rate Agreements</h3>
-<p>Have price <span class="math">\(X_0 = 0\)</span> and two cash flows <span class="math">\(C_u = -1\)</span> and <span class="math">\(C_v = 1 + F(u,v)\delta_{u,v}\)</span>, where <span class="math">\(\delta_{u,v}\)</span> is the <em>day count fraction</em> that is approximately <span class="math">\(v - u\)</span> in years depending on the <a href="http://en.wikipedia.org/wiki/Day_count_convention">day count convention</a> Since <span class="math">\(0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)\)</span> we have <span class="math">\[
+<p>FRA’s have price <span class="math">\(X_0 = 0\)</span> and two cash flows <span class="math">\(C_u = -1\)</span> and <span class="math">\(C_v = 1 + F(u,v)\delta_{u,v}\)</span>, where <span class="math">\(\delta_{u,v}\)</span> is the <em>day count fraction</em> that is approximately <span class="math">\(v - u\)</span> in years depending on the <a href="http://en.wikipedia.org/wiki/Day_count_convention">day count convention</a> Since <span class="math">\(0 = -D(u) + (1 + F(u,v)\delta_{u,v})D(v)\)</span> we have <span class="math">\[
     F(u,v) = \frac{1}{\delta_{u,v}}\left(\frac{D(u)}{D(v)} - 1\right)
     = \frac{1}{\delta_{u,v}}\left(\frac{\Pi_u}{\Pi_v}\bigr|_{\mathcal{F}_0}
     - 1\right)
@@ -377,19 +381,19 @@ F_t(u,v) = \frac{1}{\delta_{u,v}}\left(\frac{D_t(u)}{D_t(v)} - 1\right)
     - 1\right)
 \]</span></p>
 <h3 id="forward-rate-agreements-wo-notional">Forward Rate Agreements w/o Notional</h3>
-<p>Can also be specified as a single cash flow price <span class="math">\(X_0 = 0\)</span> and forward <span class="math">\(f(u,v)\)</span> with <span class="math">\(C_v = (F_u(u,v) - f(u,v))\delta_{u,v}\)</span>, i.e, the prevailing forward rate at start of period versus fixed. Note <span class="math">\(0 = (F_u(u,v) - f(u,v))\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u - \Pi_v - f(u,v)\delta_{u,v})|_{\mathcal{F}_0}\)</span> and <span class="math">\(F_0(u,v)\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u - \Pi_v)|_{\mathcal{F}_0}\)</span> so <span class="math">\(f(u,v) = F_0(u,v)\)</span>.</p>
+<p>FRA’s can also be specified as a single cash flow having price <span class="math">\(X_0 = 0\)</span> and forward <span class="math">\(f(u,v)\)</span> with <span class="math">\(C_v = (F_u(u,v) - f(u,v))\delta_{u,v}\)</span>, i.e, the prevailing forward rate at start of period versus fixed. Note <span class="math">\(0 = (F_u(u,v) - f(u,v))\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u - \Pi_v - f(u,v)\delta_{u,v})|_{\mathcal{F}_0}\)</span> and <span class="math">\(F_0(u,v)\delta_{u,v}\Pi_v|_{\mathcal{F}_0} = (\Pi_u - \Pi_v)|_{\mathcal{F}_0}\)</span> so <span class="math">\(f(u,v) = F_0(u,v)\)</span>.</p>
 <p>However, These two contracts have very different risk profiles In the first contract the counterparty holds a large notional amount and if they default a significant loss will occur. In the second contract no money is exchanged up front. If the counterparty defaults and the contract is nullified there will be no material loss. But that won’t stop lawyers from trying to recover something if the market has gone in favor of either of the counterparties in the meantime.</p>
 <h3 id="swaps">Swaps</h3>
-<p>A <em>fixed versus floating rate swap</em> is defined by specifying a tenor (the lifetime of the trade) and the <em>fixed</em> and <em>floating rate legs</em>. The fixed leg pays a fixed <em>coupon</em> at some <em>frequency</em> (monthly, quarterly, semiannually, etc) calculated with a given daycount basis. The floating leg pay the then current floating rates at a possibly differenct frequency. The tenor determines the <em>termination date</em> of the swap.</p>
+<p>A <em>fixed versus floating rate swap</em> is defined by specifying a tenor (the lifetime of the trade) and the <em>fixed</em> and <em>floating rate legs</em>. The fixed leg pays a fixed <em>coupon</em> at some <em>frequency</em> (monthly, quarterly, semiannually, etc) calculated with a given daycount basis. The floating leg pay the then current floating rates at a possibly different frequency. The tenor determines the <em>termination date</em> of the swap.</p>
 <p>Using the notation above, if the calculation dates are <span class="math">\((u_j)\)</span> then the fixed leg pays <span class="math">\(C_j = c\delta_{u_{j-1},u_j}\)</span> at <span class="math">\(u_j\)</span> and the float leg receives <span class="math">\(F_{u_{j-1}}(u_{j-1},u_j)\delta_{u_{j-1},u_j}\)</span> at <span class="math">\(u_j\)</span>. In practice, each leg could have different calculation dates and daycount basis.</p>
 <p>A fundamental fact about floating rate legs is that they can be modeled by a portfolio of two zero coupon bonds. <span class="math">\[
-\sum_{j=1}^n F_{u_j}(u_{j-1},u_j)\delta_{u_{j-1},u_j}\Pi_{u_j}|_{\mathcal{F}_0}
+\sum_{j=1}^n F_{u_{j-1}}(u_{j-1},u_j)\delta_{u_{j-1},u_j}\Pi_{u_j}|_{\mathcal{F}_0}
 = 1 - \Pi_n|_{\mathcal{F}_0}
 \]</span> The intuition is that the floating leg can be replicated by investing unit notional at the prevailing floating rate, harvesting the interest payments, and reinvesting the notional. Repeat until termination.</p>
 <p>The <em>swap par coupon</em> is the fixed rate that makes the value of the two legs equal. We use the notation <span class="math">\(F_t(u_0, \dots, u_n)\)</span> for this <span class="math">\[
 F_t(u_0, \dots, u_n) = \frac{D_t(u_0) - D_t(u_n)}
 {\sum_{j=1}^n D_t(u_j)\delta_{u_{j-1},u_j}}.
-\]</span></p>
+\]</span> For the case <span class="math">\(n = 1\)</span> this reduces to the forward rate of an FRA.</p>
 <!--|
 Counterparty Risk
 -----------------
