@@ -89,11 +89,9 @@ typedef enum roll_convention {
 
 class date;
 typedef std::function<bool(const date&)> holiday_calendar;
-#define CALENDAR_NONE [](const date&) { return false; }
+inline bool CALENDAR_NONE(const date&) { return false; }
 
 class date {
-	// returns true if date is a holiday
-private:
 	// UTC
 	time_t t_;
 
@@ -139,24 +137,18 @@ public:
 			t.tm_hour, t.tm_min, t.tm_sec);
 		ensure (is_valid());
 	}
-
-	date(const date& d)
-		: t_(d.t_)
-    {
-    }
-    date& operator=(const date& d)
-    {
-        if (this != &d)
-            t_ = d.t_;
-
-        return *this;
-    }
+	date(const date& d) = default;
+    date& operator=(const date& d) = default;
 	~date()
 	{ }
 
 	bool operator==(const date& d) const
 	{
 		return t_ == d.t_;
+	}
+	bool operator!=(const date& d) const
+	{
+		return t_ != d.t_;
 	}
 	bool operator<(const date& d) const
 	{
@@ -355,12 +347,11 @@ public:
 	{
 		return difftime(d);
 	}
-
+	// rounded difference in days
 	int diffdays(const date& d) const
 	{
 		return static_cast<int>((difftime(d) + SECS_PER_DAY/2)/SECS_PER_DAY);
 	}
-
 	// difference in years between dates
 	double diffyears(const date& d) const
 	{

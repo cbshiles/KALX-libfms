@@ -8,6 +8,7 @@
 #define HOLIDAY(h) (t0 == holiday::h(y))
 #define HOLIDAY_DATE(y,m,d) (t0 == datetime::date(y,m,d))
 
+namespace fms {
 namespace datetime {
 namespace calendar {
 
@@ -164,6 +165,7 @@ NYS(const datetime::date& t)
 
 } // namespace calendar
 } // namespace datetime
+} // namespace fms
 
 #undef HOLIDAY_DECL
 #undef HOLIDAY

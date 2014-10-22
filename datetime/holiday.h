@@ -4,6 +4,7 @@
 
 #include "datetime.h"
 
+namespace fms {
 namespace datetime {
 namespace holiday {
 
@@ -193,3 +194,4 @@ namespace holiday {
 
 } // namespace holiday
 } // namespace datetime
+} // namespace fms

@@ -6,6 +6,7 @@ namespace fms {
 namespace pwflat {
 
 	// piecewise flat curve base class
+	// can be used as a constant curve
 	template<class T = double, class F = double>
 	class curve {
 		F f_;
@@ -61,7 +62,17 @@ namespace pwflat {
 		{
 			return _t();
 		}
+		// long name
+		const T* time(void) const
+		{
+			return _t();
+		}
 		const F* f(void) const
+		{
+			return _f();
+		}
+		// long name
+		const F* rate(void) const
 		{
 			return _f();
 		}
@@ -120,7 +131,7 @@ namespace pwflat {
 		}
 	};
 
-	// curve using preallocated arrays
+	// curve using preallocated arrays, not a value type
 	template<class T = double, class F = double>
 	class pointer_curve : public curve<T,F> {
 		size_t n_;
@@ -150,7 +161,7 @@ namespace pwflat {
 		}
 	};
 
-	// curve using vectors for storage
+	// curve using vectors for storage, is a value type
 	template<class T = double, class F = double>
 	class vector_curve : public curve<T,F> {
 		std::vector<T> t_;
@@ -236,7 +247,7 @@ namespace pwflat {
 
 			return *this;
 		}
-		// add a vector_curve
+		// add a curve
 		vector_curve& operator+=(const curve& s)
 		{
 			std::vector<T> t(t_);
@@ -247,9 +258,12 @@ namespace pwflat {
 			t.resize(ti - t.begin());
 
 			std::vector<F> f(t.size());
+			std::transform(t.begin(), t.end(), f.begin(), [this,&s](const T& ti) { return value(ti) + s(ti); });
+			/*
 			for (size_t i = 0; i < t.size(); ++i) {
 				f[i] = value(t[i]) + s(t[i]); // correct but not efficient!!!
 			}
+			*/
 
 			t_ = t;
 			f_ = f;

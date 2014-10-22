@@ -1,6 +1,7 @@
 // curve.cpp - test curve routines
 #include <iostream>
 #include "pwflat.h"
+#include "fixed_income.h"
 
 using namespace fms;
 
@@ -15,6 +16,8 @@ int main()
 		test_pwflat_curve();
 		test_pwflat_pointer_curve();
 		test_pwflat_vector_curve();
+//		test_pwflat_bootstrap();
+		test_fixed_income_instrument();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

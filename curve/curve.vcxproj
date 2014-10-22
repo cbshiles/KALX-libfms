@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bootstrap.h" />
+    <ClInclude Include="bootstrap_functions.h" />
     <ClInclude Include="cash_deposit.h" />
     <ClInclude Include="euribor.h" />
     <ClInclude Include="eurodollar.h" />

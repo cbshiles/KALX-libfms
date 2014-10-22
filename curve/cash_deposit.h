@@ -10,10 +10,8 @@ using fms::datetime::holiday_calendar;
 namespace fms {
 namespace fixed_income {
 
-	template<class T = double>
-	class cash_deposit : public instrument<T,date> {
-		std::vector<T> t_;
-		std::vector<T> c_;
+	template<class T = double, class C = double>
+	class cash_deposit : public instrument<T,C> {
 	public:
 		// indicative data
 		int eff_; // number of days until settlement
@@ -44,13 +42,19 @@ namespace fixed_income {
 			ensure (count > 0);
 		}
 
-		// compiler generated copy constructor, assignment, destructor
+		cash_deposit(const cash_deposit&) = default;
+		cash_deposit& operator=(const cash_deposit&) = default;
+		~cash_deposit()
+		{ }
+
 
 		//!!! return fixed_income::instrument
 		// create cash flows given valuation and rate
-		template<class>
-		const cash_deposit& fix<date>(const date& val, T rate) override
+		cash_deposit& fix(const date& val, T rate) override
 		{
+			T t_[2];
+			C c_[2];
+
 			datetime::date d0(val);
 			d0.incr(eff_, UNIT_DAYS).adjust(roll_, cal_);
 			t_[0] = d0.diffyears(val);
@@ -72,3 +76,12 @@ namespace fixed_income {
 
 } // namespace fixed_income
 } // namespace fms
+
+#ifdef _DEBUG
+
+void test_fixed_income_cash_deposit()
+{
+
+}
+
+#endif // _DEBUG
