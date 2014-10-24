@@ -1,33 +1,37 @@
 // eurodollar.h - Eurodollar related functions.
-// Copyright (c) 2011 KALX, LLC. All rights reserved.
-// See http://cme.com/
+// See http://cmegroup.com/
 #pragma once
-#include "../fmsdatetime/datetime.h"
+#include "../datetime/datetime.h"
 
-// index of closest contract past given days
-inline int 
-eurodollar_first_contract(const datetime::date& d, int days)
-{
-	ensure (days >= 0);
-	int ordinal = 1;
+namespace fms {
+namespace eurodollar {
 
-	datetime::date d_(d);
-	d_ = datetime::date(d_.year(), 3*(1 + (d_.month() - 1)/3), 15);
-	d_.imm(3, datetime::DAY_WED);
-	if (d_.diffdays(d) < 0) {
-		d_.incr(3, datetime::UNIT_MONTH);
-		d_.imm(3, datetime::DAY_WED);
-	}
+	// index of closest contract past given days
+	inline int 
+	first_contract(const fms::datetime::date& d, int days)
+	{
+		ensure (days >= 0);
+		int ordinal = 1;
 
-	ensure (d_.diffdays(d) > 0);
+		fms::datetime::date d_(d);
+		d_ = fms::datetime::date(d_.year(), 3*(1 + (d_.month() - 1)/3), 15);
+		d_.imm(3, fms::datetime::DAY_WED);
+		if (d_.diffdays(d) < 0) {
+			d_.incr(3, fms::datetime::UNIT_MONTH);
+			d_.imm(3, fms::datetime::DAY_WED);
+		}
+
+		ensure (d_.diffdays(d) > 0);
 	
-	while (d_.diffdays(d) < days) {
-		d_.incr(3, datetime::UNIT_MONTH);
-		d_.imm(3, datetime::DAY_WED);
-		if (d_.month() % 3 == 0)
-			++ordinal;
+		while (d_.diffdays(d) < days) {
+			d_.incr(3, fms::datetime::UNIT_MONTH);
+			d_.imm(3, fms::datetime::DAY_WED);
+			if (d_.month() % 3 == 0)
+				++ordinal;
+		}
+
+		return ordinal;
 	}
 
-	return ordinal;
-}
-
+} // namespace eurodollar
+} // namespace fms

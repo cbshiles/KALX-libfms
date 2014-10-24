@@ -41,18 +41,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,10 +84,12 @@
     <ClInclude Include="bootstrap.h" />
     <ClInclude Include="bootstrap_functions.h" />
     <ClInclude Include="cash_deposit.h" />
-    <ClInclude Include="euribor.h" />
     <ClInclude Include="eurodollar.h" />
     <ClInclude Include="eurodollar_futures.h" />
-    <ClInclude Include="fixed_income.h" />
+    <ClInclude Include="instrument.h" />
+    <ClInclude Include="forward_rate_agreement.h" />
+    <ClInclude Include="interest_rate_leg.h" />
+    <ClInclude Include="interest_rate_swap.h" />
     <ClInclude Include="pwflat.h" />
     <ClInclude Include="pwflat_functions.h" />
   </ItemGroup>
@@ -93,6 +98,9 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="curve.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

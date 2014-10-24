@@ -159,6 +159,10 @@ public:
 	{
 		return t_ != -1;
 	}
+	operator bool() const
+	{
+		return is_valid();
+	}
 
 	time_t time() const
 	{

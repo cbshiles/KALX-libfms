@@ -1,8 +1,8 @@
 // bootstrap_functions.h - bootstrap a piecewise-flat forward curve
-// Copyright (c) [2013] KALX, LLC. All rights reserved.
+// Copyright KALX, LLC. All rights reserved. No warranty made.
 #pragma once
-#include "ensure.h"
-#include "../root/root1d.h"
+#include "include/ensure.h"
+#include "root/root1d.h"
 #include "pwflat_functions.h"
 
 namespace fms {

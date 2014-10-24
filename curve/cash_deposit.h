@@ -1,20 +1,16 @@
 // cash_deposit.h - cash deposit indicative data and cash flows
-// Copyright (c) 2011 KALX, LLC. All rights reserved.
 #pragma once
 #include "../datetime/datetime.h"
-#include "fixed_income.h"
-
-using fms::datetime::date;
-
+#include "instrument.h"
 
 namespace fms {
 namespace fixed_income {
 
 	template<class T = double, class C = double>
-	class cash_deposit : public instrument<T,C, date> {
+	class cash_deposit : public instrument<T,C,fms::datetime::date> {
 	public:
 		// indicative data
-		unsigned int eff_; // number of days until settlement
+		unsigned int set_; // number of days until settlement
 		unsigned int count_; fms::datetime::time_unit unit_; // e.g., 2, UNIT_WEEKS
 		fms::datetime::day_count_basis dcb_;
 		fms::datetime::roll_convention roll_;
@@ -23,7 +19,7 @@ namespace fixed_income {
 		// typical cash deposit conventions
 		cash_deposit() 
 		:
-			eff_(2), // T+2
+			set_(2), // T+2
 		  	count_(1), unit_(fms::datetime::UNIT_DAYS), 
 			dcb_(fms::datetime::DCB_ACTUAL_360), 
 			roll_(fms::datetime::ROLL_MODIFIED_FOLLOWING), 
@@ -36,7 +32,7 @@ namespace fixed_income {
 			fms::datetime::roll_convention roll = ROLL_MODIFIED_FOLLOWING,
 			fms::datetime::holiday_calendar cal = CALENDAR_NONE)
 		:
-			eff_(eff), count_(count), unit_(unit),
+			set_(eff), count_(count), unit_(unit),
 		    dcb_(dcb), roll_(roll), cal_(cal)
 		{
 		}
@@ -47,15 +43,16 @@ namespace fixed_income {
 		{ }
 
 
-		//!!! return fixed_income::instrument
 		// create cash flows given valuation and rate
-		cash_deposit& fix(const date& val, const C& rate) override
+		cash_deposit& fix(const fms::datetime::date& val, const C& rate) override
 		{
+			ensure (effective());
+
 			T t_[2];
 			C c_[2];
 
 			datetime::date d0(val);
-			d0.incr(eff_, fms::datetime::UNIT_DAYS).adjust(roll_, cal_);
+			d0.incr(set_, fms::datetime::UNIT_DAYS).adjust(roll_, cal_);
 			t_[0] = d0.diffyears(val);
 			c_[0] = -1;
 
@@ -78,6 +75,7 @@ namespace fixed_income {
 
 #ifdef _DEBUG
 
+using namespace fms::datetime;
 using namespace fms::fixed_income;
 
 void test_fixed_income_cash_deposit()
@@ -87,7 +85,7 @@ void test_fixed_income_cash_deposit()
 
 	instrument<double,double,date>& i{cd};
 	date d(2014,1,1);
-	i.fix(d, 0.01);
+	i.effective(d).fix(d, 0.01);
 	ensure (i.size() == 2);
 
 	date d1;

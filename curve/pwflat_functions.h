@@ -1,4 +1,4 @@
-// pwflat_functions.h - pure functions for pwflat curves
+// pwflat_functions.h - functions for pwflat curves
 // Piecewise-flat forward curves are modeled by arrays t and f, and an extrapolated value f_;
 // 
 // 	       { f[0] : t <= t[0]
@@ -16,7 +16,7 @@
 #pragma once
 #include <algorithm>
 #include <vector>
-#include "ensure.h"
+#include "../include/ensure.h"
 
 namespace fms {
 namespace pwflat {
@@ -88,6 +88,7 @@ namespace pwflat {
 	{
 		F dur{0};
 
+		// skip past t0
 		while (m && *u <= t0) {
 			--m;
 			++u;

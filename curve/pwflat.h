@@ -6,7 +6,7 @@ namespace fms {
 namespace pwflat {
 
 	// piecewise flat curve base class
-	// can be used as a constant curve
+	// can only be used as a constant curve
 	template<class T = double, class F = double>
 	class curve {
 		F f_;
@@ -34,7 +34,7 @@ namespace pwflat {
 		// value(t) < c(t) for all t
 		bool operator<(const curve& c) const
 		{
-			// more efficent to use operator[]!!!
+			// check at all knot points
 			return extrapolate() < c.extrapolate()
 				&& std::all_of(t(), t() + size(), [this,&c](const T& t) { return value(t) < c(t); })
 				&& std::all_of(c.t(), c.t() + c.size(), [this,&c](const T& t) { return value(t) < c(t); });
@@ -142,7 +142,7 @@ namespace pwflat {
 			: curve(f_), n_(n), t_(t), f_(t)
 		{ }
 		// avoid pointer aliasing
-		pointer_curve(const pointer_curve&) = delete;
+		pointer_curve(const pointer_curve&) = delete; // avoid pointer aliasing
 		pointer_curve& operator=(const pointer_curve&) = delete;
 		~pointer_curve()
 		{ }
@@ -171,7 +171,7 @@ namespace pwflat {
 			: curve(f_), t_(t, t + n), f_(f, f + n)
 		{ }
 		vector_curve(const curve& c)
-			: vector_curve(c.size(), c.t(), c.f(), c.extrapolate()) // C++11 allows other constructors to be called
+			: vector_curve(c.size(), c.t(), c.f(), c.extrapolate()) // C++11 allows delegating constructors
 		{ }
 		vector_curve(const vector_curve&) = default;
 		vector_curve& operator=(const vector_curve&) = default;

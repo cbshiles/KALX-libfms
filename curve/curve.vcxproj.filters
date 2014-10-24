@@ -18,16 +18,10 @@
     <ClInclude Include="cash_deposit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="euribor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="eurodollar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="eurodollar_futures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="fixed_income.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pwflat.h">
@@ -42,6 +36,18 @@
     <ClInclude Include="bootstrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="forward_rate_agreement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interest_rate_swap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interest_rate_leg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="instrument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bootstrap_test.cpp">
@@ -50,5 +56,8 @@
     <ClCompile Include="curve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README.md" />
   </ItemGroup>
 </Project>

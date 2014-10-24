@@ -1,24 +1,27 @@
-// fixed_income.h - fixed income routines
-// Copyright (c) 2013 KALX, LLC. All rights reserved. No warranty made.
+// fixed_income.h - instruments with fixed cash flows
 #pragma once
-#include "../include/ensure.h"
 #include <algorithm>
 #include <functional>
 #include <numeric>
 #include <vector>
+#include "include/ensure.h"
 
 namespace fms {
 namespace fixed_income {
 
-	// fixed cash flows
-	template<class T = double, class C = double, class D = double>
+	// Time, Cash flow, Date
+	template<class T = double, class C = double, class D = void*>
 	class instrument {
+		D eff_; // initial calculation date
 		std::vector<T> u_;
 		std::vector<C> c_;
 	public:
-		// no cash flow
-		instrument()
-			: u_(), c_()
+		typedef T time_type;
+		typedef C cash_type;
+		typedef D date_type;
+		// known number of cash flows
+		instrument(size_t n = 0)
+			: u_(n), c_(n)
 		{ }
 		// single cash flow
 		instrument(const T& u, const C& c)
@@ -58,10 +61,22 @@ namespace fixed_income {
 		virtual ~instrument()
 		{ }
 
-		// provide date and rate/coupon to determine cash flows
-		virtual instrument& fix(const D& d, const C& r)
+		// date of first cash flow
+		const D& effective() const
 		{
-			c_ = std::vector<C>(size(), r);
+			return eff_;
+		}
+		instrument& effective(const D& eff)
+		{
+			eff_ = eff;
+
+			return *this;
+		}
+
+		// provide date and rate/coupon to determine cash flows
+		virtual instrument& fix(const D&, const C& r)
+		{
+			c_.assign(c_.size(), r);
 
 			return *this;
 		}
@@ -72,6 +87,16 @@ namespace fixed_income {
 
 			u_ = std::vector<T>(u, u + n);
 			c_ = std::vector<C>(c, c + n);
+
+			return *this;
+		}
+		instrument& set(std::vector<T>&& u, std::vector<C>&& c)
+		{
+			ensure (u.size() == c.size());
+			ensure (increasing(u.begin(), u.end()));
+
+			u_ = std::move(u);
+			c_ = std::move(c);
 
 			return *this;
 		}
@@ -96,11 +121,24 @@ namespace fixed_income {
 			return u_.size();
 		}
 
+		const std::pair<T,C>& back() const
+		{
+			return std::make_pair<T,C>(u_.back(), c_.back());
+		}
+
 		const T* time() const
 		{
 			return u_.data();
 		}
+		// get
 		const T& time(size_t i) const
+		{
+			ensure (i < size());
+
+			return u_[i];
+		}
+		// set
+		T& time(size_t i)
 		{
 			ensure (i < size());
 
@@ -111,7 +149,15 @@ namespace fixed_income {
 		{
 			return c_.data();
 		}
+		// get
 		const C& cash(size_t i) const
+		{
+			ensure (i < size());
+
+			return c_[i];
+		}
+		// set
+		C& cash(size_t i)
 		{
 			ensure (i < size());
 
@@ -141,7 +187,7 @@ namespace fixed_income {
 
 			return *this;
 		}
-
+		// add all cash flows
 		instrument& operator+=(const instrument& i)
 		{
 			for (size_t i = 0; i < i.size(); ++i)
@@ -215,9 +261,17 @@ inline void test_fixed_income_instrument_adt()
 	ensure (i5 == i6);
 }
 
+void test_fixed_income_instrument_add()
+{
+	// ???
+	// add same time
+	// add different time
+}
+
 inline void test_fixed_income_instrument()
 {
 	test_fixed_income_instrument_adt();
 	test_fixed_income_instrument_ops();
+	test_fixed_income_instrument_add();
 }
 #endif // _DEBUG

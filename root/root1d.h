@@ -1,6 +1,6 @@
 // root1d.h - One dimensional root finding
 #pragma once
-#include "ensure.h"
+#include "include/ensure.h"
 #include <functional>
 #include <limits>
 
@@ -50,6 +50,13 @@ namespace root1d {
 			return x0*y1*y2/(dy1*dy2) + x1*y2*y0/(dy2*dy0) + x2*y0*y1/(dy0*dy1);
 		}
 
+		// attempt to fix when y == y_
+		template<class X, class Y>
+		inline void tilt(X& x, Y& y, X& x_, Y& y_, const X& _x, const Y& _y)
+		{
+			ensure (y == y_);
+						
+		}
 	} // step
 
 	// termination criteria: x is current, x_ is previous
@@ -96,8 +103,7 @@ namespace root1d {
 				ensure (iter--);
 				Y y = f(x), dy = df(x);
 				
-				if (dy == 0)
-					return x;
+				ensure (dy != 0);
 
 				X _x = step::newton<X,Y>(x, y, dy);
 				if (_x == x_) // cycle
@@ -119,9 +125,7 @@ namespace root1d {
 				DEBUG_(++i;)
 				ensure (iter--);
 
-				if (y == y_) {
-					return x;
-				}
+				ensure (y != y_);
 
 				X _x = step::secant(x, y, x_, y_);
 				if (_x == x_) // cycle
@@ -135,7 +139,7 @@ namespace root1d {
 			return x;
 		}
 		
-		// HP sovle routine
+		// simplified Hewlett Packard SOLVE routine
 		template<class X, class Y>
 		inline X kahan(X x, X x_, const std::function<Y(X)>& f, size_t iter = 10)
 		{
@@ -147,15 +151,20 @@ namespace root1d {
 				ensure (iter--);
 
 				if (y == y_) {
-					return x;
+					return step::bisect(x, x_);
 				}
 
 				X _x = step::secant(x, y, x_, y_);
 				if (_x == x_) // cycle
 					return step::bisect(x, x_);
 
+				// don't let secant take you outside of bracketed root
 				if (y*y_ < 0 && !done::between(_x, x, x_)) {
 					_x = step::bisect(x, x_);
+					if (f(_x)*y_ < 0) { // keep root bracketed
+						std::swap(x, x_);
+						std::swap(y, y_);
+					}
 				}
 
 				x_ = x;
@@ -219,6 +228,20 @@ inline void test_root1d_find(void)
 
 	x = find::secant<X,Y>(X(1), X(2), f);
 	ensure (done::absolute<X>(x, sqrt(X(2))));
+
+	x = find::kahan<X,Y>(X(-99),X(-98), [](X x) { return Y(exp(x) + x - 2); }, 20);
+	ensure (fabs(x - .442854401) < sqrt(std::numeric_limits<X>::epsilon()));
+
+	x = find::kahan<X,Y>(X(1.5),X(1), [](X x) { return Y(exp(x) - 5*x + 3); }, 20);
+	ensure (fabs(x - 1.468829255) < sqrt(std::numeric_limits<X>::epsilon()));
+	x = find::kahan<X,Y>(X(2),X(4), [](X x) { return Y(exp(x) - 5*x + 3); }, 20);
+	ensure (fabs(x - 1.74375199) < sqrt(std::numeric_limits<X>::epsilon()));
+
+	// Kahan's Fig. 3 (c) example
+	auto c = [](X x) { return Y(exp(x) - 4*x - (4 - 4*log(4))); };
+	x = find::kahan<X,Y>(X(0),X(2), c, 50);
+	ensure (fabs(x - 1.3862943473365201) < sqrt(std::numeric_limits<X>::epsilon()));
+//	ensure (fabs(c(X(1.3862943473365201))) < fabs(c(X(1.386277368))));
 }
 
 inline void test_root1d(void)
