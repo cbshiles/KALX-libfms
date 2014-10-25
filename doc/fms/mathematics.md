@@ -174,7 +174,7 @@ classical theory.
 
 In fact, $\Delta_j = (d/dX_j)\sum_{k>j} A_k \Pi_k/\Pi_j|_{\mathcal{F}_j}$
 can be given rigorous mathematical meaning to allow us to calculate
-all the delta's over the life of the trade.
+all the deltas over the life of the trade.
 
 ### FTAP (hard direction)
 
@@ -194,12 +194,12 @@ Unfortunately, Brownian motion is just a binomial model in
 continuous time wolf's clothing.
 Using that as a model of stock prices leads to mathematical nonsense.
 Among other defects, it exhibits infinite oscillatory behavior. The
-price of a barrier option that knocks in (or out) the 1 millionth
+price of a barrier option that knocks in (or out) the millionth
 time it hits a barrier has the same value, as a one touch barrier option.
 
-Ross's proof neglected to establish an essential condition of an interior
+Ross's proof neglected to establish the essential condition of an interior
 point required for the application of the Hahn-Banach theorem and this led
-to a sequence of papers addressing the matter. The current state of
+to a sequence of papers addressing this matter. The current state of
 the art is [@DelSch1994] that contains a 61 page proof of the current
 formulation comprehensible only to a handful of experts.
 

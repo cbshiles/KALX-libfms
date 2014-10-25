@@ -12,6 +12,6 @@ Ideally, one wants to find the closest representable floating point root.
 
 The namespace `find` provides three methods of solving for roots: `newton`, `secant`, and `kahan`.
 The `newton` method requires the derivative of the function and an initial guess.
-The `secant` method does not require the derivative, but is does require two initial guesses.
+The `secant` method does not require the derivative, but it does require two initial guesses.
 The `kahan` method is based on the HP solve routine described in `SOLVEkey.pdf`. It uses the secant method
-unless the root is bracketed and the next guess would be outside the bracket.
+unless the root is bracketed and the next guess would be outside the bracket, in which case it uses bisection.
