@@ -40,21 +40,26 @@ namespace fixed_income {
 		{
 			ensure (i < size());
 
-			return *(time() + i);
+			return t()[i];
 		}
 		C cash(size_t i) const
 		{
 			ensure (i < size());
 
-			return *(cash() + i);
+			return c()[i];
+		}
+
+		std::pair<T,C> operator[](size_t i)
+		{
+			return std::make_pair(time(i), cash(i));
 		}
 		std::pair<T,C> front() const
 		{
-			return std::make_pair(time(0), cash(0));
+			return operator[](0);
 		}
 		std::pair<T,C> back() const
 		{
-			return std::make_pair(time(size() - 1), cash(size() - 1));
+			return operator[](size() - 1);
 		}
 		// std::iterator<std::pair<T,C>> begin() ...
 
@@ -109,6 +114,36 @@ namespace fixed_income {
 		virtual const T* _time() const = 0;
 		virtual const C* _cash() const = 0;
 	};
+
+	namespace pointer {
+		template<class T, class C>
+		class instrument : public fms::fixed_income::cash_deposit<T, C> {
+			size_t n_;
+			const T* t_;
+			const C* c_;
+		public:
+			instrument(size_t n, const T* t, const C* c)
+				: n_(n), t_(t), c_(c)
+			{ }
+			instrument(const instrument&) = delete;
+			instrument operator=(const instrument&) = delete;
+			~instrument()
+			{ }
+
+			size_t _size() const override
+			{
+				return n_;
+			}
+			const T* _time() const override
+			{
+				return t_;
+			}
+			const T* _cash() const override
+			{
+				return c_;
+			}
+		};
+	} // pointer
 
 	namespace vector {
 		// specialize intrument as value type
@@ -273,7 +308,7 @@ inline void test_fixed_income_instrument_ops()
 
 void test_fixed_income_instrument_add()
 {
-	// ???
+	// !!!bsf48
 	// add same time
 	// add different time
 }

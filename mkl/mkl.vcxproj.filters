@@ -15,36 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="instrument.cpp">
+    <ClInclude Include="trnlsp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jacobi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mkl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="cash_deposit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="eurodollar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="eurodollar_futures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="forward_rate_agreement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="instrument.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interest_rate_leg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="interest_rate_swap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="interest-rate-instruments-and-market-conventions.pdf" />
-    <None Include="README.md" />
-    <None Include="formofconfirmMAC.pdf" />
   </ItemGroup>
 </Project>

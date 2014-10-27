@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BF73436B-6311-47A8-B957-D0F214FCBF7E}</ProjectGuid>
+    <ProjectGuid>{3A998852-08F0-4D65-9A72-CB34265448A8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>instrument</RootNamespace>
+    <RootNamespace>mkl</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -21,6 +21,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <UseIntelMKL>Sequential</UseIntelMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -78,21 +79,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="instrument.cpp" />
+    <ClInclude Include="jacobi.h" />
+    <ClInclude Include="trnlsp.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cash_deposit.h" />
-    <ClInclude Include="eurodollar.h" />
-    <ClInclude Include="eurodollar_futures.h" />
-    <ClInclude Include="forward_rate_agreement.h" />
-    <ClInclude Include="instrument.h" />
-    <ClInclude Include="interest_rate_leg.h" />
-    <ClInclude Include="interest_rate_swap.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="formofconfirmMAC.pdf" />
-    <None Include="interest-rate-instruments-and-market-conventions.pdf" />
-    <None Include="README.md" />
+    <ClCompile Include="mkl.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

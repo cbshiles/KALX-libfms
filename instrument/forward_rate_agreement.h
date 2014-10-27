@@ -7,7 +7,7 @@
 namespace fms {
 namespace fixed_income {
 
-	//!!!jl2372 inherit from fixed_income::interest_rate_leg
+	//!!!jl2372 inherit from fixed_income::leg
 	template<class T = double, class C = double>
 	struct forward_rate_agreement : public vector::instrument<T,C,fms::datetime::date> {
 		// indicative data

@@ -14,9 +14,8 @@ It is customary in the literature to model time as a real number,
 usually time in years since a given epoch. Unfortunately, this
 leads to unrealistic models. E.g., the
 [Doubling Paradox](../../papers/HarKre1979.pdf).
-We assume trading times are discrete and correspond to dates.
-The time increments can be arbitrarily small and there is
-no upper bound on time.
+We assume trading times are discrete, but
+the time increments can be arbitrarily small.
 
 ### Single Currency
 

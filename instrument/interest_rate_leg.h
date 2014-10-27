@@ -45,7 +45,7 @@ namespace fixed_income {
 				{ }
 
 				// create cash flows given settlement date and fixed coupon
-				const fixed<T,C>& fix(const date& set, const date& eff, const C& coupon)
+				const fixed<T,C>& fix(const date& set, const date& eff, const C& coupon) override
 				{
 					date mat(eff);
 					mat.incr(count_, unit_);
@@ -63,7 +63,9 @@ namespace fixed_income {
 				}
 			};
 	} // fixed
+
 	
 
 } // namespace instrument
 } // namespace fms
+
