@@ -84,6 +84,32 @@ namespace root1d {
 
 	namespace find {
 
+		// must have root bracketed
+		template<class X, class Y>
+		inline X bisect(X x, X x_, const std::function<Y(X)>& f, size_t iter = 20)
+		{
+			Y y = f(x), y_ = f(x_);
+
+			do {
+				ensure (iter--);
+				ensure (y*y_ < 0);
+				X _x = step::bisect(x, x_);
+				Y _y = f(_x);
+
+				if (_y*y_ < 0) {
+					std::swap(x, x_);
+					std::swap(y, y_);
+				}
+
+				x_ = x;
+				x = _x;
+				y_ = y;
+				y = _y;
+			} while (y != 0 && !done::absolute(x, x_));
+
+			return x;
+		}
+
 		// deliberately small iteration count
 		template<class X, class Y>
 		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 10)
@@ -141,19 +167,20 @@ namespace root1d {
 
 				if (y == y_)
 					_x = step::bisect(x, x_);
-				else
+				else {
 					_x = step::secant(x, y, x_, y_);
+				}
 
 				if (y*y_ < 0 && !done::between(_x, x, x_)) {
 					_x = step::bisect(x, x_);
 				}
+				Y _y = f(_x);
 
 				x_ = x;
 				x = _x;
 				y_ = y;
-				y = f(_x);
-
-			} while (!done::absolute(x, x_));
+				y = _y;
+			} while (y != 0 && !done::absolute(x, x_));
 
 			return x;
 		}
@@ -202,10 +229,13 @@ inline void test_root1d_done()
 template<class X, class Y>
 inline void test_root1d_find(void)
 {
-	auto f{[](X x) { return Y(x*x - 2); }};
-	auto df{[](const X& x) { return Y(2*x);}};
-
+	auto f = [](X x) { return Y(x*x - 2); };
+	auto df = [](const X& x) { return Y(2*x);};
+	 
 	auto x = find::newton<X,Y>(X(1), f, df);
+	ensure (done::absolute<X>(x, sqrt(X(2))));
+
+	x = find::bisect<X,Y>(X(1), X(2), f, 51);
 	ensure (done::absolute<X>(x, sqrt(X(2))));
 
 	x = find::secant<X,Y>(X(1), X(2), f);
@@ -213,24 +243,41 @@ inline void test_root1d_find(void)
 
 	x = find::kahan<X,Y>(X(1), X(2), f);
 	ensure (done::absolute<X>(x, sqrt(X(2))));
+	x = find::kahan<X,Y>(X(1), X(-1), f);
+	ensure (done::absolute<X>(x, sqrt(X(2))));
 
-	// SOLVEkey exampels
-//	X c1,c2;
-//	auto c = [c1,c2](X x) { return Y(exp(x) - c1*x - c2); };
-	std::function<Y(X)> c = [](X c1, X c2) {
-		return [c1,c2](X x) { return Y(exp(x) - c1*x - c2); };
-	};
+	// SOLVEkey examples
+	X c1,c2;
+	std::function<Y(X)> c = [&c1,&c2](X x) { return Y(exp(x) - c1*x - c2); };
 
-	x = find::kahan<X,Y>(X(1.5),X(1), c(-1, 2), 20);
+	// Kahan's Fig. 3 (a) example
+	c1 = -1; c2 = 2;
+	x = find::kahan<X,Y>(X(1.5),X(1), c, 20);
+	ensure (fabs(x - .442854401) < sqrt(std::numeric_limits<X>::epsilon()));
+
+	// Kahan's Fig. 3 (b) example
+	c1 = 5; c2 = -3;
+	x = find::kahan<X,Y>(X(0),X(1.5), c, 20);
 	ensure (fabs(x - 1.468829255) < sqrt(std::numeric_limits<X>::epsilon()));
-/*
-	x = find::kahan<X,Y>(X(1.5),X(1), c(5, -3), 20);
+	x = find::kahan<X,Y>(X(2),X(4), c, 20);
 	ensure (fabs(x - 1.74375199) < sqrt(std::numeric_limits<X>::epsilon()));
 
 	// Kahan's Fig. 3 (c) example
-	x = find::kahan<X,Y>(X(0),X(2), c(4, X(4 - 4*log(4))), 50);
+	c1 = 4; c2 = X(4 - 4*log(4));
+	x = find::kahan<X,Y>(X(0),X(2), c, 50);
 	ensure (fabs(x - 1.3862943473365201) < sqrt(std::numeric_limits<X>::epsilon()));
-*///	ensure (fabs(c(X(1.3862943473365201))) < fabs(c(X(1.386277368))));
+	// Kahan's solution uses float, not double!
+	ensure (fabs(c(X(1.3862943473365201))) <= fabs(c(X(1.386277368))));
+
+	auto g = [](X x) { return 6*x - x*x*x*x; };
+	X r[2];
+	r[0] = find::kahan<X,Y>(X(0),X(.5), [&g](X x) { return Y(g(x) - 1); });
+	r[1] = find::kahan<X,Y>(X(1.5),X(2), [&g](X x) { return Y(g(x) - 1); });
+
+	x = find::kahan<X,Y>(X(0),X(.5), [&g](X x) { return Y(exp(g(x) - 1) - 1); });
+	ensure (1 + (x - r[0]) == 1);
+//	x = find::kahan<X,Y>(X(1.5),X(2), [&g](X x) { return Y(exp(g(x) - 1) - 1); });
+//	ensure (x == r[1]);
 }
 
 inline void test_root1d(void)

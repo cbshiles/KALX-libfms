@@ -20,6 +20,31 @@ namespace pwflat {
 		virtual ~curve()
 		{ }
 
+		// non-virtual interface
+		// subclasses must implement _size(), _t(), and _f()+
+		size_t size() const
+		{
+			return _size();
+		}
+		const T* t(void) const
+		{
+			return _t();
+		}
+		// long name
+		const T* time(void) const
+		{
+			return _t();
+		}
+		const F* f(void) const
+		{
+			return _f();
+		}
+		// long name
+		const F* rate(void) const
+		{
+			return _f();
+		}
+
 		bool operator==(const curve& c) const
 		{
 			return extrapolate() == c.extrapolate()
@@ -53,29 +78,6 @@ namespace pwflat {
 			return *this;
 		}
 
-		// non-virtual interface
-		size_t size() const
-		{
-			return _size();
-		}
-		const T* t(void) const
-		{
-			return _t();
-		}
-		// long name
-		const T* time(void) const
-		{
-			return _t();
-		}
-		const F* f(void) const
-		{
-			return _f();
-		}
-		// long name
-		const F* rate(void) const
-		{
-			return _f();
-		}
 
 		F value(const T& u) const
 		{
