@@ -40,21 +40,26 @@ namespace fixed_income {
 		{
 			ensure (i < size());
 
-			return *(time() + i);
+			return t()[i];
 		}
 		C cash(size_t i) const
 		{
 			ensure (i < size());
 
-			return *(cash() + i);
+			return c()[i];
+		}
+
+		std::pair<T,C> operator[](size_t i)
+		{
+			return std::make_pair(time(i), cash(i));
 		}
 		std::pair<T,C> front() const
 		{
-			return std::make_pair(time(0), cash(0));
+			return operator[](0);
 		}
 		std::pair<T,C> back() const
 		{
-			return std::make_pair(time(size() - 1), cash(size() - 1));
+			return operator[](size() - 1);
 		}
 		// std::iterator<std::pair<T,C>> begin() ...
 
@@ -273,7 +278,7 @@ inline void test_fixed_income_instrument_ops()
 
 void test_fixed_income_instrument_add()
 {
-	// ???
+	// !!!bsf48
 	// add same time
 	// add different time
 }

@@ -111,11 +111,20 @@ namespace pwflat {
 			return fms::pwflat::duration(t0, m, u, c, size(), t(), f(), f_);
 		}
 
+		// knot point pairs
+		std::pair<T,F> operator[](size_t i) const
+		{
+			ensure (i < size());
+
+			return std::make_pair(t(i), f(i));
+		}
+		std::pair<T,F> front() const
+		{
+			return operator[](0);
+		}
 		std::pair<T,F> back() const
 		{
-			ensure (size() > 0);
-
-			return std::make_pair(t(size() - 1), f(size() - 1));
+			return operator[](size() - 1);
 		}
 
 		// convenience functions
@@ -130,13 +139,6 @@ namespace pwflat {
 			ensure (i < size());
 
 			return f()[i];
-		}
-		// knot point pairs
-		std::pair<T,F> operator[](size_t i) const
-		{
-			ensure (i < size());
-
-			return std::make_pair(t(i), f(i));
 		}
 
 	private:
@@ -236,12 +238,7 @@ namespace pwflat {
 			{
 				return f_.data();
 			}
-/*???
-			std::pair<T,F> back() const
-			{
-				return std::make_pair(t_.back(), f_.back());
-			}
-*/
+
 			// add knot at back of curve
 			curve& push_back(const T& t, const F& f)
 			{
