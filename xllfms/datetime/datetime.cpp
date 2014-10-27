@@ -1,7 +1,7 @@
 // datetime.cpp - datetime routines
 // Copyright (c) 2011 KALX, LLC. All rights reserved. No warranty is made.
-#include "../../xll8/xll/xll.h"
-#include "../../datetime/dt.h"
+#include "xll/xll.h"
+#include "datetime/dt.h"
 
 using namespace xll;
 

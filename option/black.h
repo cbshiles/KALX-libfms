@@ -1,7 +1,7 @@
 // black.h - Fischer Black forward value and greeks
 #pragma once
-#include "ensure.h"
-#include "../prob/normal.h"
+#include <limits>
+#include "prob/normal.h"
 
 namespace fms {
 namespace option {

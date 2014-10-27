@@ -31,5 +31,10 @@ namespace pwflat {
 
 #ifdef _DEBUG
 
+inline void test_bootstrap()
+{
+	// ???
+}
+
 
 #endif // _DEBUG

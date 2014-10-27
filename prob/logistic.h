@@ -2,7 +2,7 @@
 #pragma once
 #include <cmath>
 #include <type_traits>
-#include "ensure.h"
+#include "include/ensure.h"
 
 // template<typename T> constexpr T M_PI = 4*atan(T(1));
 #ifndef M_PI

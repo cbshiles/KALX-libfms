@@ -112,7 +112,7 @@ namespace root1d {
 
 		// deliberately small iteration count
 		template<class X, class Y>
-		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 10)
+		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 20)
 		{
 			X x_(x);
 

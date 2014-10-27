@@ -88,7 +88,7 @@ using namespace fms::fixed_income;
 void test_fixed_income_cash_deposit()
 {
 	cash_deposit<> cd;
-	ensure (cd.size() == 0); // must call fix()
+	ensure (cd.size() == 2); //
 
 	instrument<double,double,date>& i{cd};
 	date d(2014,1,1);

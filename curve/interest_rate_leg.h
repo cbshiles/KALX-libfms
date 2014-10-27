@@ -127,7 +127,7 @@ namespace fixed_income {
 		{ }
 
 		// create cash flows given settlement date and fixed coupon
-		const interest_rate_leg_float<T,C>& fix(const date& val, double coupon)
+		const interest_rate_leg_float<T,C>& fix(const fms::datetime::date& val, double coupon)
 		{
 			fms::datetime::date eff_{effective());
 
@@ -138,7 +138,6 @@ namespace fixed_income {
 			mat.adjust(roll_, cal_);
 
 			// long the floating leg
-			eff_.adjust(roll_, cal_);
 			fix(eff_, 1);
 			// short the fixed leg
 			fix(mat, -1);
