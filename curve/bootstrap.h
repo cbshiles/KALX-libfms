@@ -107,10 +107,7 @@ inline void test_pwflat_bootstrap()
 {
 	// sjm366
 
-	if (10 == 10)
-	{
-		int ten = 10;
-	}
+	// check
 }
 
 #endif // _DEBUG
