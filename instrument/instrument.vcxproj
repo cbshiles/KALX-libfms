@@ -90,7 +90,9 @@
     <ClInclude Include="interest_rate_swap.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="formofconfirmMAC.pdf" />
     <None Include="interest-rate-instruments-and-market-conventions.pdf" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

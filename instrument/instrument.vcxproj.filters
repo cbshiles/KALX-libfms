@@ -44,5 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="interest-rate-instruments-and-market-conventions.pdf" />
+    <None Include="README.md" />
+    <None Include="formofconfirmMAC.pdf" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 namespace fms {
 namespace fixed_income {
 
-	//!!!dgtsx inherit from fixed_income::interest_rate_leg
+	//!!!dgtsx inherit from fixed_income::leg
 	template<class T = double, class C = double>
 	class cash_deposit : public vector::instrument<T,C,fms::datetime::date> {
 	public:

@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="jacobi.h" />
     <ClInclude Include="trnlsp.h" />
   </ItemGroup>
   <ItemGroup>
