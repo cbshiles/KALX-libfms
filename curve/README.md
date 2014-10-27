@@ -19,7 +19,7 @@ extend the forward curve by the (constant) value that reprices this instrument.
 The file `bootstrap_functions.h` has functions for bootstrapping cash deposits, forward rate agreements, and generic fixed income instruments.
 
 ## Instruments
-The `fixed_income::instrument` class is a value type for cash flow streams. It also contains a member for the _effective date_: the date on which the first cash flow occurs. The rational is that most instruments are specified by indicative data.
+The `fixed_income::instrument` class is a value type for cash flow streams. It also contains a member for the _effective date_: the date on which the first cash flow (calculation) occurs. The rational is that most instruments are specified by indicative data.
 E.g., a 3 month forward rate agreement having Actual/360 day count and New York back holidays using modified following adjustments. In order to determine the cash flows at time in years, one must first specify the `effective` date. A market quote provides a rate for the fixed coupon on a given date. These are the arguments to `instrument::fix`. A runtime error is thrown if you try to fix cash flows before specifying the effective date.
 
 

@@ -12,6 +12,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "root", "root\root.vcxproj", "{4E9DFB27-EB8C-4A97-8EF4-3064D82DB397}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6AED168-96B9-44F3-A248-C93B4B9AF50B}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "option", "option\option.vcxproj", "{42AE3375-CBB7-4C2F-BA56-16E015904738}"
 EndProject

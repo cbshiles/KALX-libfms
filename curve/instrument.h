@@ -13,55 +13,43 @@ namespace fixed_income {
 	template<class T = double, class C = double, class D = void*>
 	class instrument {
 		D eff_; // initial calculation date
-		std::vector<T> u_;
-		std::vector<C> c_;
 	public:
 		typedef T time_type;
 		typedef C cash_type;
 		typedef D date_type;
-		// known number of cash flows
-		instrument(size_t n = 0)
-			: u_(n), c_(n)
+		instrument()
 		{ }
-		// single cash flow
-		instrument(const T& u, const C& c)
-			: u_(1, u), c_(1, c)
-		{ }
-		// n cash flows
-		instrument(size_t n, const T* u, const C* c)
-			: u_(u, u + n), c_(c, c + n)
-		{
-			ensure (increasing(u, u + n)); // test before constructing???
-		}
-		instrument(const std::initializer_list<T>& u, const std::initializer_list<C>& c)
-			: u_(u), c_(c)
-		{
-			ensure (increasing(u_.begin(), u_.end()));
-		}
-		instrument(const std::initializer_list<std::pair<T,C>>& i)
-		{
-			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { u_.push_back(p.first); });
-			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { c_.push_back(p.second); });
-
-			ensure (increasing(u_.begin(), u_.end()));
-		}
-
 		instrument(const instrument&) = default;
-		instrument(instrument&& i)
-			: u_(std::move(i.u_)), c_(std::move(i.c_))
-		{ }
 		instrument& operator=(const instrument&) = default;
-		instrument& operator=(instrument&& i)
-		{
-			u_ = std::move(i.u_);
-			c_ = std::move(i.c_);
-
-			return *this;
-		}
 		virtual ~instrument()
 		{ }
 
-		// date of first cash flow
+		// provide date and rate/coupon to determine cash flows
+		virtual instrument& fix(const D& d, const C& r) = 0;
+		virtual size_t size() const = 0;
+		virtual const T* time() const = 0;
+		virtual const C* cash() const = 0;
+
+		// convenience functions
+		T time(size_t i) const
+		{
+			ensure (i < size());
+
+			return *(time() + i);
+		}
+		C cash(size_t i) const
+		{
+			ensure (i < size());
+
+			return *(cash() + i);
+		}
+		std::pair<T,C> back() const
+		{
+			return std::make_pair(time(size() - 1), cash(size() - 1));
+		}
+		// std::iterator<std::pair<T,C>> begin() ...
+
+		// date of first cash flow (calculation)
 		const D& effective() const
 		{
 			return eff_;
@@ -73,37 +61,11 @@ namespace fixed_income {
 			return *this;
 		}
 
-		// provide date and rate/coupon to determine cash flows
-		virtual instrument& fix(const D&, const C& r)
-		{
-			c_.assign(c_.size(), r);
-
-			return *this;
-		}
-
-		instrument& set(size_t n, const T* u, const C* c)
-		{
-			ensure (increasing(u, u + n));
-
-			u_ = std::vector<T>(u, u + n);
-			c_ = std::vector<C>(c, c + n);
-
-			return *this;
-		}
-		instrument& set(std::vector<T>&& u, std::vector<C>&& c)
-		{
-			ensure (u.size() == c.size());
-			ensure (increasing(u.begin(), u.end()));
-
-			u_ = std::move(u);
-			c_ = std::move(c);
-
-			return *this;
-		}
-
 		bool operator==(const instrument& i) const
 		{
-			return u_ == i.u_ && c_ == i.c_;
+			return size() == i.size()
+				&& std::equal(time(), time() + size(), i.time())
+				&& std::equal(cash(), cash() + size(), i.cash());
 		}
 		bool operator!=(const instrument& i) const
 		{
@@ -112,64 +74,120 @@ namespace fixed_income {
 		// cumulative cash flows strictly less than
 		bool operator<(const instrument& i) const
 		{
-			return std::all_of(u_.begin(), u_.end(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); })
-				&& std::all_of(i.u_.begin(), i.u_.end(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); }); 
-		}
-
-		size_t size() const
-		{
-			return u_.size();
-		}
-
-		const std::pair<T,C>& back() const
-		{
-			return std::make_pair<T,C>(u_.back(), c_.back());
-		}
-
-		const T* time() const
-		{
-			return u_.data();
-		}
-		// get
-		const T& time(size_t i) const
-		{
-			ensure (i < size());
-
-			return u_[i];
-		}
-		// set
-		T& time(size_t i)
-		{
-			ensure (i < size());
-
-			return u_[i];
-		}
-
-		const C* cash() const
-		{
-			return c_.data();
-		}
-		// get
-		const C& cash(size_t i) const
-		{
-			ensure (i < size());
-
-			return c_[i];
-		}
-		// set
-		C& cash(size_t i)
-		{
-			ensure (i < size());
-
-			return c_[i];
+			return std::all_of(time(), time() + size(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); })
+				&& std::all_of(i.time(), i.time() + i.size(), [this,&i](const T& t) { accumulate(t) < i.accumulate(t); }); 
 		}
 
 		// sum of cash flows to time t
 		C accumulate(const T& t) const
 		{
-			auto it = std::upper_bound(u_.begin(), u_.end(), t);
+			auto it = std::upper_bound(time(), time() + size(), t);
 
-			return std::accumulate(c_.begin(), c_.begin() + (it - u_.begin()), 0);
+			return std::accumulate(cash(), cash() + (it - time()), 0);
+		}
+
+	protected:
+		// strictly increasing
+		template<class I>
+		bool increasing(I b, I e) const
+		{
+			typedef std::iterator_traits<I>::value_type T;
+
+			return std::adjacent_find(b, e, std::greater_equal<T>()) == e;
+		}
+	};
+/*
+	// value type
+	template<class T = double, class C = double, class D = void*>
+	class instrument_vector : public instrument<T,C,D> {
+		std::vector<T> u_;
+		std::vector<C> c_;
+	public:
+		typedef T time_type;
+		typedef C cash_type;
+		typedef D date_type;
+		// known number of cash flows
+		instrument_vector(size_t n = 0)
+			: u_(n), c_(n)
+		{ }
+		// single cash flow
+		instrument_vector(const T& u, const C& c)
+			: u_(1, u), c_(1, c)
+		{ }
+		// n cash flows
+		instrument_vector(size_t n, const T* u, const C* c)
+			: u_(u, u + n), c_(c, c + n)
+		{
+			ensure (increasing(u, u + n)); // test before constructing???
+		}
+		instrument_vector(const std::initializer_list<T>& u, const std::initializer_list<C>& c)
+			: u_(u), c_(c)
+		{
+			ensure (increasing(u_.begin(), u_.end()));
+		}
+		instrument_vector(const std::initializer_list<std::pair<T,C>>& i)
+		{
+			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { u_.push_back(p.first); });
+			std::for_each(i.begin(), i.end(), [this](const std::pair<T,C>& p) { c_.push_back(p.second); });
+
+			ensure (increasing(u_.begin(), u_.end()));
+		}
+
+		instrument_vector(const instrument_vector&) = default;
+		instrument_vector(instrument_vector&& i)
+			: u_(std::move(i.u_)), c_(std::move(i.c_))
+		{ }
+		instrument_vector& operator=(const instrument_vector&) = default;
+		instrument_vector& operator=(instrument_vector&& i)
+		{
+			u_ = std::move(i.u_);
+			c_ = std::move(i.c_);
+
+			return *this;
+		}
+		virtual ~instrument_vector()
+		{ }
+
+		// provide date and rate/coupon to determine cash flows
+		instrument_vector& _fix(const D&, const C& r) override
+		{
+			c_.assign(c_.size(), r);
+
+			return *this;
+		}
+		size_t _size() const override
+		{
+			return u_.size();
+		}
+
+		const T* _time() const override
+		{
+			return u_.data();
+		}
+		const C* _cash() const override
+		{
+			return c_.data();
+		}
+
+
+		instrument_vector& set(size_t n, const T* u, const C* c)
+		{
+			ensure (increasing(u, u + n));
+
+			u_ = std::vector<T>(u, u + n);
+			c_ = std::vector<C>(c, c + n);
+
+			return *this;
+		}
+		instrument_vector& set(std::vector<T>&& u, std::vector<C>&& c)
+		{
+			ensure (u.size() == c.size());
+			ensure (increasing(u.begin(), u.end()));
+
+			u_ = std::move(u);
+			c_ = std::move(c);
+
+			return *this;
 		}
 
 		// insert one cash flow
@@ -207,14 +225,14 @@ namespace fixed_income {
 		}
 
 	};
-
+*/
 } // namespace fixed_income
 } // namespace fms
 
 #ifdef _DEBUG
 
 using namespace fms::fixed_income;
-
+/*
 inline void test_fixed_income_instrument_ops()
 {
 }
@@ -267,11 +285,11 @@ void test_fixed_income_instrument_add()
 	// add same time
 	// add different time
 }
-
+*/
 inline void test_fixed_income_instrument()
 {
-	test_fixed_income_instrument_adt();
-	test_fixed_income_instrument_ops();
-	test_fixed_income_instrument_add();
+//	test_fixed_income_instrument_adt();
+//	test_fixed_income_instrument_ops();
+//	test_fixed_income_instrument_add();
 }
 #endif // _DEBUG

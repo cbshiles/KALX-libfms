@@ -8,6 +8,8 @@ namespace fixed_income {
 
 	template<class T = double, class C = double>
 	class cash_deposit : public instrument<T,C,fms::datetime::date> {
+		T t_[2];
+		C c_[2];
 	public:
 		// indicative data
 		unsigned int set_; // number of days until settlement
@@ -42,14 +44,10 @@ namespace fixed_income {
 		~cash_deposit()
 		{ }
 
-
 		// create cash flows given valuation and rate
 		cash_deposit& fix(const fms::datetime::date& val, const C& rate) override
 		{
 			ensure (effective());
-
-			T t_[2];
-			C c_[2];
 
 			datetime::date d0(val);
 			d0.incr(set_, fms::datetime::UNIT_DAYS).adjust(roll_, cal_);
@@ -63,11 +61,20 @@ namespace fixed_income {
 
 			ensure (c_[1] > 0); // otherwise arbitrage exists
 
-			set(2, &t_[0], &c_[0]);
-
 			return *this;
 		}
-
+		size_t size() const override
+		{
+			return 2;
+		}
+		const T* time() const override
+		{
+			return t_;
+		}
+		const C* cash() const override
+		{
+			return c_;
+		}
 	};
 
 } // namespace fixed_income

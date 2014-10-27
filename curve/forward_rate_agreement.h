@@ -9,6 +9,8 @@ namespace fixed_income {
 
 	template<class T = double, class C = double>
 	struct forward_rate_agreement : public instrument<T,C,fms::datetime::date> {
+		T t_[2];
+		C c_[2];
 		// indicative data
 		int count_; fms::datetime::time_unit unit_; // e.g., 2, UNIT_WEEKS
 		fms::datetime::day_count_basis dcb_;
@@ -36,9 +38,6 @@ namespace fixed_income {
 
 			ensure (eff_);
 
-			T t_[2];
-			C c_[2];
-
 			t_[0] = eff_.diffyears(val);
 			ensure(t_[0] >= 0);
 			c_[0] = -1;
@@ -50,9 +49,20 @@ namespace fixed_income {
 
 			ensure (c_[1] > 0); // otherwise arbitrage exists
 
-			set(2, &t_[0], &c_[0]);
-
 			return *this;
+		}
+
+		size_t size() const override
+		{
+			return 2;
+		}
+		const T* time() const override
+		{
+			return t_;
+		}
+		const C* cash() const override
+		{
+			return c_;
 		}
 
 	};

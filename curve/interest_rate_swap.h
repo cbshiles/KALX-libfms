@@ -3,8 +3,7 @@
 #pragma once
 #include "../datetime/datetime.h"
 #include "instrument.h"
-
-using fms::datetime::date;
+/*
 
 namespace fms {
 namespace fixed_income {
@@ -88,14 +87,14 @@ namespace fixed_income {
 
 } // namespace instrument
 } // namespace fms
-
+*/
 #ifdef _DEBUG
 
 using namespace fms::fixed_income;
 
 void test_fixed_income_interest_rate_swap()
 {
-	interest_rate_swap<> irs;
+//	interest_rate_swap<> irs;
 }
 
 #endif // _DEBUG

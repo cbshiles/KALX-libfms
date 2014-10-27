@@ -6,9 +6,51 @@
 namespace fms {
 namespace fixed_income {
 
+	template<class T = double, class C = double, class D = void*>
+	class interest_rate_leg : public insturment<T,C,D> {
+		std::vector<T> t_;
+		std::vector<C> c_;
+	public:
+		iterest_rate_leg(size_t n = 0, const T* t = 0, const C* c = 0)
+			: t_(t, t + n), c_(c + n)
+		{ }
+		interest_rate_leg(const interest_rate_leg&) = default;
+		interest_rate_leg& operator=(const interest_rate_leg&) = default;
+		virtual ~interest_rate_leg()
+		{ }
+
+		// add single cash flow
+		virtual fix(const D& d, const C& c = 1) override
+		{
+			ensure (effective());
+
+			t_.push_back(d.diffyears(effective()));
+			c_.push_back(c);
+
+			ensure (increasing(t_.begin(), t_.end()));
+		}
+		size_t size() const override
+		{
+			return t_.size();
+		}
+		const T* time() const override
+		{
+			return t_.data();
+		}
+		const C* cash() const override
+		{
+			return c_.data();
+		}
+
+	};
+
+	//!!! move to interest_rate_leg_fixed.h
 	// fixed payments
 	template<class T = double, class C = double>
-	struct interest_rate_leg_fixed : public instrument<T,C,fms::datetime::date> {
+	class interest_rate_leg_fixed : public interest_rate_leg<T,C,fms::datetime::date> {
+		std::vector<T> t_;
+		std::vector<C> c_;
+	public:
 		// indicative data
 		int count_; fms::datetime::time_unit unit_; // e.g., 10, UNIT_YEARS
 		fms::datetime::payment_frequency freq_;
@@ -34,14 +76,11 @@ namespace fixed_income {
 		{ }
 
 		// create cash flows given settlement date and fixed coupon
-		const interest_rate_swap<T,C,fms::datetime::date>& fix(const date& val, double coupon)
+		const interest_rate_leg_fixed<T,C>& fix(const date& val, double coupon)
 		{
 			fms::datetime::date eff_{effective());
 
 			ensure (eff_);
-
-			std::vector<T> u_;
-			std::vector<C> c_;
 
 			date mat(eff_);
 			mat.incr(count_, unit_);
@@ -51,20 +90,18 @@ namespace fixed_income {
 			for (int i = 1; d0 <= mat; ++i) {
 				date d1(eff_);
 				d1.incr(12*i/freq_, fms::datetime::UNIT_MONTHS).adjust(roll_, cal_);
-				t_.push_back(d1.diffyears(val));
-				c_.push_back(coupon*d1.diff_dcb(d0, dcb_));
+				add(d1, coupon*d1.diff_dcb(d0, dcb_));
 				d0 = d1;
 			}
-
-			set(t_, c_);
 
 			return *this;
 		}
 	};
 
-	// fixed payments
+	//!!! move to interest_rate_leg_float.h
 	template<class T = double, class C = double>
-	struct interest_rate_leg_float : public instrument<T,C,fms::datetime::date> {
+	class interest_rate_leg_float : public interest_rate_leg<T,C,fms::datetime::date> {
+	public:
 		// indicative data
 		int count_; fms::datetime::time_unit unit_; // e.g., 10, UNIT_YEARS
 		fms::datetime::payment_frequency freq_;
@@ -90,14 +127,11 @@ namespace fixed_income {
 		{ }
 
 		// create cash flows given settlement date and fixed coupon
-		const interest_rate_swap<T,C>& fix(const date& val, double coupon)
+		const interest_rate_leg_float<T,C>& fix(const date& val, double coupon)
 		{
 			fms::datetime::date eff_{effective());
 
 			ensure (eff_);
-
-			std::vector<T> u_;
-			std::vector<C> c_;
 
 			date mat(eff_);
 			mat.incr(count_, unit_);
@@ -105,19 +139,9 @@ namespace fixed_income {
 
 			// long the floating leg
 			eff_.adjust(roll_, cal_);
-			t_.push_back(eff_);
-			c_.push_back(1
-
-			date d0(eff_);
-			for (int i = 1; d0 <= mat; ++i) {
-				date d1(eff_);
-				d1.incr(12*i/freq_, fms::datetime::UNIT_MONTHS).adjust(roll_, cal_);
-				t_.push_back(d1.diffyears(val));
-				c_.push_back(coupon*d1.diff_dcb(d0, dcb_));
-				d0 = d1;
-			}
-
-			set(t_, c_);
+			fix(eff_, 1);
+			// short the fixed leg
+			fix(mat, -1);
 
 			return *this;
 		}
