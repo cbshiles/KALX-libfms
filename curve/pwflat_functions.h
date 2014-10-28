@@ -148,6 +148,7 @@ void test_pwflat_integral()
 
 inline void test_pwflat_spot()
 {
+	//airc1209 done by lf343
 	double t[] = { 1, 2, 3 };
 	double f[] = { .1, .2, .3 };
 
