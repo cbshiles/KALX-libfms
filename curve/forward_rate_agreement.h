@@ -7,10 +7,9 @@
 namespace fms {
 namespace fixed_income {
 
+	//!!!jl2372 inherit from fixed_income::interest_rate_leg
 	template<class T = double, class C = double>
-	struct forward_rate_agreement : public instrument<T,C,fms::datetime::date> {
-		T t_[2];
-		C c_[2];
+	struct forward_rate_agreement : public vector::instrument<T,C,fms::datetime::date> {
 		// indicative data
 		int count_; fms::datetime::time_unit unit_; // e.g., 2, UNIT_WEEKS
 		fms::datetime::day_count_basis dcb_;
@@ -32,37 +31,19 @@ namespace fixed_income {
 		{ }
 
 		// create cash flows given settlement, effective, and forward rate
-		forward_rate_agreement& fix(const fms::datetime::date& val, const C& forward) override
+		forward_rate_agreement& fix(const fms::datetime::date& set, const fms::datetime::date& eff, const C& forward)
 		{
-			fms::datetime::date eff_{effective()};
+			fms::datetime::date d0(eff);
+			add(d0.diffyears(set), -1);
+			ensure (time(0) >= 0);
 
-			ensure (eff_);
+			fms::datetime::date d1(d0);
+			d1.incr(count_, unit_).adjust(roll_, cal_);
+			add(d1.diffyears(set), 1 + forward*d1.diff_dcb(d0, dcb_));
 
-			t_[0] = eff_.diffyears(val);
-			ensure(t_[0] >= 0);
-			c_[0] = -1;
-
-			fms::datetime::date d(eff_);
-			d.incr(count_, unit_).adjust(roll_, cal_);
-			t_[1] = d.diffyears(val);
-			c_[1] = 1 + forward*d.diff_dcb(eff_, dcb_);
-
-			ensure (c_[1] > 0); // otherwise arbitrage exists
+			ensure (cash(1) > 0 || !"fms::fixed_income::forward_rate_agreement: forward not arbitrage free");
 
 			return *this;
-		}
-
-		size_t size() const override
-		{
-			return 2;
-		}
-		const T* time() const override
-		{
-			return t_;
-		}
-		const C* cash() const override
-		{
-			return c_;
 		}
 
 	};
@@ -79,7 +60,8 @@ void test_fixed_income_forward_rate_agreement()
 {
 	forward_rate_agreement<> fra;
 
-	fra.effective(date(2015, 10,22)).fix(date(2014, 10, 22), 0.02);
+	fra.fix(date(2014, 10,22), date(2015, 10, 22), 0.02);
+	//!!!lf343 add more tests
 }
 
 #endif // _DEBUG

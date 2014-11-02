@@ -14,10 +14,10 @@ namespace pwflat {
 	}
 
 	// bootstrap a curve from a container of instruments
-	template<class I, class F>
-	inline vector_curve<I::time_type, F> bootstrap(I bi, I ei)
+	template<class I, class F = I::cash_type>
+	inline vector::curve<I::time_type, F> bootstrap(I bi, I ei)
 	{
-		vector_curve<I::time_type,F> c;
+		vector::curve<I::time_type,F> c;
 
 		for (; bi != ei; ++bi) {
 			c.push_back(bi->back().first, bootstrap(*bi, c));

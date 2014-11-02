@@ -7,8 +7,7 @@ The file `root1d.h` contains the tools for finding roots of a function of one va
 
 The namespace `step` contains functions for (hopefully) improving successive estimations.
 
-The namespace `done` provides criteria for terminating a search. The preferred method is `done::absolute`. 
-Ideally, one wants to find the closest representable floating point root.
+The namespace `done` provides criteria for terminating a search. The preferred method is `done::absolute` since, ideally, one wants to find the closest representable floating point root.
 
 The namespace `find` provides three methods of solving for roots: `newton`, `secant`, and `kahan`.
 The `newton` method requires the derivative of the function and an initial guess.

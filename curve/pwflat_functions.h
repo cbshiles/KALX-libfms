@@ -158,7 +158,65 @@ inline void test_pwflat_present_value()
 
 inline void test_pwflat_duration()
 {
-	// cxccxlcxc 
+	// cxccxlcxc
+	size_t n = 3;
+	double t[] = {1, 2, 3};
+	double f[] = {.1, .2, .3};
+	size_t m = 3;
+	double c[] = {.5, 1, 2};
+	double u[] = {1, 2, 3};
+	double t0 = 0;
+
+// ********************************************************************
+// **  dur = -sum_i[(u_i - t0) * c_i * discount(u_i) ] for t_i > t0  **
+// ********************************************************************
+// Note: All the following tests are based on the assumption that previous 
+//	defined functions (value, integral, discount, spot) have passed unit test.
+// --------------------------------------------------------------------
+// TEST CASES:
+// 0) Normal usage case test
+	t0 = 1.5;
+	ensure(-1 * (2 - 1.5)*discount(2., n, t, f) - 2 * (3 - 1.5) *discount(3., n, t, f)
+		== duration(t0, m, u, c, n, t, f));
+// The following are boundary cases and extreme situations
+// 1) t0 is larger than all u's.  No change to pv is parallel shift all rates after t0.  So dur = 0
+	t0 = 4;
+	ensure(.0 == duration(t0, m, u, c, n, t, f));
+// 2) t0 is exactly at the last cash flow. The time difference (u_i - t0) is 0.
+	t0 = 3;
+	ensure(.0 == duration(t0, m, u, c, n, t, f));
+// 3) t0 is chosen at a size that the last and only the last cash flow is effective.
+//          By definition, duration is the pv weight term.
+	t0 = 2.5;
+	ensure( -c[2] * (u[2] - t0) * discount(u[2], n, t, f) == duration(t0, m, u, c, n, t, f));
+// 4) t0 is 0.  All cash flow are effective.
+	t0 = .0;
+	ensure(-c[0] * (u[0] - t0) * discount(u[0], n, t, f)
+		- c[1] * (u[1] - t0) * discount(u[1], n, t, f)
+		- c[2] * (u[2] - t0) * discount(u[2], n, t, f)
+		== duration(t0, m, u, c, n, t, f));
+// 5) All cash flows are 0.  Then the pv weighted term should be 0.
+	double c5[] = { .0, .0, .0 };
+	ensure(.0 + .0 + .0 == duration(t0, m, u, c5, n, t, f));
+// 6) All cash flow are same and happens at same timestamp.  Then the duration should be three times the duration 
+//	of that cash flow at that stamp
+	t0 = 0;
+	double u6_1[] = { 3., 3., 3. }; // all cash flow is the last cash flow of original c[] and happens at last u[]
+	size_t m6_1 = 3;
+	double c6_1[] = {*(c+2), *(c+2), *(c+2)};
+	double *u6_2 = u + 2;
+	size_t m6_2 = 1;
+	double *c6_2 = c+2;
+	ensure(duration(t0, m6_1, u6_1, c6_1, n, t, f) == 3 * duration(t0, m6_2, u6_2, c6_2, n, t, f));
+}
+
+void test_pwflat_function()
+{
+	test_pwflat_value();
+	test_pwflat_integral();
+	test_pwflat_spot();
+	test_pwflat_present_value();
+	test_pwflat_duration();
 }
 
 #endif // _DEBUG

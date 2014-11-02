@@ -85,5 +85,29 @@ double WINAPI xll_pwflat_discount(double t, xfp* pt, xfp* pf, double f_)
 }
 
 
-// static AddInX xai_pwflat_spot( // zzx5008 
-// static AddInX xai_pwflat_discount(
+//!!!zzx5008 
+static AddInX xai_pwflat_spot(
+FunctionX(XLL_DOUBLEX, _T("?xll_pwflat_spot"), _T("PWFLAT.SPOT"))
+.Arg(XLL_DOUBLEX, _T("Time"), _T("is time at which the piecewise constant curve is to be evaluated"))
+.Arg(XLL_FPX, _T("Times"), _T("is an array of times"))
+.Arg(XLL_FPX, _T("Forwards"), _T("is an array of forwards"))
+.Arg(XLL_DOUBLEX, _T("_Extrapolate"), _T("is an optional value used to extrapolate. Default is 0"))
+.Category(CATEGORY)
+.FunctionHelp(_T("Return continuously compounded spot rate at Time."))
+);
+double WINAPI xll_pwflat_spot(double t, xfp* pt, xfp* pf, double f_)
+{
+#pragma XLLEXPORT
+	double s{ std::numeric_limits<double>::quiet_NaN() };
+
+	try {
+		ensure(size(*pt) == size(*pt));
+
+		s = spot<double,double>(t, size(*pt), pt->array, pf->array, f_);
+	}
+	catch (const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return s;
+}
