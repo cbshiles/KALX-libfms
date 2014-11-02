@@ -1,5 +1,4 @@
 // holiday.h - Holidays a la Quantlib
-// Copyright (c) 2011 KALX, LLC. All rights reserved. No warranty is made.
 #pragma once
 
 #include "datetime.h"

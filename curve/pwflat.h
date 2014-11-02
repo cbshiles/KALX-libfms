@@ -465,7 +465,8 @@ inline void test_pwflat_vector_curve()
 void test_pwflat()
 {
 	test_pwflat_curve();
-
+	test_pwflat_pointer_curve();
+	test_pwflat_vector_curve();
 }
 
 #endif // _DEBUG

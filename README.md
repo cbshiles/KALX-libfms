@@ -1,5 +1,5 @@
 # libfms
-A library for finance, mathematics, and software
+## A library for finance, mathematics, and software
 
 [root](root/README.md) - root finding
 [prob](prob/README.md) - probability related functions

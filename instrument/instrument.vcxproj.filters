@@ -15,25 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pwflat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pwflat_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bootstrap_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="bootstrap_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="curve.cpp">
+    <ClCompile Include="instrument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="README.md" />
+    <ClInclude Include="cash_deposit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eurodollar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eurodollar_futures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="forward_rate_agreement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="instrument.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interest_rate_leg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="interest_rate_swap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

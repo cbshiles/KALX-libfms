@@ -11,7 +11,7 @@ namespace pwflat {
 	// cash deposit, c = 1 + rate usually
 	// 1 = c D0 exp(-f(u - t0))
 	template<class T, class F>
-	inline F bootstrap1(T u, T c, size_t n, const T* t, const F* f)
+	inline F bootstrap1(T u, F c, size_t n, const T* t, const F* f)
 	{
 		ensure (u > 0);
 		ensure (c > 0);
@@ -25,7 +25,7 @@ namespace pwflat {
 	// forward rate agreement, c0 = -1, c1 = 1 + forward, usually
 	// 0 = c0 D0 + c1 D1, where D1 = D0 exp(-f(u1 - t0)) ish
 	template<class T, class F>
-	inline F bootstrap2(T u0, T c0, T u1, T c1, size_t n, const T* t, const F* f)
+	inline F bootstrap2(T u0, F c0, T u1, F c1, size_t n, const T* t, const F* f)
 	{
 		F f_;
 		T t0 = n ? t[n-1] : 0;
@@ -34,10 +34,10 @@ namespace pwflat {
 
 		if (u0 < t0) { // overlap or cash deposit
 			F D1 = discount(u1, n, t, f);
-			f_ = static_cast<T>(log(d*D0/D1)/(u1 - u0));
+			f_ = static_cast<F>(log(d*D0/D1)/(u1 - u0));
 		}
 		else { // underlap
-			f_ = static_cast<T>(log(d)/(u1 - t0));
+			f_ = static_cast<F>(log(d)/(u1 - t0));
 		}
 
 		return f_;
@@ -45,7 +45,7 @@ namespace pwflat {
 
 	// note pv is present value of cash flows, f_ is best guess at bootstrap value
 	template<class T, class F>
-	inline T bootstrap(size_t m, const T* u, const T* c, size_t n, const T* t, const F* f, F f_ = 0, F pv = 0)
+	inline T bootstrap(size_t m, const T* u, const F* c, size_t n, const T* t, const F* f, F f_ = 0, F pv = 0)
 	{
 		ensure (m && (n == 0 || u[m-1] > t[n-1]));
 
@@ -70,7 +70,7 @@ namespace pwflat {
 
 		auto F_ = [pv,p0,m,u,c,n,t,f](T f_) 
 		{ 
-			return -pv + p0 + present_value<T>(m, u, c, n, t, f, f_)); 
+			return -pv + p0 + present_value<T>(m, u, c, n, t, f, f_); 
 		};
 		auto dF = [t0,m,u,c,n,t,f](T f_) 
 		{ 
