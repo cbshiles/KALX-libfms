@@ -1,7 +1,6 @@
-// main.cpp - driver for datetime tests
+// datetime.cpp - datetime tests
 #include <iostream>
-
-void fms_test_datetime(void);
+#include "datetime.h"
 
 int
 main(void)

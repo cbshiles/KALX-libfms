@@ -88,6 +88,7 @@ namespace pwflat {
 } // fms
 
 #ifdef _DEBUG
+#include "pwflat.h"
 
 using namespace fms::pwflat;
 
@@ -106,4 +107,42 @@ inline void test_pwflat_bootstrap()
 	// sjm366
 }
 
+template<class T, class U>
+inline void test_pwflat_bootstrap_(void)
+{
+	T eps = std::numeric_limits<T>::epsilon();
+	T t[] = {1, 2, 3, 4};
+//	size_t n = sizeof(t)/sizeof(*t);
+
+	std::vector<U> f;
+
+	// present_value of (0, -1), (1, e), ..., (n, 1+e) is 0 for f(t) = f0.
+	U f0 = (U)0.04;
+	U e = exp(f0) - 1;
+
+	// cd with empty forward curve
+	vector::curve<> f;
+	f.push_back(forward<T,U>().bootstrap1(1., 1 + e));
+	ensure (fabs(f.back() - f0) < eps);
+
+	// fra
+	f.push_back(forward<T,U>(1, t, &f[0]).bootstrap2(1., -1., 2., 1 + e));
+	ensure (fabs(f.back() - f0) < eps);
+
+	// generic
+	T u[]  = {0, 1, 2, 3, 4};
+	T c3[] = {-1, e, e, 1 + e};
+	// initial guess 0.02
+	f.push_back(forward<T,U>(2, t, &f[0], (U)0.02).bootstrap(4, u, c3)); 
+	ensure (fabs(f.back() - f0) < eps);
+
+	T c4[] = {-1, e, e, e, 1 + e};
+	f.push_back(forward<T>(3, t, &f[0], (U).02).bootstrap(5, u, c4)); 
+	ensure (fabs(f.back() - f0) < eps);
+}
+
+void curves_bootstrap_test(void)
+{
+	test_pwflat_bootstrap_<double,double>();
+}
 #endif // _DEBUG

@@ -10,8 +10,7 @@ int main()
 	try {
 		test_pwflat_function();
 		test_pwflat();
-
-		
+		test_pwflat_bootstrap();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

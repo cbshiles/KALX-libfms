@@ -86,7 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="datetime.cpp" />
-    <ClCompile Include="tdatetime.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />
