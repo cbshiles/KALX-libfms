@@ -6,7 +6,7 @@ int
 main(void)
 {
 	try {
-		fms_test_datetime();
+		test_datetime();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

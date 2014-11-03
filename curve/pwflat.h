@@ -111,6 +111,13 @@ namespace pwflat {
 			return fms::pwflat::duration(t0, m, u, c, size(), t(), f(), f_);
 		}
 
+		std::pair<T,F> back() const
+		{
+			ensure (size() > 0);
+
+			return std::make_pair(t(size() - 1), f(size() - 1));
+		}
+
 		// convenience functions
 		T t(size_t i) const
 		{
@@ -227,12 +234,12 @@ namespace pwflat {
 			{
 				return f_.data();
 			}
-
+/*???
 			std::pair<T,F> back() const
 			{
 				return std::make_pair(t_.back(), f_.back());
 			}
-
+*/
 			// add knot at back of curve
 			curve& push_back(const T& t, const F& f)
 			{
@@ -532,13 +539,13 @@ inline void test_pwflat_vector_curve_ops()
 	
 	size_t N = 100;
 	for (size_t i = 0; i < N; ++i) {
-		double t = std::uniform_real_distribution<>(0, tn)(e);
+	//!!!jl2372
+	// test sub(-), mul(*), and div(/)
+}		double t = std::uniform_real_distribution<>(0, tn)(e);
 		ensure (add(t) == c1(t) + c2(t));
 	}
 
-	//!!!jl2372
-	// test sub(-), mul(*), and div(/)
-}
+
 
 inline void test_pwflat()
 {

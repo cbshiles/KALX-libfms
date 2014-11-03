@@ -21,11 +21,11 @@ namespace datetime {
 		= 25569;
 	static const double EXCEL_EPOCH
 		= EXCEL_19700101;
-
+/*!!!
 	// Excel Julian date for 1/19/2038 3:14.
 	static const double EXCEL_ERA
 		= EXCEL_EPOCH + 0xFFFFFFFF/SECS_PER_DAY;
-
+*/
 	// Excel to time in years since epoch.
 	inline double
 	excel2years(double t, double epoch)

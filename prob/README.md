@@ -1,4 +1,6 @@
 # Prob
+## Dependencies: root
+
 Probability related functions.
 A _random variable_, $X$, is completely determined by its _cumulative distribution function_, $F(x) = P(X\le x)$.
 Just like variables we all learned about in high school algebra, a random variable takes the place of a number in equations.

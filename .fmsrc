@@ -1,2 +1,2 @@
-export INCLUDE=$(pwd)/include
+export INCLUDE=$(pwd)
 export CXXFLAGS="-g -Wall -std=gnu++11 -I$INCLUDE -D_DEBUG"

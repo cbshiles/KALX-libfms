@@ -90,7 +90,16 @@ namespace option {
 
 			return fms::root1d::find::newton<X,X>(0.2, F, dF);
 		}
+
+		// Find the forward given the option price.
+		template<class X>
+		inline X implied_forward(const X& p, const X& s, const X& k, const X& t)
+		{
+			//!!!zoewanforest
+		}
 	} // black
+	// Black-Scholes/Merton
+	// bsm(r, s, vol, strike, exp) = e^{-rt}black(s*exp(r*t), ....)
 } // option
 } // fms
 
@@ -107,6 +116,7 @@ inline void test_option_black(int N = 1000)
 		double f, s, k, t, v, df, ddf, ds, dt;
 	} data [] = {
 		{ 100, .2, 100, .25, 3.9877611676744920, 0.51993880583837249, 0.039844391409476397, 19.922195704738197, -7.9688782818952797 }
+		// add more tests!!!
 	};
 	
 	double v, df, ddf, ds, dt;
@@ -133,9 +143,9 @@ inline void test_option_black(int N = 1000)
 	for (int n = 1; n < N; ++n) {
 		double F = f*exp(-srt*srt/2 + srt*X(e));
 		double v = (std::max)(F - k, 0.);
-		c += (v - c)/n;
+		c += (v - c)/n; // call mean
 		v = (std::max)(k - F, 0.);
-		p += (v - p)/n;
+		p += (v - p)/n; // put mean
 	}
 
 	ensure (fabs(c - black::value(f, s, k, t)) < 2*c/sqrt(N));

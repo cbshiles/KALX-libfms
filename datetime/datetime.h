@@ -832,7 +832,7 @@ inline datetime::date operator+(const datetime::excel_date t0, double dt)
 using namespace fms::datetime;
 using namespace std;
 
-inline void fms_test_date_adjust(void)
+inline void test_date_adjust(void)
 {
 	ensure (date(2012, 1, 2).is_holiday(calendar::NYS));
 	ensure (date(2012, 1, 2).weekday() == DAY_MON);
@@ -853,6 +853,7 @@ inline void fms_test_date_adjust(void)
 /* Add tests!!!
 
 //!!!bolunpeng
+
 1. Following
 The adjusted date is the following good business day.
 Examples:
@@ -913,7 +914,7 @@ inline int rand_between(int a, int b)
 	return a + rand()%(b - a + 1);
 }
 
-inline void fms_test_date_date(void)
+inline void test_date_date(void)
 {
 	double e;
 	date f;
@@ -965,7 +966,7 @@ inline void fms_test_date_date(void)
 	}
 }
 
-inline void fms_test_date_dcf(void)
+inline void test_date_dcf(void)
 {
 	date d1, d2;
 
@@ -978,10 +979,10 @@ inline void fms_test_date_dcf(void)
 	ensure (d2.diff_30u_360(d1) == 2./12 + 1./360);
 }
 
-inline void fms_test_datetime(void)
+inline void test_datetime(void)
 {
-	fms_test_date_adjust();
-	fms_test_date_date();
-	fms_test_date_dcf();
+	test_date_adjust();
+	test_date_date();
+	test_date_dcf();
 }
 #endif // _DEBUG

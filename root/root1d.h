@@ -96,6 +96,7 @@ namespace root1d {
 				X _x = step::bisect(x, x_);
 				Y _y = f(_x);
 
+				// keep root bracketed
 				if (_y*y_ < 0) {
 					std::swap(x, x_);
 					std::swap(y, y_);

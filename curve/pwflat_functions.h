@@ -73,6 +73,7 @@ namespace pwflat {
 	{
 		F pv{0};
 
+		//!!! use std::accumulate
 		for (size_t i = 0; i < m; ++i) {
 			pv += c[i]*discount<T,F>(u[i], n, t, f, f_);
 		}
@@ -148,12 +149,10 @@ void test_pwflat_integral()
 
 inline void test_pwflat_spot()
 {
-	// airc1209
 }
 
 inline void test_pwflat_present_value()
 {
-	// bsf48 
 }
 
 inline void test_pwflat_duration()

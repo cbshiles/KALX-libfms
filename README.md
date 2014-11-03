@@ -15,7 +15,7 @@ Open `libfms` and build the project `xllfms`.
 
 ### Library Organization
 Projects are header only files. Each project has a `.cpp` file with the project name. It calls test routines that are defined in each header.
-The project `xllfms` consists of Excel add-in functions that call the platform-indepenent code defined in other projects.
+The project `xllfms` consists of Excel add-in functions that call the platform-indepenent code in other projects.
 
 [root](root/README.md) - root finding
 [prob](prob/README.md) - probability related functions
