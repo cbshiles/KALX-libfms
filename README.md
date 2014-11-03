@@ -9,14 +9,13 @@ Two things are clear about how to leverage off of however the silicon dust settl
 
 ### Get the Source
 Run Visual Studio 2013. Use [git](http://msdn.microsoft.com/en-us/library/hh850437.aspx) to clone:
-
 *  the [xll8](http://xll8.codeplex.com/SourceControl/latest) library.
 *  [libfms] https://libfms.codeplex.com/SourceControl/latest#README.md
-
 Open `libfms` and build the project `xllfms`.
 
 ### Library Organization
-
+Projects are header only files. Each project has a `.cpp` file with the project name. It calls test routines that are defined in each header.
+The project `xllfms` consists of Excel add-in functions that call the platform-indepenent code defined in other projects.
 
 [root](root/README.md) - root finding
 [prob](prob/README.md) - probability related functions

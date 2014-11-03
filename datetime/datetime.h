@@ -849,6 +849,61 @@ inline void fms_test_date_adjust(void)
 	ensure (date(2012,  1,  1).adjust(ROLL_MODIFIED_PREVIOUS,  calendar::NYS) == date(2012,  1,  3));
 
 	ensure (!date(2000, 1, 1).is_holiday());
+
+/* Add tests!!!
+
+//!!!bolunpeng
+1. Following
+The adjusted date is the following good business day.
+Examples:
+• Start date 18-Aug-2011, period 1 month: end date: 19-Sep-2011.
+2. Preceding
+The adjusted date is the preceding good business day.
+This convention is often linked to loans and it is a translation of the amount that should be paid on
+or before a specific date.
+Examples:
+• Start date 18-Aug-2011, period 1 month: end date: 16-Sep-2011.
+3. Modified following
+The adjusted date is the following good business day unless the day is in the next calendar month,
+in which case the adjusted date is the preceding good business day.
+This is the most used convention for interest rate derivatives.
+Examples:
+• Start date 30-Jun-2011, period 1 month: end date: 29-Jul-2011. The following rule would lead to
+1-Aug which is in the next calendar month with respect to 30-Jul.
+
+//!!!cxccxlcxc
+
+4. Modified following bimonthly
+The adjusted date is the following good business day unless that day crosses the mid-month (15th)
+or end of a month, in which case the adjusted date is the preceding good business day.
+Examples:
+• Start date 30-Jun-2011, period 1 month: end date: 29-Jul-2011. The following rule would lead to
+1-Aug which is in the next calendar month with respect to 30-Jul.
+• Start date 15-Sep-2011, period 1 month: end date: 14-Oct-2011. The following rule would lead to
+17-Oct which crosses the mid-month.
+5. End of month
+Where the start date of a period is on the final business day of a particular calendar month, the end
+date is on the final business day of the end month (not necessarily the corresponding date in the end
+month).
+Examples:
+• Start date 28-Feb-2011, period 1 month: end date: 31-Mar-2011.
+• Start date 29-Apr-2011, period 1 month: end date: 31-May-2012. 30-Apr-2011 is a Saturday, so
+29-Apr is the last business day of the month.
+• Start date 28-Feb-2012, period 1 month: end date: 28-Mar-2012. 2012 is a leap year and the 28th
+is not the last business day of the month!
+8
+}
+*/
+}
+
+inline void test_actual_actual_isda()
+{
+	//!!!dgtsx
+/*
+• Start date 30-Dec-2010 / End date: 2-Jan-2011: 3/365 = 0.008219...
+• Start date 30-Dec-2011 / End date: 2-Jan-2012: 2/365 + 1/366 = 0.8211...
+• Start date 30-Dec-2010 / End date: 2-Jan-2013: 367/365 + 366/366 + 1/365 = 3/365 + 2 = 2.008219...
+*/
 }
 
 #define NTESTS 100

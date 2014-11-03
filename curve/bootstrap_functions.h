@@ -92,29 +92,14 @@ namespace pwflat {
 
 using namespace fms::pwflat;
 
-inline void test_pwflat_bootstrap1()
-{
-	// lukeyy 
-}
-
-inline void test_pwflat_bootstrap2()
-{
-	// rc633  
-}
-
-inline void test_pwflat_bootstrap()
-{
-	// sjm366
-}
-
+// !!!sjm366
 template<class T, class U>
 inline void test_pwflat_bootstrap_(void)
 {
+/*
 	T eps = std::numeric_limits<T>::epsilon();
 	T t[] = {1, 2, 3, 4};
 //	size_t n = sizeof(t)/sizeof(*t);
-
-	std::vector<U> f;
 
 	// present_value of (0, -1), (1, e), ..., (n, 1+e) is 0 for f(t) = f0.
 	U f0 = (U)0.04;
@@ -139,9 +124,10 @@ inline void test_pwflat_bootstrap_(void)
 	T c4[] = {-1, e, e, e, 1 + e};
 	f.push_back(forward<T>(3, t, &f[0], (U).02).bootstrap(5, u, c4)); 
 	ensure (fabs(f.back() - f0) < eps);
+*/
 }
 
-void curves_bootstrap_test(void)
+void test_pwflat_bootstrap(void)
 {
 	test_pwflat_bootstrap_<double,double>();
 }

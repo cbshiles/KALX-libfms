@@ -156,8 +156,11 @@ namespace pwflat {
 			const T* t_;
 			const F* f_;
 		public:
-			curve(size_t n = 0, const T* t = nullptr, const F* f = nullptr, const F& f_ = 0)
-				: curve(f_), n_(n), t_(t), f_(t)
+			curve(const F& _f = 0)
+				: fms::pwflat::curve<T,F>(_f), n_(0), t_(nullptr), f_(nullptr)
+			{ }
+			curve(size_t n, const T* t, const F* f, const F& _f = 0)
+				: fms::pwflat::curve<T,F>(_f), n_(n), t_(t), f_(t)
 			{ }
 			// avoid pointer aliasing
 			curve(const curve&) = delete;
@@ -223,6 +226,11 @@ namespace pwflat {
 			const F* _f(void) const override
 			{
 				return f_.data();
+			}
+
+			std::pair<T,F> back() const
+			{
+				return std::make_pair(t_.back(), f_.back());
 			}
 
 			// add knot at back of curve
@@ -308,7 +316,7 @@ namespace pwflat {
 
 				std::vector<F> f(t.size());
 				std::transform(t.begin(), t.end(), f.begin(), [this,&c,&op](const T& ti) { return op(value(ti), c(ti)); });
-				/*
+				/* same effect as
 				for (size_t i = 0; i < t.size(); ++i) {
 					f[i] = value(t[i]) + c(t[i]); // correct but not efficient!!!
 				}
@@ -360,6 +368,8 @@ inline fms::pwflat::vector::curve<T,F> operator/(const fms::pwflat::curve<T,F>& 
 
 #ifdef _DEBUG
 
+#include <random>
+
 using namespace fms::pwflat;
 
 inline void test_pwflat_curve()
@@ -402,10 +412,42 @@ inline void test_pwflat_curve()
 
 }
 
+//!!!Giorgio
 inline void test_pwflat_pointer_curve()
 {
-	// giorgiovitale 
+	pointer::curve<> c1;
+	ensure(c1.size() == 0);
+	ensure(c1.t() == 0);
+	ensure(c1.f() == 0);
+	/*
+	pointer::curve <> c2 = c1; //!!!disabled for pointer curves
+	ensure(c2.t() == 0);
+	ensure(c2.f() == 0);
+	ensure(c1 == c2);
+
+	pointer::curve <> c3(1);
+	pointer::curve <> c4;
+	c4 = c3;
+	ensure(c3 == c4);
+	ensure(c3 != c1);
+
+	ensure(c3.extrapolate() == 1);
+	c3.extrapolate(3);
+	ensure(c3.extrapolate() == 3);
+
+	ensure(c1 < c3);
+	ensure(c1.value(0) == 0);
+	ensure(c1(0) == 0);
+	ensure(c1.integral(0) == 0);
+	ensure(c3.integral(1) == 3);
+	ensure(c1.present_value(0, 0, 0) == 0);
+
+	ensure(c1.t(0) == 0);
+	ensure(c1.f(0) == 0);
+	ensure(std::make_pair(0., 0.) == c1[0]);
+	*/
 }
+
 
 inline void test_pwflat_vector_curve()
 {
@@ -462,11 +504,50 @@ inline void test_pwflat_vector_curve()
 	}
 }
 
-void test_pwflat()
+inline vector::curve<> random_curve()
+{
+	static std::default_random_engine e;
+	static std::uniform_int_distribution<size_t> u(0,10);
+	static std::exponential_distribution<double> ed(10);
+
+	size_t n = u(e);
+	std::vector<double> t, f;
+	for (size_t i = 0; i < n; ++i) {
+		t.push_back((i ? t.back() : 0) + ed(e));
+		f.push_back(ed(e));
+	}
+
+	return vector::curve<>(n, &t[0], &f[0]);
+}
+
+inline void test_pwflat_vector_curve_ops()
+{
+	std::default_random_engine e;
+	vector::curve<> c1, c2;
+	c1 = random_curve();
+	c2 = random_curve();
+
+	vector::curve<> add = c1 + c2;
+	double tn = add.back().first;
+	
+	size_t N = 100;
+	for (size_t i = 0; i < N; ++i) {
+		double t = std::uniform_real_distribution<>(0, tn)(e);
+		ensure (add(t) == c1(t) + c2(t));
+	}
+
+	//!!!jl2372
+	// test sub(-), mul(*), and div(/)
+}
+
+inline void test_pwflat()
 {
 	test_pwflat_curve();
 	test_pwflat_pointer_curve();
 	test_pwflat_vector_curve();
+	test_pwflat_vector_curve_ops();
 }
 
 #endif // _DEBUG
+
+
