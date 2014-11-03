@@ -165,8 +165,9 @@ namespace root1d {
 				X _x;
 				ensure (iter--);
 
-				if (y == y_)
+				if (y == y_) {
 					_x = step::bisect(x, x_);
+				}
 				else {
 					_x = step::secant(x, y, x_, y_);
 				}

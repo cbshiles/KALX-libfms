@@ -57,14 +57,14 @@ namespace pwflat {
 	template<class T, class F>
 	inline F spot(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return 1 == 1 + u ? value(0, n, t, ff, f_) : integral(u, n, t, f, f_)/u;
+		return 1 == 1 + u ? value<T,F>(0, n, t, f, f_) : integral<T,F>(u, n, t, f, f_)/u;
 	}
 
 	// e^{-int_0^u f(s) ds}
 	template<class T, class F>
 	inline F discount(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return exp(-integral(u, n, t, f, f_));
+		return exp(-integral<T,F>(u, n, t, f, f_));
 	}
 
 	// sum_i c[i] D(t[i])
@@ -74,7 +74,7 @@ namespace pwflat {
 		F pv{0};
 
 		for (size_t i = 0; i < m; ++i) {
-			pv += c[i]*discount(u[i], n, t, f, f_);
+			pv += c[i]*discount<T,F>(u[i], n, t, f, f_);
 		}
 
 		return pv;
