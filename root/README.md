@@ -12,5 +12,5 @@ The namespace `done` provides criteria for terminating a search. The preferred m
 The namespace `find` provides three methods of solving for roots: `newton`, `secant`, and `kahan`.
 The `newton` method requires the derivative of the function and an initial guess.
 The `secant` method does not require the derivative, but it does require two initial guesses.
-The `kahan` method is based on the HP solve routine described in `SOLVEkey.pdf`. It uses the secant method
+The `kahan` method is based on the HP solve routine described in [`SOLVEkey.pdf`](https://libfms.codeplex.com/SourceControl/latest#root/SOLVEkey.pdf). It uses the secant method
 unless the root is bracketed and the next guess would be outside the bracket, in which case it uses bisection.
