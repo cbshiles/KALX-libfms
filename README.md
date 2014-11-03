@@ -9,8 +9,8 @@ Two things are clear about how to leverage off of however the silicon dust settl
 
 ### Get the Source
 Run Visual Studio 2013. Use [git](http://msdn.microsoft.com/en-us/library/hh850437.aspx) to clone:
-  - the [xll8](http://xll8.codeplex.com/SourceControl/latest) library.
-  - [libfms] https://libfms.codeplex.com/SourceControl/latest#README.md
+-  the [xll8](http://xll8.codeplex.com/SourceControl/latest) library.
+-  [libfms] https://libfms.codeplex.com/SourceControl/latest#README.md
 Open `libfms` and build the project `xllfms`.
 
 ### Library Organization
