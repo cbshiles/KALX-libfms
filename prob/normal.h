@@ -45,7 +45,7 @@ namespace prob {
 			auto f = [p](const X& x) { return cdf(x) - p; };
 			auto df = [](const X& x) { return pdf(x); };
 
-			return fms::root1d::find::newton<X,X>(x0, f, df);
+			return fms::root1d::find::newton<X,X>(x0, f, df, 200);
 		}
 	};
 

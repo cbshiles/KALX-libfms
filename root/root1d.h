@@ -1,6 +1,7 @@
 // root1d.h - One dimensional root finding
 #pragma once
 #include "include/ensure.h"
+#include <cmath>
 #include <functional>
 #include <limits>
 
