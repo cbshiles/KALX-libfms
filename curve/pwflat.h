@@ -113,9 +113,12 @@ namespace pwflat {
 
 		std::pair<T,F> back() const
 		{
+			/*
 			ensure (size() > 0);
 
 			return std::make_pair(t(size() - 1), f(size() - 1));
+			*/
+			return operator[](size() - 1);
 		}
 
 		// convenience functions
