@@ -163,11 +163,13 @@ namespace pwflat {
 			const T* t_;
 			const F* f_;
 		public:
+			// constant curve
 			curve(const F& _f = 0)
 				: fms::pwflat::curve<T,F>(_f), n_(0), t_(nullptr), f_(nullptr)
 			{ }
+			// number of points, pointer to times, pointer to rates, extrapolation value
 			curve(size_t n, const T* t, const F* f, const F& _f = 0)
-				: fms::pwflat::curve<T,F>(_f), n_(n), t_(t), f_(t)
+				: fms::pwflat::curve<T,F>(_f), n_(n), t_(t), f_(f)
 			{ }
 			// avoid pointer aliasing
 			curve(const curve&) = delete;
@@ -183,7 +185,7 @@ namespace pwflat {
 			{
 				return t_;
 			}
-			const T* _f(void) const override
+			const F* _f(void) const override
 			{
 				return f_;
 			}
@@ -426,6 +428,11 @@ inline void test_pwflat_pointer_curve()
 	ensure(c1.size() == 0);
 	ensure(c1.t() == 0);
 	ensure(c1.f() == 0);
+
+	int t[] = {0,1,2};
+	double f[] = {.1,.2,.3};
+	pointer::curve<int,double> c(3, t, f);
+	c.back();
 	/*
 	pointer::curve <> c2 = c1; //!!!disabled for pointer curves
 	ensure(c2.t() == 0);
