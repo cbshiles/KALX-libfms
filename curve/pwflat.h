@@ -548,7 +548,8 @@ inline void test_pwflat_vector_curve_ops()
 	for (size_t i = 0; i < N; ++i) {
 		//!!!jl2372
 		// test sub(-), mul(*), and div(/)
-	}		double t = std::uniform_real_distribution<>(0, tn)(e);
+	}		
+	double t = std::uniform_real_distribution<>(0, tn)(e);
 	ensure(add(t) == c1(t) + c2(t));
 	ensure(sub(t) == c1(t) - c2(t));
 	ensure(mul(t) == c1(t) * c2(t));
