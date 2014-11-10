@@ -10,16 +10,16 @@ namespace fixed_income {
 	//!!!jl2372 inherit from fixed_income::interest_rate_leg
 	template<class T = double, class C = double>
 
-	struct forward_rate_agreement : public interest_rate_leg::leg<T, C> {
+	struct forward_rate_agreement : public fixed_income::leg<T, C> {
 		// typical FRA conventions
 		forward_rate_agreement(
 		int count = 3, fms::datetime::time_unit unit = fms::datetime::UNIT_MONTHS,
 		fms::datetime::day_count_basis dcb = DCB_ACTUAL_360,
 		fms::datetime::roll_convention roll = ROLL_MODIFIED_FOLLOWING,
 		fms::datetime::holiday_calendar cal = CALENDAR_NONE)
-		{
-			leg(count, unit, FREQ_SEMIANNUALLY, dcb, roll, cal);
-		}
+		:
+		leg(count, unit, FREQ_SEMIANNUALLY, dcb, roll, cal)
+		{}
 		forward_rate_agreement(const forward_rate_agreement&) = default;
 		forward_rate_agreement& operator=(const forward_rate_agreement&) = default;
 		~forward_rate_agreement()
