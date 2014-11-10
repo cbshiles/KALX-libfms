@@ -1,7 +1,6 @@
 // root1d.h - One dimensional root finding
 #pragma once
-#include "include/ensure.h"
-#include <cmath>
+#include "ensure.h"
 #include <functional>
 #include <limits>
 
@@ -40,15 +39,15 @@ namespace root1d {
 		template<class X, class Y>
 		inline X inverse_quadratic(X x0, Y y0, X x1, Y y1, X x2, Y y2)
 		{
-			X dy0 = X(y1 - y2);
-			X dy1 = X(y2 - y0);
-			X dy2 = X(y0 - y1);
+			X dy0 = y1 - y2;
+			X dy1 = y2 - y0;
+			X dy2 = y0 - y1;
 
 			ensure (dy0 != 0);
 			ensure (dy1 != 0);
 			ensure (dy2 != 0);	
 
-			return X(x0*y1*y2/(dy1*dy2) + x1*y2*y0/(dy2*dy0) + x2*y0*y1/(dy0*dy1));
+			return x0*y1*y2/(dy1*dy2) + x1*y2*y0/(dy2*dy0) + x2*y0*y1/(dy0*dy1);
 		}
 
 	} // step
@@ -74,59 +73,28 @@ namespace root1d {
 			return fabs(y) < abs;
 		}
 
-		// x is in (min(a,b), max(a,b))
-		template<class X>
-		inline bool between(const X& x, const X& a, const X& b)
-		{
-			return (x - a)*(x - b) < 0;
-		}
-
 	} // done
 
 	namespace find {
 
-		// must have root bracketed
-		template<class X, class Y>
-		inline X bisect(X x, X x_, const std::function<Y(X)>& f, size_t iter = 20)
-		{
-			Y y = f(x), y_ = f(x_);
-
-			do {
-				ensure (iter--);
-				ensure (y*y_ < 0);
-				X _x = step::bisect(x, x_);
-				Y _y = f(_x);
-
-				// keep root bracketed
-				if (_y*y_ < 0) {
-					std::swap(x, x_);
-					std::swap(y, y_);
-				}
-
-				x_ = x;
-				x = _x;
-				y_ = y;
-				y = _y;
-			} while (y != 0 && !done::absolute(x, x_));
-
-			return x;
-		}
-
 		// deliberately small iteration count
 		template<class X, class Y>
-		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 20)
+		inline X newton(X x, const std::function<Y(X)>& f, const std::function<Y(X)>& df, size_t iter = 10)
 		{
 			X x_(x);
 
+			DEBUG_(int i = 0;)
 			do {
+				DEBUG_(++i;)
 				ensure (iter--);
 				Y y = f(x), dy = df(x);
 				
-				ensure (dy != 0);
+				if (dy == 0)
+					return x;
 
 				X _x = step::newton<X,Y>(x, y, dy);
 				if (_x == x_) // cycle
-					return step::bisect<X>(x, x_); // _x = !!!
+					return step::bisect<X>(x, x_);
 				x_ = x;
 				x = _x;
 			} while (!done::absolute<X>(x, x_));
@@ -139,10 +107,14 @@ namespace root1d {
 		{
 			Y y = f(x), y_ = f(x_);
 
+			DEBUG_(int i = 0;)
 			do {
+				DEBUG_(++i;)
 				ensure (iter--);
 
-				ensure (y != y_);
+				if (y == y_) {
+					return x;
+				}
 
 				X _x = step::secant(x, y, x_, y_);
 				if (_x == x_) // cycle
@@ -156,37 +128,6 @@ namespace root1d {
 			return x;
 		}
 		
-		// simplified Hewlett Packard SOLVE routine
-		template<class X, class Y>
-		inline X kahan(X x, X x_, const std::function<Y(X)>& f, size_t iter = 10)
-		{
-			// current and previous
-			Y y = f(x), y_ = f(x_);
-
-			do {
-				X _x;
-				ensure (iter--);
-
-				if (y == y_) {
-					_x = step::bisect(x, x_);
-				}
-				else {
-					_x = step::secant(x, y, x_, y_);
-				}
-
-				if (y*y_ < 0 && !done::between(_x, x, x_)) {
-					_x = step::bisect(x, x_);
-				}
-				Y _y = f(_x);
-
-				x_ = x;
-				x = _x;
-				y_ = y;
-				y = _y;
-			} while (y != 0 && !done::absolute(x, x_));
-
-			return x;
-		}
 	} // find
 
 } // root1d
@@ -220,67 +161,19 @@ inline void test_root1d_done()
 {
 	ensure (done::absolute<X>(X(1), X(1) + X(0.5)*std::numeric_limits<X>::epsilon()));
 	ensure (!done::absolute<X>(X(1), X(1) + X(4)*std::numeric_limits<X>::epsilon()));
-	ensure (done::between(2, 1, 3));
-	ensure (done::between(2, 3, 1));
-	ensure (!done::between(1, 2, 3));
-	ensure (!done::between(1, 3, 2));
-	ensure (!done::between(3, 1, 2));
-	ensure (!done::between(3, 2, 1));
-
 }
 
 template<class X, class Y>
 inline void test_root1d_find(void)
 {
-	auto f = [](X x) { return Y(x*x - 2); };
+	auto f = [](const X& x) { return Y(x*x - 2); };
 	auto df = [](const X& x) { return Y(2*x);};
-	 
-	auto x = find::newton<X,Y>(X(1), f, df);
-	ensure (done::absolute<X>(x, sqrt(X(2))));
 
-	x = find::bisect<X,Y>(X(1), X(2), f, 51);
+	auto x = find::newton<X,Y>(X(1), f, df);
 	ensure (done::absolute<X>(x, sqrt(X(2))));
 
 	x = find::secant<X,Y>(X(1), X(2), f);
 	ensure (done::absolute<X>(x, sqrt(X(2))));
-
-	x = find::kahan<X,Y>(X(1), X(2), f);
-	ensure (done::absolute<X>(x, sqrt(X(2))));
-	x = find::kahan<X,Y>(X(1), X(-1), f);
-	ensure (done::absolute<X>(x, sqrt(X(2))));
-
-	// SOLVEkey examples
-	X c1,c2;
-	std::function<Y(X)> c = [&c1,&c2](X x) { return Y(exp(x) - c1*x - c2); };
-
-	// Kahan's Fig. 3 (a) example
-	c1 = -1; c2 = 2;
-	x = find::kahan<X,Y>(X(1.5),X(1), c, 20);
-	ensure (fabs(x - .442854401) < sqrt(std::numeric_limits<X>::epsilon()));
-
-	// Kahan's Fig. 3 (b) example
-	c1 = 5; c2 = -3;
-	x = find::kahan<X,Y>(X(0),X(1.5), c, 20);
-	ensure (fabs(x - 1.468829255) < sqrt(std::numeric_limits<X>::epsilon()));
-	x = find::kahan<X,Y>(X(2),X(4), c, 20);
-	ensure (fabs(x - 1.74375199) < sqrt(std::numeric_limits<X>::epsilon()));
-
-	// Kahan's Fig. 3 (c) example
-	c1 = 4; c2 = X(4 - 4*log(4));
-	x = find::kahan<X,Y>(X(0),X(2), c, 50);
-	ensure (fabs(x - 1.3862943473365201) < sqrt(std::numeric_limits<X>::epsilon()));
-	// Kahan's solution uses float, not double!
-	ensure (fabs(c(X(1.3862943473365201))) <= fabs(c(X(1.386277368))));
-
-	auto g = [](X x) { return 6*x - x*x*x*x; };
-	X r[2];
-	r[0] = find::kahan<X,Y>(X(0),X(.5), [&g](X x) { return Y(g(x) - 1); });
-	r[1] = find::kahan<X,Y>(X(1.5),X(2), [&g](X x) { return Y(g(x) - 1); });
-
-	x = find::kahan<X,Y>(X(0),X(.5), [&g](X x) { return Y(exp(g(x) - 1) - 1); });
-	ensure (1 + (x - r[0]) == 1);
-//	x = find::kahan<X,Y>(X(1.5),X(2), [&g](X x) { return Y(exp(g(x) - 1) - 1); });
-//	ensure (x == r[1]);
 }
 
 inline void test_root1d(void)

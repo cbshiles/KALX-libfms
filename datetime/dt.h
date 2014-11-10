@@ -2,11 +2,16 @@
 // Copyright (c) 2011 KALX, LLC. All rights reserved. No warranty is made.
 #pragma once
 #pragma warning(disable: 4996) // _timezone warings. Should use _get_timezone.
-#include "../include/ensure.h"
+#ifndef ensure
+#include <cassert>
+#define ensure(x) assert(x)
+#endif
 #include <cmath>
 #include <ctime>
+#include <utility>
 
-namespace fms {
+using namespace std::rel_ops;
+
 namespace datetime {
 
 	static const double SECS_PER_DAY
@@ -21,11 +26,11 @@ namespace datetime {
 		= 25569;
 	static const double EXCEL_EPOCH
 		= EXCEL_19700101;
-/*!!!
+
 	// Excel Julian date for 1/19/2038 3:14.
 	static const double EXCEL_ERA
 		= EXCEL_EPOCH + 0xFFFFFFFF/SECS_PER_DAY;
-*/
+
 	// Excel to time in years since epoch.
 	inline double
 	excel2years(double t, double epoch)
@@ -42,11 +47,11 @@ namespace datetime {
 	inline long 
 	dst(time_t t) 
 	{
-		struct tm tm;
+		struct tm* ptm;
 		
-		ensure (0 == localtime_s(&tm, &t)); // too slow!!!
+		ensure (0 != (ptm = ::localtime(&t))); // too slow!!!
 
-		return tm.tm_isdst*3600;
+		return ptm->tm_isdst*3600;
 	}
 
 	// Excel local time to UTC.
@@ -67,5 +72,30 @@ namespace datetime {
 		return EXCEL_EPOCH + (t - _timezone + (nodst ? 0 : dst(t)))/SECS_PER_DAY; 
 	}
 
+	// breakdown double of the form yyyymmdd.hhnnss
+	inline void
+	breakdown(double d, int* py = 0, int* pm = 0, int* pd = 0, int* ph = 0, int* pn = 0, int* ps = 0)
+	{
+		int t = static_cast<int>(0.5 + 1e6*fmod(d, 1));
+
+		if (py) {
+			*py = static_cast<int>(d/1e4);
+			if (pm) {
+				*pm = static_cast<int>((d - 1e4* *py)/1e2);
+				if (pd) {
+					*pd = static_cast<int>(d - 1e4* *py - 1e2* *pm);
+				}
+			}
+		}
+		if (ph) {
+			*ph = static_cast<int>(t/1e4);
+			if (pn) {
+				*pn = static_cast<int>((t - 1e4* *ph)/1e2);
+				if (ps) {
+					*ps = static_cast<int>(t - 1e4* *ph - 1e2* *pn);
+				}
+			}
+		}
+	}
+
 } // namespace datetime
-} // namespace fms

@@ -1,7 +1,8 @@
 // normal.h - normal distribution
 #pragma once
+#include "ensure.h"
 #include "logistic.h"
-#include "root/root1d.h"
+#include "../root/root1d.h"
 #include <cmath>
 
 // template<typename T> constexpr T M_PI = 4*atan(T(1));
@@ -42,10 +43,10 @@ namespace prob {
 			// if (p < ?) return ?
 			// if (p > ?) return ?
 			auto x0 = fms::prob::logistic::inv(p);
-			auto f = [p](const X& x) { return cdf(x) - p; };
-			auto df = [](const X& x) { return pdf(x); };
+			auto x1 = fms::root1d::step::newton(x0, cdf(x0) - p, pdf(x0));
+			//auto f = [p](const X& x) { return cdf(x) - p; };
 
-			return fms::root1d::find::newton<X,X>(x0, f, df, 200);
+			return fms::root1d::find::secant<X,X>(x0, x1, [p](const X& x) { return cdf(x) - p; });
 		}
 	};
 

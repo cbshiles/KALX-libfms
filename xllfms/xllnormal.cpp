@@ -31,16 +31,16 @@ double WINAPI xll_prob_normal_cdf(double x)
 	return normal::cdf(x);
 }
 
-static AddInX xai_prob_normal_inv(
-	FunctionX(XLL_LPOPERX, _T("?xll_prob_normal_inv"), _T("PROB.NORMAL.INV"))
-	.Arg(XLL_DOUBLEX, _T("p"), _T("is a probability."))
+static AddIn xai_prob_normal_inv(
+	FunctionX(XLL_LPOPER,"?xll_prob_normal_inv","PROB.NORMAL.INV")
+	.Arg(XLL_DOUBLE,"p","is a probability.")
 	.Category(CATEGORY)
-	.FunctionHelp(_T("Return the inverse of the standard normal distribution."))
+	.FunctionHelp("Return the inverse of the standard normal distribution.")
 );
-LPOPERX WINAPI xll_prob_normal_inv(double p)
+LPOPER WINAPI xll_prob_normal_inv(double p)
 {
 #pragma XLLEXPORT
-	static OPERX o;
+	static OPER o;
 
 	try {
 		o = normal::inv(p);
@@ -48,7 +48,7 @@ LPOPERX WINAPI xll_prob_normal_inv(double p)
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());
 
-		o = OPERX(xlerr::Num);
+		o = OPER(xlerr::Num);
 	}
 
 	return &o;

@@ -14,8 +14,9 @@ It is customary in the literature to model time as a real number,
 usually time in years since a given epoch. Unfortunately, this
 leads to unrealistic models. E.g., the
 [Doubling Paradox](../../papers/HarKre1979.pdf).
-We assume trading times are discrete, but
-the time increments can be arbitrarily small.
+We assume trading times are discrete and correspond to dates.
+The time increments can be arbitrarily small and there is
+no upper bound on time.
 
 ### Single Currency
 
@@ -46,31 +47,31 @@ a P&L hit.
 
 ## Definitions
 
-$t_j$ -- Trading Times
+$(t_j)$ -- Trading Times
 
 :    The set of all times at which trading can occur.
 
-$X_j$ -- Prices
+$(X_j)$ -- Prices
 
 :    Each $X_j$ is a vector of market instrument prices at time $t_j$.
 
-$C_j$ -- Cash Flows
+$(C_j)$ -- Cash Flows
 
 :    Each $X_j$ is a vector of cash flows instrument holders receive at
      time $t_j$ if the instrument is held at time $t_{j-1}$.
      Most components of $C_j$ are zero.
 
-$\Gamma_j$ -- Trades
+$(\Gamma_j)$ -- Trades
 
 :    Each $\Gamma_j$ is the amount traded in each instrument at time $t_j$.
      Most components of $\Gamma_j$ are zero.
 
-$\Delta_j$ -- Position
+$(\Delta_j)$ -- Position
 
 :    Define $\Delta_j = \sum_{i < j} \Gamma_j$. This is the total
      amount of each instrument held at time $t_j$.
 
-$A_j$ -- Account
+$(A_j)$ -- Account
 
 :    Define $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$.
      The amount of money reflected in the trade blotter at time $t_j$ is
@@ -78,18 +79,12 @@ $A_j$ -- Account
 	 securities traded.
      Note that no cash flows accrue to current trades.
 
-$\Delta_j\cdot X_j$ -- Value
-
-:	The position times price gives the (marked-to-market)
-	value of a position.
-	It is the amount you would receive from liquidating the position.
-
 # Unified Derivatives
 
-The formula for the account is the skeleton key to derivatives. It can
-be used to turn market traded instruments into any sequence of cash
-flows, assuming you can find the appropriate trades $(\Gamma_j)$. The
-value of the cash flows is the cost of setting up the initial trade:
+The last formula is the skeleton key to derivatives. It can be used
+to turn market traded instruments into any sequence of cash flows,
+assuming you can find the appropriate trades $(\Gamma_j)$. The value
+of the cash flows is the cost of setting up the initial trade:
 $\Gamma_0\cdot X_0$.
 
 Unfortunately, this never happens in the real world. No hedge is

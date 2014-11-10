@@ -15,13 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bootstrap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cash_deposit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="euribor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eurodollar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eurodollar_futures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fixed_income.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="pwflat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="pwflat_functions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bootstrap_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,8 +50,5 @@
     <ClCompile Include="curve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="README.md" />
   </ItemGroup>
 </Project>

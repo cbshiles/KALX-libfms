@@ -24,10 +24,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="SOLVEkey.pdf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="README.md" />
-  </ItemGroup>
 </Project>

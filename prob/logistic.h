@@ -2,7 +2,7 @@
 #pragma once
 #include <cmath>
 #include <type_traits>
-#include "include/ensure.h"
+#include "ensure.h"
 
 // template<typename T> constexpr T M_PI = 4*atan(T(1));
 #ifndef M_PI
@@ -86,8 +86,8 @@ inline void test_prob_logistic_inv(int N = 10000)
 	X m{0}, m2{0};
 	for (int n = 1; n <= N; ++n) {
 		X x = logistic::inv(u(e));
-		m += (x - m)/n; // mean
-		m2 += (x*x - m2)/n; // variance
+		m += (x - m)/n;
+		m2 += (x*x - m2)/n;
 	}
 	ensure (fabs(m - 0) < 2/sqrt(N));
 	ensure (fabs(m2 - 1) < 2/sqrt(N));

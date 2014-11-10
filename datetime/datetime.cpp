@@ -1,12 +1,13 @@
-// datetime.cpp - datetime tests
+// main.cpp - driver for datetime tests
 #include <iostream>
-#include "datetime.h"
+
+void fms_test_datetime(void);
 
 int
 main(void)
 {
 	try {
-		test_datetime();
+		fms_test_datetime();
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

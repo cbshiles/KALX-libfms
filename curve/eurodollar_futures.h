@@ -2,14 +2,12 @@
 // Copyright (c) 2011 KALX, LLC. All rights reserved.
 // See http://cme.com/
 #pragma once
-#include "../datetime/calendar.h"
+#include "../fmsdatetime/calendar.h"
 #include "forward_rate_agreement.h"
 
-namespace fms {
 namespace fixed_income {
 
-	template<class T, class C>
-	class eurodollar_futures : public forward_rate_agreement<T,C,date> {
+	class eurodollar_futures : public forward_rate_agreement {
 	protected:
 		unsigned int ordinal_;
 	public:
@@ -20,7 +18,7 @@ namespace fixed_income {
 			ensure (ordinal > 0);
 		}
 
-		eurodollar_futures& fix(const datetime::date& set, double price)
+		eurodollar_futures& fix(const datetime::date& set, double price) //???include convexity???
 		{
 			// convexity???
 			int y, m, d;
@@ -51,4 +49,3 @@ namespace fixed_income {
 	};
 
 } // namespace instrument
-} // namespace fms

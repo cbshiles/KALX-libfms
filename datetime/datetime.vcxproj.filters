@@ -18,6 +18,9 @@
     <ClInclude Include="calendar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cmegroup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="datetime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,16 +30,13 @@
     <ClInclude Include="holiday.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="cmegroup.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="datetime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
+    <ClCompile Include="tdatetime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
