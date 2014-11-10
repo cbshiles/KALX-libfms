@@ -16,7 +16,6 @@ int main()
 		ret = problem.step();
 		ret = problem.step();
 
-
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

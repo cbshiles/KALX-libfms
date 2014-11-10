@@ -63,7 +63,7 @@ namespace fixed_income {
 				}
 			};
 	} // fixed
-	namespace float {
+	namespace floating {
 		//!!!cxccxlcxc move to interest_rate_leg_float.h
 		template<class T = double, class C = double>
 		class leg_float : public vector::instrument<T,C,fms::datetime::date> {
@@ -109,7 +109,7 @@ namespace fixed_income {
 				return *this;
 			}
 		};
-	} // float
+	} // floating
 
 } // namespace instrument
 } // namespace fms
