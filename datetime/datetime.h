@@ -900,11 +900,27 @@ is not the last business day of the month!
 inline void test_actual_actual_isda()
 {
 	//!!!dgtsx
-/*
-• Start date 30-Dec-2010 / End date: 2-Jan-2011: 3/365 = 0.008219...
-• Start date 30-Dec-2011 / End date: 2-Jan-2012: 2/365 + 1/366 = 0.8211...
-• Start date 30-Dec-2010 / End date: 2-Jan-2013: 367/365 + 366/366 + 1/365 = 3/365 + 2 = 2.008219...
-*/
+
+	date d1, d2;
+
+	//• Start date 30-Dec-2010 / End date: 2-Jan-2011: 3/365 = 0.008219...
+
+	d1 = date(2010, 12, 30);
+	d2 = date(2011, 1, 2);
+	ensure(d2.diff_actual_actual_isda(d1) == 3. / 365);
+
+	//• Start date 30-Dec-2011 / End date: 2-Jan-2012: 2/365 + 1/366 = 0.8211...
+
+	d1 = date(2011, 12, 30);
+	d2 = date(2012, 1, 2);
+	ensure(d2.diff_actual_actual_isda(d1) == 2. / 365 + 1. / 366);
+	
+	//• Start date 30-Dec-2010 / End date: 2-Jan-2013: 367/365 + 366/366 + 1/365 = 3/365 + 2 = 2.008219...
+
+	d1 = date(2010, 12, 30);
+	d2 = date(2013, 1, 2);
+	ensure(d2.diff_actual_actual_isda(d1) == 367. / 365 + 366. / 366 + 1. / 365);
+
 }
 
 #define NTESTS 100
