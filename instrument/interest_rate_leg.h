@@ -120,7 +120,7 @@ using namespace fms::fixed_income;
 
 void test_fixed_income_interest_rate_leg()
 {
-	interest_rate_leg<> irlf;
+	fixed::leg<> irlf;
 
 	//!!!zoewangforest add tests
 }
