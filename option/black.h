@@ -85,8 +85,8 @@ namespace option {
 			ensure (k > 0 ? p > (std::max)(f - k, X(0)) : p > (std::max)(-k - f, X(0)));
 			ensure (k > 0 ? p < f : p < -k);
 
-			auto F = [f,p,k,t](const X& s) -> X { return black::value(f, s, k, t) - p; };
-			auto dF = [f,p,k,t](const X& s) -> X{ return black::vega(f, s, k, t); };
+			auto  F = [f,p,k,t](const X& s) -> X { return black::value(f, s, k, t) - p; };
+			auto dF = [f,p,k,t](const X& s) -> X { return black::vega(f, s, k, t); };
 
 			return fms::root1d::find::newton<X,X>(0.2, F, dF);
 		}
@@ -108,7 +108,6 @@ namespace option {
 #include <random>
 
 using namespace fms::option;
-
 
 inline void test_option_black(int N = 1000)
 {

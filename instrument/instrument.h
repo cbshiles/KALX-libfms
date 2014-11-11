@@ -115,6 +115,36 @@ namespace fixed_income {
 		virtual const C* _cash() const = 0;
 	};
 
+	namespace pointer {
+		template<class T, class C>
+		class instrument : public fms::fixed_income::cash_deposit<T, C> {
+			size_t n_;
+			const T* t_;
+			const C* c_;
+		public:
+			instrument(size_t n, const T* t, const C* c)
+				: n_(n), t_(t), c_(c)
+			{ }
+			instrument(const instrument&) = delete;
+			instrument operator=(const instrument&) = delete;
+			~instrument()
+			{ }
+
+			size_t _size() const override
+			{
+				return n_;
+			}
+			const T* _time() const override
+			{
+				return t_;
+			}
+			const T* _cash() const override
+			{
+				return c_;
+			}
+		};
+	} // pointer
+
 	namespace vector {
 		// specialize intrument as value type
 		// D is date class placeholder
