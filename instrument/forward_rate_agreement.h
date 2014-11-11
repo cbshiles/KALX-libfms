@@ -60,7 +60,23 @@ void test_fixed_income_forward_rate_agreement()
 {
 	forward_rate_agreement<> fra;
 
-	fra.fix(date(2014, 10,22), date(2015, 10, 22), 0.02);
+	fra.fix(date(2014, 10, 22), date(2015, 10, 22), 0.02);
+	
+	date d(2014, 10, 22);
+	d = d.addyears(fra.time(0));
+	ensure(d == date(2015, 10, 22));
+	int ymd;
+	ymd = d.ymd();
+	d = d.addyears(fra.time(1));
+	ensure(d == date(2016, 1, 22));
+	ymd = d.ymd();
+	double r;
+	r = fra.cash(0);
+	r = fra.cash(1);
+
+	ensure(fra.cash(0) == -1);
+	ensure(fra.cash(1) == 1 + 0.02*d.diff_dcb(date(2015, 10, 22), DCB_ACTUAL_360));
+
 	//!!!lf343 add more tests
 }
 
