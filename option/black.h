@@ -99,7 +99,7 @@ namespace option {
 			ensure(s > 0);
 
 			auto F = [s, p, k, t](const X& f) -> X { return black::value(f, s, k, t) - p; };
-			auto dF = [s, p, k, t](const X& f) -> X{ return black::vega(f, s, k, t); };
+			auto dF = [s, p, k, t](const X& f) -> X{ return black::delta(f, s, k, t); };
 
 			return fms::root1d::find::newton<X, X>(0.2, F, dF);
 			//!!!zoewangforest
