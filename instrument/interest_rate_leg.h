@@ -37,15 +37,15 @@ namespace fixed_income {
 	// fixed payments
 	namespace fixed {
 		template<class T = double, class C = double>
-		class leg : public fixed_income::leg<T,C> {
+		class leg_fixed: public fixed_income::leg<T,C> {
 			public:
-				leg() //!!! use base constructor!!!
+				leg_fixed() //!!! use base constructor!!!
 				{ }
 				~leg_fixed()
 				{ }
 
 				// create cash flows given settlement date and fixed coupon
-				const fixed<T,C>& fix(const date& set, const date& eff, const C& coupon)
+				const leg_fixed<T,C>& fix(const date& set, const date& eff, const C& coupon)
 				{
 					date mat(eff);
 					mat.incr(count_, unit_);
@@ -63,7 +63,7 @@ namespace fixed_income {
 				}
 			};
 	} // fixed
-	namespace float {
+	namespace floating {
 		//!!!cxccxlcxc move to interest_rate_leg_float.h
 		template<class T = double, class C = double>
 		class leg_float : public vector::instrument<T,C,fms::datetime::date> {
@@ -120,7 +120,44 @@ using namespace fms::fixed_income;
 
 void test_fixed_income_interest_rate_leg()
 {
-	interest_rate_leg<> irlf;
+	using namespace fms::fixed;
+	
+	leg_fixed<> irlf1;
+
+	irlf1.fix(date(2014, 10, 22), date(2015, 10, 22), 0.02);
+
+	date mat(date(2015, 10, 22));
+	
+	mat.incr(3, fms::datetime::UNIT_MONTHS);
+	mat.adjust(ROLL_MODIFIED_FOLLOWING, CALENDAR_NONE);
+
+	date d0(date(2015, 10, 22));
+	for (int i = 1; d0 <= mat; ++i) {
+		date d1(date(2015, 10, 22));
+		d1.incr(12 * i / FREQ_SEMIANNUALLY, fms::datetime::UNIT_MONTHS).adjust(ROLL_MODIFIED_FOLLOWING, CALENDAR_NONE);
+		d0 = d1;
+		ensure(irlf1.cash(i) == 0.02*d1.diff_dcb(d0, DCB_30U_360));
+	}
+
+	using namespace fms::floating;
+
+	leg_float<> irlf2;
+	irlf2.fix(date(2014, 10, 22), 0.02);
+
+	fms::datetime::date eff_{ date(2014, 10, 22) };
+
+	ensure(eff_);
+
+	date mat(eff_);
+	mat.incr(3, UNIT_MONTHS);
+	mat.adjust(ROLL_MODIFIED_FOLLOWING, CALENDAR_NONE);
+	using namespace fms::pwflat;
+	for (int i = 1; d0 <= mat; ++i) {
+		date d1(date(2015, 10, 22));
+		d1.incr(12 * i / FREQ_SEMIANNUALLY, fms::datetime::UNIT_MONTHS).adjust(ROLL_MODIFIED_FOLLOWING, CALENDAR_NONE);
+		d0 = d1;
+		ensure(irlf2.cash(i) == spot(d0,3,mat,0.02)*d1.diff_dcb(d0, DCB_30U_360));
+	}
 
 	//!!!zoewangforest add tests
 }
