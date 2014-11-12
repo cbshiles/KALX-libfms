@@ -311,6 +311,66 @@ void test_fixed_income_instrument_add()
 	// !!!bsf48
 	// add same time
 	// add different time
+	vinst i{ { 2, 10 } };
+	ensure(i.size() == 1);
+	ensure(i.time(0) == 2);
+	ensure(i.cash(0) == 10);
+
+	// same time
+	i.add(2, 10);
+	ensure(i.size() == 1);
+	ensure(i.time(0) == 2);
+	ensure(i.cash(0) == 20);
+
+	// different time
+	i.add(1, 10);
+	ensure(i.size() == 2);
+	ensure(i.time(0) == 1);
+	ensure(i.cash(0) == 10);
+	ensure(i.time(1) == 2);
+	ensure(i.cash(1) == 20);
+	ensure(i.time(0) < i.time(1));
+
+	// add pair same time
+	auto p = make_pair(1, 10);
+	i.add(p);
+	ensure(i.size() == 2);
+	ensure(i.time(0) == 1);
+	ensure(i.cash(0) == 20);
+	ensure(i.time(1) == 2);
+	ensure(i.cash(1) == 20);
+	ensure(i.time(0) < i.time(1));
+
+	// add pair different time
+	auto p2 = make_pair(3, 20);
+	i.add(p);
+	ensure(i.size() == 3);
+	ensure(i.time(0) == 1);
+	ensure(i.cash(0) == 20);
+	ensure(i.time(1) == 2);
+	ensure(i.cash(1) == 20);
+	ensure(i.time(2) == 3);
+	ensure(i.cash(2) == 20);
+	ensure(i.time(0) < i.time(1));
+	ensure(i.time(1) < i.time(2));
+
+	// add fixed income instrument
+	// fixed bug in operator+= (missing a set of brackets around for loop)
+	vinst i1{ { 1, 5 }, { 2, 5 }, { 3, 5 }, { 4, 25 } };
+	i.operator+=(i1);
+	ensure(i.size() == 4);
+	ensure(i.time(0) == 1);
+	ensure(i.cash(0) == 25);
+	ensure(i.time(1) == 2);
+	ensure(i.cash(1) == 25);
+	ensure(i.time(2) == 3);
+	ensure(i.cash(2) == 25);
+	ensure(i.time(3) == 4);
+	ensure(i.cash(3) == 25);
+	ensure(i.time(0) < i.time(1));
+	ensure(i.time(1) < i.time(2));
+	ensure(i.time(2) < i.time(3));
+	ensure(i.time(3) < i.time(4));
 }
 
 inline void test_fixed_income_instrument()
