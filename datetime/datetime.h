@@ -848,6 +848,19 @@ inline void test_date_adjust(void)
 	ensure (date(2011, 12, 31).adjust(ROLL_PREVIOUS_BUSINESS,  calendar::NYS) == date(2011, 12, 30));
 	ensure (date(2012,  1,  1).adjust(ROLL_MODIFIED_PREVIOUS,  calendar::NYS) == date(2012,  1,  3));
 
+	// Following
+	ensure(date(2011, 8, 18).adjust(ROLL_FOLLOWING_BUSINESS, calendar::NYS) == date(2011, 8, 18));
+	ensure(date(2011, 8, 20).adjust(ROLL_FOLLOWING_BUSINESS, calendar::NYS) == date(2011, 8, 22));
+
+	// Preceding
+	ensure(date(2011, 8, 18).adjust(ROLL_PREVIOUS_BUSINESS, calendar::NYS) == date(2011, 8, 18));
+	ensure(date(2011, 8, 20).adjust(ROLL_PREVIOUS_BUSINESS, calendar::NYS) == date(2011, 8, 19));
+
+	// Modified following
+	ensure(date(2011, 8, 18).adjust(ROLL_MODIFIED_FOLLOWING, calendar::NYS) == date(2011, 8, 18));
+	ensure(date(2011, 8, 20).adjust(ROLL_MODIFIED_FOLLOWING, calendar::NYS) == date(2011, 8, 19));
+
+
 	ensure (!date(2000, 1, 1).is_holiday());
 
 /* Add tests!!!

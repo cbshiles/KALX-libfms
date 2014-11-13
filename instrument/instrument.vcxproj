@@ -87,6 +87,7 @@
     <ClInclude Include="forward_rate_agreement.h" />
     <ClInclude Include="instrument.h" />
     <ClInclude Include="interest_rate_leg.h" />
+    <ClInclude Include="interest_rate_leg_fixed.h" />
     <ClInclude Include="interest_rate_swap.h" />
   </ItemGroup>
   <ItemGroup>
