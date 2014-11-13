@@ -95,8 +95,10 @@ namespace option {
 		template<class X>
 		inline X implied_forward(const X& p, const X& s, const X& k, const X& t)
 		{
-			ensure(t > 0);
-			ensure(s > 0);
+			ensure (t > 0);
+			ensure (s > 0);
+			ensure (p > 0)
+			ensure (K > 0 ? TRUE : p < -k)
 
 			auto F = [s, p, k, t](const X& f) -> X { return black::value(f, s, k, t) - p; };
 			auto dF = [s, p, k, t](const X& f) -> X{ return black::delta(f, s, k, t); };
