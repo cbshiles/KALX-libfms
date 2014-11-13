@@ -95,7 +95,14 @@ namespace option {
 		template<class X>
 		inline X implied_forward(const X& p, const X& s, const X& k, const X& t)
 		{
-			//!!!zoewanforest
+			//zoewangforest
+			ensure(t > 0);
+			ensure(s > 0);
+
+			auto F = [s, p, k, t](const X& f) -> X { return black::value(f, s, k, t) - p; };
+			auto dF = [s, p, k, t](const X& f) -> X{ return black::delta(f, s, k, t); };
+
+			return fms::root1d::find::newton<X, X>(0.2, F, dF);
 		}
 	} // black
 	// Black-Scholes/Merton

@@ -79,11 +79,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="fmsmkl.h" />
     <ClInclude Include="jacobi.h" />
     <ClInclude Include="trnlsp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mkl.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

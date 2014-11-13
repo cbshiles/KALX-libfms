@@ -96,7 +96,7 @@ using namespace fms::pwflat;
 template<class T, class U>
 inline void test_pwflat_bootstrap_(void)
 {
-/*
+
 	T eps = std::numeric_limits<T>::epsilon();
 	T t[] = {1, 2, 3, 4};
 //	size_t n = sizeof(t)/sizeof(*t);
@@ -107,12 +107,12 @@ inline void test_pwflat_bootstrap_(void)
 
 	// cd with empty forward curve
 	vector::curve<> f;
-	f.push_back(forward<T,U>().bootstrap1(1., 1 + e));
-	ensure (fabs(f.back() - f0) < eps);
-
+	f.push_back(t[0], bootstrap1(t[0], 1 + e, f.size(), f.time(), f.rate()));
+	ensure (fabs(f.back().second - f0) < eps);
 	// fra
-	f.push_back(forward<T,U>(1, t, &f[0]).bootstrap2(1., -1., 2., 1 + e));
-	ensure (fabs(f.back() - f0) < eps);
+	f.push_back(t[1], bootstrap2(t[0], -1., t[1], 1 + e, f.size(), f.time(), f.rate()));
+	ensure (fabs(f.back().second - f0) < eps);
+/*
 
 	// generic
 	T u[]  = {0, 1, 2, 3, 4};
