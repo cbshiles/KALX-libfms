@@ -98,7 +98,7 @@ namespace option {
 			ensure (t > 0);
 			ensure (s > 0);
 			ensure (p > 0)
-			ensure (K > 0 ? TRUE : p < -k)
+			ensure (k > 0 ? TRUE : p < -k)
 
 			auto F = [s, p, k, t](const X& f) -> X { return black::value(f, s, k, t) - p; };
 			auto dF = [s, p, k, t](const X& f) -> X{ return black::delta(f, s, k, t); };
