@@ -9,18 +9,19 @@
 namespace mkl {
 
 	// Jacobian of function F:R^m -> R^n
+	template<class X = double>
 	class jacobi {
-		typedef std::function<std::vector<double>(const std::vector<double>&)> vfunction;
+		typedef std::function<std::vector<X>(const std::vector<X>&)> vfunction;
 		_JACOBIMATRIX_HANDLE_t h;
 #ifdef _DEBUG
 	public:
 #endif
 		int m, n;
-		std::vector<double> x, f1, f2, df;
+		std::vector<X> x, f1, f2, df;
 		vfunction F;
-		double eps;
+		X eps;
 	public:
-		jacobi(int m, int n, const vfunction& F, const double* x = 0, double eps = 1e-9)
+		jacobi(int m, int n, const vfunction& F, const X* x = 0, X eps = 1e-9)
 			: m(m), n(n), F(F), x(m), f1(n), f2(n), df(m*n), eps(eps)
 		{
 			if (x)
@@ -43,7 +44,7 @@ namespace mkl {
 			return rci;
 		}
 
-		std::vector<double> find()
+		std::vector<X> find()
 		{
 			for (int rci = solve(); rci > 0; rci = solve(rci)) {
 				ensure (rci == 1 || rci == 2);
@@ -56,21 +57,15 @@ namespace mkl {
 
 			return df;
 		}
-		// the n x m Jacobian matrix
-		std::vector<double> operator()(const std::vector<double>& x)
-		{
-			this->x = x;
-
-			return find();
-		}
 	};
 
 	// inefficent, but don't seem to be able to reuse mkl::jacobi
-	inline std::function<std::vector<double>(const std::vector<double>&)> 
-	jacobian(int m, int n, const std::function<std::vector<double>(const std::vector<double>&)>& f, double eps = 1e-9)
+	template<class X = double>
+	inline std::function<std::vector<X>(const std::vector<X>&)> 
+	jacobian(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, X eps = 1e-9)
 	{
-		return [m,n,f,eps](const std::vector<double>& x) {
-			return mkl::jacobi(m, n, f, &x[0], eps).find();
+		return [m,n,f,eps](const std::vector<X>& x) {
+			return mkl::jacobi<X>(m, n, f, &x[0], eps).find();
 		};
 	}
 
@@ -92,12 +87,12 @@ inline void test_mkl_jacobi1()
 	std::default_random_engine e;
 	std::uniform_real_distribution<double> u;
 
-	auto df = mkl::jacobian(n, n, id, eps);
+	auto df = mkl::jacobian<double>(n, n, id, eps);
 
 	for (int i = 0; i < 10; ++i) {
 		vector<double> v(n);
 		std::generate(v.begin(), v.end(), [&e,&u](void) { return u(e); });
-		mkl::jacobi id(n, n, id, &v[0], eps);
+		mkl::jacobi<> id(n, n, id, &v[0], eps);
 		auto w = id.find();
 		auto w2 = df(v);
 		ensure (w == w2);

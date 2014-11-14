@@ -1,4 +1,5 @@
 #include <iostream>
+#include "fmsmkl.h"
 #include "jacobi.h"
 #include "trnlsp.h"
 
