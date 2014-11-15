@@ -1,6 +1,10 @@
 // trnlsp.h - Intel MKL Nonlinear Least Squares Problem with Without Constraints
 #pragma once
 #include "../include/ensure.h"
+#ifdef _DEBUG
+#include <algorithm>
+#include <numeric>
+#endif
 #include <functional>
 #include <initializer_list>
 #include <vector>
@@ -19,6 +23,8 @@ namespace mkl {
 	};
 	template<>
 	struct trnlsp_traits<double> {
+//		constexpr int (*init)(_TRNSP_HANDLE_t*, int*, int*, double*, double*, int*, int*, double*)
+//			= dtrnlsp_init;
 		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, double* x, double* eps, int* iter1, int* iter2, double* rs)
 		{
 			return dtrnlsp_init(h, m, n, x, eps, iter1, iter2, rs);
@@ -97,6 +103,9 @@ namespace mkl {
 			int iter, cr;
 			double ir, fr;
 			get(iter, cr, ir, fr);
+			X rr;
+			rr = std::accumulate(f.begin(), f.end(), 0., [](double s, double x) { return s + x*x; });
+			rr = sqrt(rr);
 #endif
 			return rci;
 		}
@@ -112,10 +121,12 @@ namespace mkl {
 				}
 			}
 
+			// -rci is the stop criterion
+
 			return x;
 		}
 
-		// solution status: iterations, stop criteria, initial residual, final residual
+		// solution status: iterations, stop criterion, initial residual, final residual
 		void get(int& iter, int& cr, double& ir, double& fr)
 		{
 			dtrnlsp_get(&h, &iter, &cr, &ir, &fr);
@@ -124,11 +135,12 @@ namespace mkl {
 
 	// matlab like version
 	template<class X = double>
-	inline std::vector<X> lsqnonlin(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, const std::vector<X>& x)
+	inline std::vector<X> lsqnonlin(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, const std::vector<X>& x,
+		const double* eps = 0, int iter1 = 1000, int iter2 = 100, double rs = 1)
 	{
 		ensure (x.size() == (size_t)m);
 
-		return mkl::trnlsp<X>(m, n, &x[0])
+		return mkl::trnlsp<X>(m, n, &x[0], eps, iter1, iter2, rs)
 			.function(f)
 			.jacobian(mkl::jacobian(m, n, f))
 			.find();
@@ -153,6 +165,12 @@ inline void test_mkl_trnlsp1()
 
 	ensure (TR_SUCCESS == problem.check());
 	auto x_ = problem.find();
+
+	// same thing in one line
+	auto f = [](const vector<double>& x) { return x; };
+	auto x2 = trnlsp<>(2, 2, &x[0]).function(f).jacobian(mkl::jacobian<double>(2, 2, f)).find();
+
+	ensure (x_ == x2);
 
 	int iter, cr;
 	double ir, fr;

@@ -13,7 +13,7 @@ typedef xll::traits<XLOPERX>::xfp xfp;
 namespace xllmkl {
 
 	// convert registerId for f:OPER -> OPER to f:vector<double> -> vector<double>
-	inline std::function<std::vector<double>(const std::vector<double>&)> vectorize(xword n, xword m, double f)
+	inline std::function<std::vector<double>(const std::vector<double>&)> vectorize(xword m, xword n, double f)
 	{
 		return [m,n,f](const std::vector<double>& x) {
 			ensure (x.size() == m);

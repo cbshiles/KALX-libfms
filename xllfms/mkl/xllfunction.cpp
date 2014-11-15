@@ -4,6 +4,61 @@
 
 using namespace xll;
 
+// F(x[0], x[1]) -> (x[0]^2, x[1]^3, x[0] + x[1])
+// dF(x[0], x[1]) -> {2*x[0], 0, 1; 0, 2*x[1]^2, 1}
+static AddIn xai_test_function1(
+	Function(XLL_LPOPER, "?xll_test_function1", "TEST.FUNCTION1")
+	.Arg(XLL_LPOPER, "Arg", "is an argument.")
+	.Category(CATEGORY)
+	.FunctionHelp("{x[0], x[1]} -> {x[0]^2, x[1]^3, x[0] + x[1]}")
+	.Documentation("Documentation.")
+	);
+LPOPER WINAPI xll_test_function1(const LPOPER px)
+{
+#pragma XLLEXPORT
+	static OPER o(1,3);
+
+	try {
+		const OPER& x{*px};
+
+		o[0] = x[0]*x[0];
+		o[1] = x[1]*x[1]*x[1];
+		o[2] = x[0] + x[1];
+	}
+	catch(const std::exception& ex) {
+		XLL_ERROR(ex.what());
+
+		o = OPER(xlerr::Num);
+	}
+
+	return &o;
+}
+static AddIn xai_test_function2(
+	Function(XLL_LPOPER, "?xll_test_function2", "TEST.FUNCTION2")
+	.Arg(XLL_LPOPER, "Arg", "is an argument.")
+	.Category(CATEGORY)
+	.FunctionHelp("matlab example")
+	.Documentation("Documentation.")
+	);
+LPOPER WINAPI xll_test_function2(const LPOPER px)
+{
+#pragma XLLEXPORT
+	static OPER o(10,1);
+
+	try {
+		const OPER& x{*px};
+		for (xword k = 1; k <= 10; ++k)
+			o[k-1] = 2 + 2*k - exp(k*x[0]) - exp(k*x[1]);
+	}
+	catch(const std::exception& ex) {
+		XLL_ERROR(ex.what());
+
+		o = OPER(xlerr::Num);
+	}
+
+	return &o;
+}
+
 static AddInX xai_function_make(
 	FunctionX(XLL_HANDLEX, _T("?xll_function_make"), _T("FUNCTION.MAKE"))
 	.Arg(XLL_LPXLOPERX, _T("Range"), _T("is a reference to a range containing functions"))
