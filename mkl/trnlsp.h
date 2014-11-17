@@ -15,16 +15,22 @@
 
 namespace mkl {
 
+	// convergence criteria
+	enum { TRUST_REGION = 1, RESIDUAL, SINGULAR_JACOBIAN, TRIAL_STEP, NORM_TOLERANCE, TRIAL_STEP_PRECISION };
+
 	template<class X>
 	struct trnlsp_traits { 
 		static int init(_TRNSP_HANDLE_t*, int*, int*, X*, X*, int*, int*, X*);
-		// delete
-		// solve
+		// !!!Add here, in trnlsp_traits<double>, trnlsp_traits<float>, and in code below
+		// delete //!!!bolunpung
+		// solve //!!!bfs48
+		// check //!!!cxccxlcxc
+		// get //!!!dgtsx
 	};
 	template<>
 	struct trnlsp_traits<double> {
 //		constexpr int (*init)(_TRNSP_HANDLE_t*, int*, int*, double*, double*, int*, int*, double*)
-//			= dtrnlsp_init;
+//			= dtrnlsp_init; // constexpr not supported by VS 2013
 		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, double* x, double* eps, int* iter1, int* iter2, double* rs)
 		{
 			return dtrnlsp_init(h, m, n, x, eps, iter1, iter2, rs);
@@ -110,18 +116,26 @@ namespace mkl {
 			return rci;
 		}
 
-		std::vector<double> find(void)
+		int step(int rci = 0)
 		{
-			for (int rci = solve(); rci >= 0; rci = solve(rci)) {
-				if (rci == 1) {
-					f = F(x);
-				}
-				else {
-					df = dF(x);
-				}
+			rci = solve(rci);
+
+			if (rci == 1) {
+				f = F(x);
+			}
+			else {
+				df = dF(x);
 			}
 
-			// -rci is the stop criterion
+			return rci;
+		}
+
+		std::vector<double> find(void)
+		{
+			for (int rci = step(); rci >= 0; rci = step(rci))
+				; // nothing
+
+			// -rci is now the stop criterion
 
 			return x;
 		}

@@ -11,7 +11,7 @@ static AddInX xai_mkl_jacobian(
 	.Arg(XLL_USHORTX, _T("N"), _T("is the number of arguments in the range vector."))
 	.Arg(XLL_HANDLEX, _T("Function"), _T("is the function whos Jacobian is to be estmated."))
 	.Arg(XLL_FPX, _T("x"), _T("is the value at which to compute the Jacobian."))
-	.Arg(XLL_DOUBLEX, _T("_Eps"), _T("is the optional precision of the Jacobian matrix calculation."))
+	.Arg(XLL_DOUBLEX, _T("_eps"), _T("is the optional precision of the Jacobian matrix calculation."))
 	.Category(_T("MKL"))
 	.FunctionHelp(_T("Return the M x N Jacobian of Function at x."))
 	.Documentation(_T("Documentation."))
@@ -40,6 +40,7 @@ xfp* WINAPI xll_mkl_jacobian(USHORT m, USHORT n, HANDLEX f, const xfp* x, double
 	return df.get();
 }
 
+#ifdef _DEBUG
 
 static AddIn xai_mkl_jacobi(
 	Function(XLL_HANDLE,"?xll_mkl_jacobi","MKL.JACOBI")
@@ -47,7 +48,7 @@ static AddIn xai_mkl_jacobi(
 	.Arg(XLL_USHORT, "N", "is the number of arguments in the range vector.")
 	.Arg(XLL_HANDLE, "Function", "is the function whos Jacobian is to be estmated.")
 	.Arg(XLL_FP, "x", "is the value at which to compute the Jacobian.")
-	.Arg(XLL_DOUBLE, "Eps", "is the precision of the Jacobian matrix calculation.")
+	.Arg(XLL_DOUBLE, "_eps", "is the optional precision of the Jacobian matrix calculation. Default is 1e-9.")
 	.Uncalced()
 	.Category("MKL")
 	.FunctionHelp("Description.")
@@ -144,3 +145,4 @@ xfp* WINAPI xll_mkl_jacobi_find(HANDLEX j, BOOL debug)
 	return dF.get();
 }
 
+#endif // _DEBUG
