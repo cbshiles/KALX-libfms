@@ -1,15 +1,12 @@
+// volatility.cpp
 #include <iostream>
-#include "jacobi.h"
-#include "trnlsp.h"
-#include "trnlspbc.h"
+#include "curve.h"
 
 int main()
 {
 	try {
 #ifdef _DEBUG
-		test_mkl_jacobi();
-		test_mkl_trnlsp();
-		test_mkl_trnlspbc();
+		test_volatility_curve();
 #endif
 	}
 	catch (const std::exception& ex) {

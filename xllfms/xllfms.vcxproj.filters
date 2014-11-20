@@ -22,6 +22,9 @@
     <Filter Include="mkl">
       <UniqueIdentifier>{bf2c22be-8a0b-4644-b033-d5f72dab4d24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vswap">
+      <UniqueIdentifier>{de70437a-9c3c-48f0-b2c4-64da2f5eebaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xllmath.cpp">
@@ -72,11 +75,17 @@
     <ClCompile Include="mkl\xlljacobi.cpp">
       <Filter>mkl</Filter>
     </ClCompile>
-    <ClCompile Include="mkl\xllfunction.cpp">
-      <Filter>mkl</Filter>
-    </ClCompile>
     <ClCompile Include="mkl\homework.cpp">
       <Filter>mkl</Filter>
+    </ClCompile>
+    <ClCompile Include="xllsvi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="datetime\date_enum.cpp">
+      <Filter>datetime</Filter>
+    </ClCompile>
+    <ClCompile Include="vswap\vswap.cpp">
+      <Filter>vswap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="mkl\xllmkl.h">
       <Filter>mkl</Filter>
+    </ClInclude>
+    <ClInclude Include="datetime\xlldatetime.h">
+      <Filter>datetime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

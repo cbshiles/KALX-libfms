@@ -14,8 +14,8 @@ Run Visual Studio 2013. Use [git](http://msdn.microsoft.com/en-us/library/hh8504
 Open `libfms` and build the project `xllfms`.
 
 ### Library Organization
-The project `xllfms` consists of Excel add-in functions that call platform-independent code in other projects. The `AddInX` class specifies how to hook up Excel to C++. The function you tell Excel to call takes data from Excel, calls C++, and returns a result. Functional languages are all the rage these days, but spreadsheets have been purely functional since [VisiCalc](http://www.bricklin.com/firstspreadsheetquestion.htm).
-All of the other projects are "header only". Just `#include` what you need and start using them. The _project_`.cpp` file calls the test routines at the bottom of each header file. No need for a unit testing framework, C++ is sufficiently expressive already.
+The project `xllfms` consists of Excel add-in functions that call platform-independent code in other projects. The `AddInX` class specifies how to hook up Excel to C++. The function you tell Excel to call takes data from Excel, calls C++, and return a result. Functional languages are all the rage these days, but spreadsheets have been purely functional since [VisiCalc](http://www.bricklin.com/firstspreadsheetquestion.htm).
+All of the other projects are "header only". Just `#include` what you need and start using them. The _project_`.cpp` file calls the test routines at the bottom of each header file. No need for a unit testing framework, C++ is sufficiently expressive without introducing another dependency.
 
 [root](root/README.md) - root finding
 [prob](prob/README.md) - probability related function

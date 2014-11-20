@@ -3,7 +3,7 @@
 #include "../../mkl/jacobi.h"
 
 using namespace xll;
-using namespace xllmkl;
+using namespace mkl;
 
 static AddInX xai_mkl_jacobian(
 	FunctionX(XLL_FPX, _T("?xll_mkl_jacobian"), _T("MKL.JACOBIAN"))
@@ -25,7 +25,7 @@ xfp* WINAPI xll_mkl_jacobian(xword n, HANDLEX f, const xfp* px, double eps)
 			eps = 1e-9;
 
 		xword m = size(*px);
-		mkl::jacobi<double> J(m, n, vectorize(m, n, f), px->array, eps);
+		mkl::jacobi<double> J(m, n, px->array, *handle<fun<double>>(f), eps);
 		auto dF = J.find();
 
 		df.resize(m, n);
@@ -63,7 +63,7 @@ HANDLEX WINAPI xll_mkl_jacobi(USHORT m, USHORT n, HANDLEX f, const xfp* x, doubl
 		if (eps == 0)
 			eps = 1e-9;
 
-		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, vectorize(m, n, f), x->array, eps)};
+		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, x->array, *handle<fun<double>>(f), eps)};
 		h = h_.get();
 	}
 	catch(const std::exception& ex) {
@@ -84,10 +84,7 @@ SHORT WINAPI xll_mkl_jacobi_solve(HANDLEX j, SHORT rci)
 {
 #pragma XLLEXPORT
 	try {
-		handle<mkl::jacobi<double>> hj(j);
-		ensure (hj);
-
-		rci = (SHORT)hj->solve(rci);
+		rci = (SHORT)handle<mkl::jacobi<double>>(j)->solve(rci);
 	}
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());
@@ -110,7 +107,6 @@ xfp* WINAPI xll_mkl_jacobi_find(HANDLEX j, BOOL debug)
 
 	try {
 		handle<mkl::jacobi<double>> hj(j);
-		ensure (hj);
 
 		if (debug) {
 			dF.resize(0,0);
@@ -119,12 +115,12 @@ xfp* WINAPI xll_mkl_jacobi_find(HANDLEX j, BOOL debug)
 			while (iter-- && (rci = hj->solve()) > 0) {
 				ensure (rci == 1 || rci == 2);
 				if (rci == 1) {
-					hj->f1 = hj->F(hj->x);
-					dF.push_back(hj->f1.begin(), hj->f1.end(), true);
+					hj->f[0] = hj->F(hj->x);
+					dF.push_back(hj->f[0].begin(), hj->f[0].end(), true);
 				}
 				else {
-					hj->f2 = hj->F(hj->x);
-					dF.push_back(hj->f2.begin(), hj->f2.end(), true);
+					hj->f[1] = hj->F(hj->x);
+					dF.push_back(hj->f[1].begin(), hj->f[1].end(), true);
 				}
 			}
 		}

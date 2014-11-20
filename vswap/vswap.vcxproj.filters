@@ -15,22 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="trnlsp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="jacobi.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="trnlspbc.h">
+    <ClInclude Include="vswap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mkl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
+    <None Include="vswap.pdf" />
+    <None Include="vixwhite.pdf" />
   </ItemGroup>
 </Project>
