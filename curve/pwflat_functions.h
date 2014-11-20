@@ -1,5 +1,7 @@
-// pwflat_functions.h - functions for pwflat curves
-// Piecewise-flat forward curves are modeled by arrays t and f, and an extrapolated value f_;
+
+// pwflat_fun
+//ctions.h - pure functions for pwflat curves
+// Piecewise-flat forward curves are modeled by arrays t and f, and an extrapolated value _f;
 // 
 // 	       { f[0] : t <= t[0]
 // 	f(t) = { f[i] : t[i-1] < t <= t[i], i = 1,...,n-1
@@ -16,8 +18,8 @@
 #pragma once
 #include <algorithm>
 #include <vector>
-#include "../include/ensure.h"
-
+#include "ensure.h"
+#include <iostream>
 namespace fms {
 namespace pwflat {
 
@@ -57,7 +59,7 @@ namespace pwflat {
 	template<class T, class F>
 	inline F spot(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return 1 == 1 + u ? value<T,F>(0, n, t, f, f_) : integral<T,F>(u, n, t, f, f_)/u;
+		return 1 == 1 + u ? value(0, n, t, f, f_) : integral(u, n, t, f, f_)/u;
 	}
 
 	// e^{-int_0^u f(s) ds}
@@ -158,10 +160,10 @@ inline void test_pwflat_present_value()
 inline void test_pwflat_duration()
 {
 	// cxccxlcxc
-	size_t n = 3;
+	double n = 3;
 	double t[] = {1, 2, 3};
 	double f[] = {.1, .2, .3};
-	size_t m = 3;
+	double m = 3;
 	double c[] = {.5, 1, 2};
 	double u[] = {1, 2, 3};
 	double t0 = 0;
@@ -175,7 +177,7 @@ inline void test_pwflat_duration()
 // TEST CASES:
 // 0) Normal usage case test
 	t0 = 1.5;
-	ensure(-1 * (2 - 1.5)*discount(2., n, t, f) - 2 * (3 - 1.5) *discount(3., n, t, f)
+	ensure(-1 * (2 - 1.5)*discount(2., n, t, f) - 2 * (3 - 1.5) *discount(3., n, t, f) \
 		== duration(t0, m, u, c, n, t, f));
 // The following are boundary cases and extreme situations
 // 1) t0 is larger than all u's.  No change to pv is parallel shift all rates after t0.  So dur = 0
@@ -190,9 +192,9 @@ inline void test_pwflat_duration()
 	ensure( -c[2] * (u[2] - t0) * discount(u[2], n, t, f) == duration(t0, m, u, c, n, t, f));
 // 4) t0 is 0.  All cash flow are effective.
 	t0 = .0;
-	ensure(-c[0] * (u[0] - t0) * discount(u[0], n, t, f)
-		- c[1] * (u[1] - t0) * discount(u[1], n, t, f)
-		- c[2] * (u[2] - t0) * discount(u[2], n, t, f)
+	ensure(-c[0] * (u[0] - t0) * discount(u[0], n, t, f) \
+		- c[1] * (u[1] - t0) * discount(u[1], n, t, f) \
+		- c[2] * (u[2] - t0) * discount(u[2], n, t, f) \
 		== duration(t0, m, u, c, n, t, f));
 // 5) All cash flows are 0.  Then the pv weighted term should be 0.
 	double c5[] = { .0, .0, .0 };
@@ -201,21 +203,12 @@ inline void test_pwflat_duration()
 //	of that cash flow at that stamp
 	t0 = 0;
 	double u6_1[] = { 3., 3., 3. }; // all cash flow is the last cash flow of original c[] and happens at last u[]
-	size_t m6_1 = 3;
+	double m6_1 = 3;
 	double c6_1[] = {*(c+2), *(c+2), *(c+2)};
 	double *u6_2 = u + 2;
-	size_t m6_2 = 1;
+	double m6_2 = 1.;
 	double *c6_2 = c+2;
 	ensure(duration(t0, m6_1, u6_1, c6_1, n, t, f) == 3 * duration(t0, m6_2, u6_2, c6_2, n, t, f));
-}
-
-void test_pwflat_function()
-{
-	test_pwflat_value();
-	test_pwflat_integral();
-	test_pwflat_spot();
-	test_pwflat_present_value();
-	test_pwflat_duration();
 }
 
 #endif // _DEBUG

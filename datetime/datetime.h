@@ -84,7 +84,11 @@ typedef enum roll_convention {
 	ROLL_PREVIOUS_BUSINESS,
 	ROLL_MODIFIED_FOLLOWING,
 	ROLL_MODIFIED_PREVIOUS,
-	ROLL_MAX
+	ROLL_MAX,
+	ROLL_MODIFIED_FOLLOWING_BIMONTHLY,	
+	ROLL_MODIFIED_PREVIOUS_BIMONTHLY,
+	ROLL_END_OF_MONTH_FOLLOWING,
+	ROLL_END_OF_MONTH_PREVIOUS
 };
 
 class date;
@@ -551,6 +555,30 @@ public:
 						incr(-one, UNIT_BUSINESS_DAY, cal);
 				}
 				break;
+			case ROLL_MODIFIED_FOLLOWING_BIMONTHLY:
+				one *= -1;
+			case ROLL_MODIFIED_PREVIOUS_BIMONTHLY:
+				one *= -1;
+				m = month();
+				int d;
+				d = day();
+				if (!is_bday(cal)){
+					incr(one, UNIT_BUSINESS_DAY, cal);
+					if (m != month())
+						incr(-one, UNIT_BUSINESS_DAY, cal);
+					if ((d <= 15 && day() > 15) || (d >= 15 && day() < 15))
+						incr(-one, UNIT_BUSINESS_DAY, cal);
+				}
+				break;
+			case ROLL_END_OF_MONTH_FOLLOWING:
+				one *= -1;
+			case ROLL_END_OF_MONTH_PREVIOUS:
+				one *= -1;
+				incr(0, UNIT_END_OF_MONTH, cal);
+				if (!is_bday(cal))
+					incr(one, UNIT_BUSINESS_DAY, cal);
+				break;
+
 			default:
 				t_ = (time_t)-1;
 		}
@@ -895,6 +923,35 @@ is not the last business day of the month!
 8
 }
 */
+/*
+____________________________________________________
+ Test for ROLL_MODIFIED_FOLLOWING_BIMONTHLY, ROLL_MODIFIED_PREVIOUS_BIMONTHLY
+____________________________________________________
+*/
+	ensure(date(2011, 7, 9).adjust(ROLL_MODIFIED_FOLLOWING_BIMONTHLY, calendar::NYS) == date(2011, 7, 11));
+	ensure(date(2011, 7, 9).adjust(ROLL_MODIFIED_PREVIOUS_BIMONTHLY, calendar::NYS) == date(2011, 7, 8));
+
+	ensure(date(2011, 7, 30).adjust(ROLL_MODIFIED_FOLLOWING_BIMONTHLY, calendar::NYS) == date(2011, 7, 29));
+	ensure(date(2011, 7, 30).adjust(ROLL_MODIFIED_PREVIOUS_BIMONTHLY, calendar::NYS) == date(2011, 7, 29));
+	
+	ensure(date(2011, 5, 1).adjust(ROLL_MODIFIED_FOLLOWING_BIMONTHLY, calendar::NYS) == date(2011, 5, 2));
+	ensure(date(2011, 5, 1).adjust(ROLL_MODIFIED_FOLLOWING_BIMONTHLY, calendar::NYS) == date(2011, 5, 2));
+
+	ensure(date(2011, 10, 15).adjust(ROLL_MODIFIED_FOLLOWING_BIMONTHLY, calendar::NYS) == date(2011, 10, 14));
+	ensure(date(2011, 10, 16).adjust(ROLL_MODIFIED_PREVIOUS_BIMONTHLY, calendar::NYS) == date(2011, 10, 17));
+/*
+____________________________________________________
+ Test for ROLL_END_OF_MONTH_PREVIOUS and ROLL_END_OF_MONTH_FOLLOWING
+____________________________________________________
+*/
+	ensure(date(2011, 3, 5).adjust(ROLL_END_OF_MONTH_FOLLOWING, calendar::NYS) == date(2011, 3, 31));
+	ensure(date(2011, 3, 5).adjust(ROLL_END_OF_MONTH_PREVIOUS, calendar::NYS) == date(2011, 3, 31));
+
+	ensure(date(2011, 4, 5).adjust(ROLL_END_OF_MONTH_FOLLOWING, calendar::NYS) == date(2011, 5, 2));
+	ensure(date(2011, 4, 5).adjust(ROLL_END_OF_MONTH_PREVIOUS, calendar::NYS) == date(2011, 4, 29));
+
+	ensure(date(2012, 2, 28).adjust(ROLL_END_OF_MONTH_FOLLOWING, calendar::NYS) == date(2012, 2, 29));
+	ensure(date(2012, 2, 28).adjust(ROLL_END_OF_MONTH_PREVIOUS, calendar::NYS) == date(2012, 2, 29));
 }
 
 inline void test_actual_actual_isda()
