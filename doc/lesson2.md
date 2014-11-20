@@ -64,41 +64,5 @@ Add a test for delta at the end of `black.h`.
 _Exercise 5_. (20 points) Implement an add-in for delta in
 [xllblack.cpp](http://libfms.codeplex.com/SourceControl/latest#xllfms/xllblack.cpp)
 
-### Appendix
+## [Solutions](http://kalx.net/libfms/solutions2.html)
 
-Define the _moneyness_
-$z(k;f,\sigma,t) = (\log k/f)/\sigma\sqrt{t} - \sigma\sqrt{t}/2$.
-Note $z^{-1}(y) = fe^{-\sigma^2t/2 + \sigma\sqrt{t}y}
-Recall $F\le k$ iff $B_t/\sqrt{t} \le \phi(k)$.
-
-The payoff of a put ($c = -1$) or call ($c = 1$) is
-$\max\{c(x - k),0\}$.
-
-#### Delta
-Since $\partial v/\partial f = E\phi'(Fe^{\sigma^2t})$
-the delta of a put or call is
-$Ec1(cx\ge ck) = cP(cF\ge ck) = cN(z(cke^{\sigma^2t}))$.
-
-If $X$ has cumulative distribution function $F$, then
-$\psi(X)$ has cdf $G = F\circ\psi^{-1}$ and so the the
-probability density function (if it exists) is
-$g = G' = F'\circ\psi^{-1}(\psi^{-1})'$.
-
-#### Gamma
-Since $\partial^2 v/\partial f^2 = E\phi''(Fe^{2\sigma^2t})
-= Ec\delta_{k}(Fe^{2\sigma^2t})$, where $\delta_k$ is a
-delta function with unit mass at $k$,
-we have
-
-#### Vega
-Vega is
-$B_t/P$ is bm iff $B_t - \sigma t/Q$ is bm where
-$dQ/dP = e^{-\sigma^2t/2 + \sigma B_t}$.
-
-
-$$\begin{align*}
-\partial v/\partial\sigma &= E\phi'(F)F(-\sigma t + \sigma B_t)\\
- &= fE\phi'(F^{\sigma^2t})B_t\\
-\end{align*}$$
-
-#### Theta

@@ -251,7 +251,7 @@ xll_bbg_vix(double r, double t, const LPOPERX pk, const LPOPERX pc, const LPOPER
 		}
 
 		std::valarray<double> m(k_.size()); // mask
-		vswap::cboe_mask(m.size(), &cb[0], &pb[0], &m[0]);
+		vswap::cboe_mask(static_cast<int> (m.size()), &cb[0], &pb[0], &m[0]);
 
 		std::vector<double> k, p, c;
 

@@ -12,13 +12,13 @@
 #include "mkl_types.h"
 #include "mkl_service.h"
 #include "jacobi.h"
-
+/*
 #ifdef _WIN32
 #pragma comment(lib, "mkl_intel_c.lib")
 #pragma comment(lib, "mkl_core.lib")
 #pragma comment(lib, "mkl_sequential.lib")
 #endif
-
+*/
 namespace mkl {
 
 	// convergence criteria

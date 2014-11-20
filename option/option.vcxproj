@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="black.h" />
+    <ClInclude Include="bms.h" />
     <ClInclude Include="gatheral_svi.h" />
   </ItemGroup>
   <ItemGroup>

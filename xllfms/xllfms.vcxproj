@@ -77,7 +77,6 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..;..\..\xll8;..\mkl\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(MKLIncludeDIR)</IncludePath>
     <TargetExt>.xll</TargetExt>
-    <LibraryPath>..\mkl\lib\intel64;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -184,29 +183,24 @@
     <ClCompile Include="float\limits.cpp" />
     <ClCompile Include="float\nextafter.cpp" />
     <ClCompile Include="float\ulp.cpp" />
-    <ClCompile Include="mkl\homework.cpp" />
-    <ClCompile Include="mkl\xlljacobi.cpp" />
-    <ClCompile Include="mkl\xlltrnlsp.cpp" />
     <ClCompile Include="vswap\vswap.cpp" />
     <ClCompile Include="xllblack.cpp" />
+    <ClCompile Include="xllbms.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="xlllogistic.cpp" />
     <ClCompile Include="xllmath.cpp" />
     <ClCompile Include="xllnormal.cpp" />
     <ClCompile Include="xllpwflat.cpp" />
     <ClCompile Include="xllroot.cpp" />
-    <ClCompile Include="xllsvi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\xll8\xll.vcxproj">
       <Project>{8b15c18c-4c25-476c-abbd-88be05c35a3e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\mkl\mkl.vcxproj">
-      <Project>{3a998852-08f0-4d65-9a72-cb34265448a8}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="datetime\xlldatetime.h" />
-    <ClInclude Include="mkl\xllmkl.h" />
     <ClInclude Include="xllfms.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -58,7 +58,7 @@ namespace fms {
 				return y;
 			};
 			// !!!calculate explicitly
-			auto dF = mkl::jacobian<double>(4, w.size(), F);
+			auto dF = mkl::jacobian<double>(4,static_cast<int> (w.size()), F);
 
 			X x[4];
 			x[0] = s;
@@ -66,7 +66,7 @@ namespace fms {
 			x[2] = dm;
 			x[3] = d;
 			
-			return mkl::trnlsp<>(4, w.size(), x).function(F).jacobian(dF).find();
+			return mkl::trnlsp<>(4, static_cast<int>(w.size()), x).function(F).jacobian(dF).find();
 		}
 
 	} // volatility
