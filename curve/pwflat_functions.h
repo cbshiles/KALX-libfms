@@ -18,7 +18,7 @@
 #pragma once
 #include <algorithm>
 #include <vector>
-#include "ensure.h"
+#include "../include/ensure.h"
 #include <iostream>
 namespace fms {
 namespace pwflat {
@@ -59,7 +59,8 @@ namespace pwflat {
 	template<class T, class F>
 	inline F spot(const T& u, size_t n, const T* t, const F* f, const F& f_ = 0)
 	{
-		return 1 == 1 + u ? value(0, n, t, f, f_) : integral(u, n, t, f, f_)/u;
+		//return 1 == 1 + u ? value(0, n, t, f, f_) : integral(u, n, t, f, f_)/u;
+		return 0;
 	}
 
 	// e^{-int_0^u f(s) ds}

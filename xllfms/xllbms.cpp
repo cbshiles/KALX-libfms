@@ -10,22 +10,23 @@ using namespace fms::option;
 //!!! call fms::option::bms::value instead of fms::option::black::value
 
 static AddInX xai_option_black_value(
-	FunctionX(XLL_FPX,_T("?xll_option_black_value"),_T("OPTION.BLACK.VALUE"))
-	.Arg(XLL_DOUBLEX,_T("Forward"),_T("is the underlying forward value."))
+	FunctionX(XLL_FPX,_T("?xll_option_bms_value"),_T("OPTION.BMS.VALUE"))
+	.Arg(XLL_DOUBLEX,_T("InterestRate"),_T("is the constant interest rate."))
+	.Arg(XLL_DOUBLEX,_T("Spot"),_T("is the underlying spot price."))
 	.Arg(XLL_DOUBLEX,_T("Volatility"),_T("is the underlying volatility."))
 	.Arg(XLL_DOUBLEX,_T("Strike"),_T("is the put option strike price."))
 	.Arg(XLL_DOUBLEX,_T("Expiration"),_T("is the put option expiration in years."))
 	.Category(CATEGORY)
 	.FunctionHelp(_T("Return 5 column array of Black forward value, delta, gamma, vega, and theta."))
 );
-xfp* WINAPI xll_option_black_value(double f, double sigma, double k, double t)
+xfp* WINAPI xll_option_bms_value(double r, double s, double sigma, double k, double t)
 {
 #pragma XLLEXPORT
 	static FPX o(1,5);
 
 	try {
 		o = 0;
-		o[0] = black::value(f, sigma, k, t, &o[1], &o[2], &o[3], &o[4]);
+		o[0] = bms::value(r, s, sigma, k, t, &o[1], &o[2], &o[3], &o[4]);
 	}
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());

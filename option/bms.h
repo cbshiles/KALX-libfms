@@ -1,6 +1,6 @@
 #pragma once
 #include "black.h"
-
+#include <cmath>
 namespace fms {
 namespace option {
 
@@ -13,8 +13,16 @@ namespace option {
 			-> decltype(r + s + sigma + k + t)
 		{
 			// implement functions from final exam part 1 here!!!
+			auto f = s * exp(r * t);
 
-			return 0;
+			K _df{ 0. }, _ddf{ 0. }, _ds{ 0. }, _dt{ 0. };
+		
+			K option_value = fms::option::black::value(f, sigma, k, t, &_df, &_ddf, &_ds, &_dt) * exp(-r * t);
+			*df = _df;
+			*ddf = _ddf * exp(r * t);
+			*ds = _ds * exp(-r * t);
+			*dt = exp(-r * t) * _dt - r * exp(-r * t) * option_value;
+			return option_value;
 		}
 
 	}
