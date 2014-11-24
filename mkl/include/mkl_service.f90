@@ -1,0 +1,312 @@
+!*******************************************************************************
+!   Copyright(C) 2010-2013 Intel Corporation. All Rights Reserved.
+!
+!   The source code, information  and  material ("Material") contained herein is
+!   owned  by Intel Corporation or its suppliers or licensors, and title to such
+!   Material remains  with Intel Corporation  or its suppliers or licensors. The
+!   Material  contains proprietary information  of  Intel or  its  suppliers and
+!   licensors. The  Material is protected by worldwide copyright laws and treaty
+!   provisions. No  part  of  the  Material  may  be  used,  copied, reproduced,
+!   modified, published, uploaded, posted, transmitted, distributed or disclosed
+!   in any way  without Intel's  prior  express written  permission. No  license
+!   under  any patent, copyright  or  other intellectual property rights  in the
+!   Material  is  granted  to  or  conferred  upon  you,  either  expressly,  by
+!   implication, inducement,  estoppel or  otherwise.  Any  license  under  such
+!   intellectual  property  rights must  be express  and  approved  by  Intel in
+!   writing.
+!
+!   *Third Party trademarks are the property of their respective owners.
+!
+!   Unless otherwise  agreed  by Intel  in writing, you may not remove  or alter
+!   this  notice or  any other notice embedded  in Materials by Intel or Intel's
+!   suppliers or licensors in any way.
+!
+!*******************************************************************************
+!  Content:
+!   Intel(R) Math Kernel Library (MKL) FORTRAN 95 interface for service routines
+!*******************************************************************************
+
+MODULE MKL_SERVICE
+
+    IMPLICIT NONE
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DOMAIN_ALL  = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DOMAIN_BLAS = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DOMAIN_FFT  = 2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DOMAIN_VML  = 3
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DOMAIN_PARDISO = 4
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DYNAMIC_TRUE  = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_DYNAMIC_FALSE = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_AVX_ENABLE = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_INTERFACE_LP64  = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_INTERFACE_ILP64 = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_THREADING_INTEL = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_THREADING_SEQUENTIAL = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_THREADING_PGI = 2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_THREADING_GNU = 3
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_BRANCH         = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ALL            = -1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_OFF            = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_UNSET_ALL      = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_BRANCH_OFF     = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_AUTO           = 2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_COMPATIBLE     = 3
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SSE2           = 4
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SSE3           = 5
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SSSE3          = 6
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SSE4_1         = 7
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SSE4_2         = 8
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_AVX            = 9
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_AVX2           = 10
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_SUCCESS                 =  0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ERR_INVALID_SETTINGS    = -1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ERR_INVALID_INPUT       = -2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ERR_UNSUPPORTED_BRANCH  = -3
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ERR_UNKNOWN_BRANCH      = -4
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_CBWR_ERR_MODE_CHANGE_FAILURE = -8
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_PEAK_MEM_DISABLE        =  0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_PEAK_MEM_ENABLE         =  1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_PEAK_MEM_RESET          = -1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_PEAK_MEM                =  2
+
+    INTERFACE
+      SUBROUTINE MKL_GET_VERSION_STRING(BUF)
+      CHARACTER*(*), INTENT(OUT) :: BUF
+      END
+    END INTERFACE
+
+    INTERFACE
+      DOUBLE PRECISION FUNCTION MKL_GET_CPU_FREQUENCY()
+      END
+    END INTERFACE
+
+    INTERFACE
+      DOUBLE PRECISION FUNCTION MKL_GET_MAX_CPU_FREQUENCY()
+      END
+    END INTERFACE
+
+    INTERFACE
+      DOUBLE PRECISION FUNCTION MKL_GET_CLOCKS_FREQUENCY()
+      END
+    END INTERFACE
+
+    INTERFACE
+      SUBROUTINE MKL_GET_CPU_CLOCKS(CPU_CLOCKS)
+      INTEGER(8), INTENT(OUT) ::  CPU_CLOCKS
+      END
+    END INTERFACE
+
+! Threading control functions
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_GET_MAX_THREADS()
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_DOMAIN_GET_MAX_THREADS(DOMAIN)
+      INTEGER(4), INTENT(IN) :: DOMAIN
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION  MKL_SET_NUM_THREADS_LOCAL(NTHRS)
+      INTEGER(4), INTENT(IN) :: NTHRS
+      END
+    END INTERFACE
+
+    INTERFACE
+      SUBROUTINE MKL_SET_NUM_THREADS(NTHRS)
+      INTEGER(4), INTENT(IN) :: NTHRS
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_DOMAIN_SET_NUM_THREADS(NTHRS,DOMAIN)
+      INTEGER(4), INTENT(IN) :: NTHRS
+      INTEGER(4), INTENT(IN) :: DOMAIN
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_GET_DYNAMIC()
+      END
+    END INTERFACE
+
+    INTERFACE
+      SUBROUTINE MKL_SET_DYNAMIC(MKL_DYNAMIC)
+      INTEGER(4), INTENT(IN) :: MKL_DYNAMIC
+      END
+    END INTERFACE
+
+! MKL Memory functions
+
+    INTERFACE
+      SUBROUTINE MKL_FREE(PTR)
+      POINTER (PTR,MKL_DUMMY_VAR)
+      INTEGER(8) :: MKL_DUMMY_VAR(1)
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(8) FUNCTION MKL_MEM_STAT(N_BUFF)
+      INTEGER(4), INTENT(OUT) :: N_BUFF
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(8) FUNCTION MKL_PEAK_MEM_USAGE(RESET)
+      INTEGER(4), INTENT(IN) :: RESET
+      END
+    END INTERFACE
+
+    INTERFACE
+      SUBROUTINE MKL_FREE_BUFFERS()
+      END
+    END INTERFACE
+
+    INTERFACE
+      SUBROUTINE MKL_THREAD_FREE_BUFFERS()
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_DISABLE_FAST_MM()
+      END
+    END INTERFACE
+
+! MKL Progress routine
+
+    INTERFACE
+      FUNCTION MKL_PROGRESS( THREAD, STEP, STAGE )
+      INTEGER(4), INTENT(IN)    :: THREAD,STEP
+      CHARACTER*(*), INTENT(IN) :: STAGE
+      INTEGER          MKL_PROGRESS
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_ENABLE_INSTRUCTIONS(TYPE)
+      INTEGER(4), INTENT(IN) :: TYPE
+      END
+    END INTERFACE
+
+! MKL layer routines
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_SET_INTERFACE_LAYER(MKL_INTERFACE)
+      INTEGER(4), INTENT(IN) :: MKL_INTERFACE
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_SET_THREADING_LAYER(MKL_THREADING)
+      INTEGER(4), INTENT(IN) :: MKL_THREADING
+      END
+    END INTERFACE
+
+! MKL CBWR routines
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_CBWR_GET(MKL_CBWR)
+      INTEGER(4), INTENT(IN) :: MKL_CBWR
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_CBWR_SET(MKL_CBWR)
+      INTEGER(4), INTENT(IN) :: MKL_CBWR
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_CBWR_GET_AUTO_BRANCH()
+      END
+    END INTERFACE
+
+! MKL MIC service routines
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_TARGET_NONE = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_TARGET_HOST = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_TARGET_MIC  = 2
+
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_MIC_DEFAULT_TARGET_TYPE   = 2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_MIC_DEFAULT_TARGET_NUMBER = 0
+
+    DOUBLE PRECISION, PARAMETER, PUBLIC :: MKL_MIC_AUTO_WORKDIVISION = -1.0
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_ENABLE()
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_DISABLE()
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_GET_DEVICE_COUNT()
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_GET_WORKDIVISION(TARGET_TYPE, TARGET_NUMBER, WD)
+      INTEGER(4),       INTENT(IN)  :: TARGET_TYPE, TARGET_NUMBER
+      DOUBLE PRECISION, INTENT(OUT) :: WD
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_SET_WORKDIVISION(TARGET_TYPE, TARGET_NUMBER, WD)
+      INTEGER(4),       INTENT(IN)  :: TARGET_TYPE, TARGET_NUMBER
+      DOUBLE PRECISION, INTENT(IN)  :: WD
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_SET_MAX_MEMORY(TARGET_TYPE, TARGET_NUMBER, MEM)
+      INTEGER(4),       INTENT(IN)  :: TARGET_TYPE, TARGET_NUMBER
+      INTEGER(8),       INTENT(IN)  :: MEM
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_FREE_MEMORY(TARGET_TYPE, TARGET_NUMBER)
+      INTEGER(4),       INTENT(IN)  :: TARGET_TYPE, TARGET_NUMBER
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_SET_OFFLOAD_REPORT(ENABLED)
+      INTEGER(4),       INTENT(IN)  :: ENABLED
+      END
+    END INTERFACE
+
+    INTERFACE
+      INTEGER(4) FUNCTION MKL_MIC_SET_DEVICE_NUM_THREADS(TARGET_TYPE, TARGET_NUMBER, NUM_THREADS)
+      INTEGER(4),       INTENT(IN)  :: TARGET_TYPE, TARGET_NUMBER, NUM_THREADS
+      END
+    END INTERFACE
+
+! Obsolete names and routines
+
+! Obsolete MKL domain names (deprecated)
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_ALL  = 0
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_BLAS = 1
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_FFT  = 2
+    INTEGER (KIND=4), PARAMETER, PUBLIC :: MKL_VML  = 3
+
+    INTERFACE
+      SUBROUTINE MKL_SET_CPU_FREQUENCY(FREQ)
+      DOUBLE PRECISION, INTENT(IN) :: FREQ
+      END
+    END INTERFACE
+
+!*******************************************************************************
+
+END MODULE MKL_SERVICE
