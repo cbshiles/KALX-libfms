@@ -17,14 +17,14 @@ Open `libfms` and build the project `xllfms`.
 The project `xllfms` consists of Excel add-in functions that call platform-independent code in other projects. The `AddInX` class specifies how to hook up Excel to C++. The function you tell Excel to call takes data from Excel, calls C++, and returns a result. Functional languages are all the rage these days, but spreadsheets have been purely functional since [VisiCalc](http://www.bricklin.com/firstspreadsheetquestion.htm).
 All of the other projects are "header only". Just `#include` what you need and start using them. The _project_`.cpp` file calls the test routines at the bottom of each header file. No need for a unit testing framework, C++ is sufficiently expressive already.
 
-Project | Description
-------- | -----------
-[root](root/README.md) | root finding
-[prob](prob/README.md) | probability related functions
-[option](option/README.md) | option pricing
-[datetime](datetime/README.md) | date and time routines
-[curve](curve/README.md) | piece-wise flat forward curve bootstrap
-[instrument](instrument/README.md) | fixed income instruments
+| Project | Description
+| ------: | :----------
+| [root](root/README.md) | root finding
+| [prob](prob/README.md) | probability related functions
+| [option](option/README.md) | option pricing
+| [datetime](datetime/README.md) | date and time routines
+| [curve](curve/README.md) | piece-wise flat forward curve bootstrap
+| [instrument](instrument/README.md) | fixed income instruments
 
 ## Remarks
 
