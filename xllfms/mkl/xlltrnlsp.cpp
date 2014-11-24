@@ -25,9 +25,6 @@ xfp* WINAPI xll_trnlsp(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT iter1, S
 
 	try {
 		xword m = size(*px);
-		const xll::AddInX* pai = xll::AddIn::Find(OPERX(f));
-		ensure (pai);
-		xword n = pai->Args().Arity();
 		auto F = xllmkl::vectorize(m, n, f);
 		vector<double> eps(6);
 		if (peps->xltype == xltypeMissing) {

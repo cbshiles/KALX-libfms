@@ -5,7 +5,9 @@
 int main()
 {
 	try {
+#ifdef _DEBUG
 		test_root1d();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

@@ -7,8 +7,7 @@ using namespace xllmkl;
 
 static AddInX xai_mkl_jacobian(
 	FunctionX(XLL_FPX, _T("?xll_mkl_jacobian"), _T("MKL.JACOBIAN"))
-	.Arg(XLL_USHORTX, _T("M"), _T("is the number of arguments in the domain vector."))
-	.Arg(XLL_USHORTX, _T("N"), _T("is the number of arguments in the range vector."))
+	.Arg(XLL_WORDX, _T("N"), _T("is the number of arguments in the range vector."))
 	.Arg(XLL_HANDLEX, _T("Function"), _T("is the function whos Jacobian is to be estmated."))
 	.Arg(XLL_FPX, _T("x"), _T("is the value at which to compute the Jacobian."))
 	.Arg(XLL_DOUBLEX, _T("_eps"), _T("is the optional precision of the Jacobian matrix calculation."))
@@ -16,7 +15,7 @@ static AddInX xai_mkl_jacobian(
 	.FunctionHelp(_T("Return the M x N Jacobian of Function at x."))
 	.Documentation(_T("Documentation."))
 );
-xfp* WINAPI xll_mkl_jacobian(USHORT m, USHORT n, HANDLEX f, const xfp* x, double eps)
+xfp* WINAPI xll_mkl_jacobian(xword n, HANDLEX f, const xfp* px, double eps)
 {
 #pragma XLLEXPORT
 	static xll::FPX df;
@@ -25,7 +24,8 @@ xfp* WINAPI xll_mkl_jacobian(USHORT m, USHORT n, HANDLEX f, const xfp* x, double
 		if (eps == 0)
 			eps = 1e-9;
 
-		mkl::jacobi<double> J(m, n, vectorize(m, n, f), x->array, eps);
+		xword m = size(*px);
+		mkl::jacobi<double> J(m, n, vectorize(m, n, f), px->array, eps);
 		auto dF = J.find();
 
 		df.resize(m, n);

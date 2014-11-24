@@ -3,6 +3,7 @@
 
 using namespace xll;
 
+// jacobian {x[0],x[1] -> {2*x[0], 0, 1; 0, 3*x[1]^2, 1}
 static AddIn xai_test_function1(
 	Function(XLL_LPOPER, "?xll_test_function1", "TEST.FUNCTION1")
 	.Arg(XLL_LPOPER, "Arg", "is an array of two numbers.")
@@ -16,6 +17,7 @@ LPOPER WINAPI xll_test_function1(const LPOPER px)
 	static OPER y(1,3);
 
 	try {
+		ensure (px->size() == 2);
 		const OPER& x{*px};
 
 		y[0] = x[0]*x[0];

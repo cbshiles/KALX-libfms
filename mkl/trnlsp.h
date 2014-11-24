@@ -16,7 +16,7 @@
 namespace mkl {
 
 	// convergence criteria
-	enum { TRUST_REGION = 1, RESIDUAL, SINGULAR_JACOBIAN, TRIAL_STEP, NORM_TOLERANCE, TRIAL_STEP_PRECISION };
+	enum stop_criteria { TRUST_REGION = 1, RESIDUAL, SINGULAR_JACOBIAN, TRIAL_STEP, NORM_TOLERANCE, TRIAL_STEP_PRECISION };
 
 	template<class X>
 	struct trnlsp_traits { 
@@ -77,7 +77,7 @@ namespace mkl {
 		trnlsp operator=(const trnlsp&) = delete;
 		~trnlsp()
 		{
-			dtrnlsp_delete(&h);
+			dtrnlsp_delete(&h); // trnlsp_traits<X>::delete
 			mkl_free_buffers();
 		}
 

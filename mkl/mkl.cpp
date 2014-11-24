@@ -6,8 +6,10 @@
 int main()
 {
 	try {
+#ifdef _DEBUG
 		test_mkl_jacobi();
 		test_mkl_trnlsp();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;
