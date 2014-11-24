@@ -25,3 +25,5 @@ All of the other projects are "header only". Just `#include` what you need and s
 [instrument](instrument/README.md) - fixed income instruments
 
 ## Remarks
+
+prob not converging

@@ -6,7 +6,9 @@ int
 main(void)
 {
 	try {
+#ifdef _DEBUG
 		test_datetime();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

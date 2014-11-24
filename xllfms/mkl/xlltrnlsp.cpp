@@ -3,6 +3,7 @@
 #include "../../mkl/trnlsp.h"
 
 using namespace xll;
+using namespace mkl;
 
 static AddInX xai_trnlsp(
 	FunctionX(XLL_FPX,_T("?xll_trnlsp"),_T("MKL.TRNLSP"))
@@ -26,7 +27,7 @@ xfp* WINAPI xll_trnlsp(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT iter1, S
 	try {
 		xword m = size(*px);
 		auto F = xllmkl::vectorize(m, n, f);
-		vector<double> eps(6);
+		std::vector<double> eps(6);
 		if (peps->xltype == xltypeMissing) {
 			eps.assign(6, 1e-10);
 		}

@@ -6,8 +6,10 @@
 int main()
 {
 	try {
+#ifdef _DEBUG
 		test_prob_logistic();
 		test_prob_normal();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

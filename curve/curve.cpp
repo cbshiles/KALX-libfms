@@ -8,9 +8,11 @@ using namespace fms;
 int main()
 {
 	try {
+#ifdef _DEBUG
 		test_pwflat_function();
 		test_pwflat();
 		test_pwflat_bootstrap();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;
