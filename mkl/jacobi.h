@@ -62,7 +62,7 @@ namespace mkl {
 	// inefficent, but don't seem to be able to reuse mkl::jacobi
 	template<class X = double>
 	inline std::function<std::vector<X>(const std::vector<X>&)> 
-	jacobian(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, X eps = 1e-9)
+	jacobian(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, X eps = sqrt(std::numeric_limits<X>::epsilon()))
 	{
 		return [m,n,f,eps](const std::vector<X>& x) {
 			return mkl::jacobi<X>(m, n, f, &x[0], eps).find();

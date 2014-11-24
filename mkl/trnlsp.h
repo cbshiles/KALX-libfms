@@ -169,7 +169,6 @@ using namespace mkl;
 
 inline void test_mkl_trnlsp1()
 {
-
 	vector<double> x{1,1};
 
 	trnlsp<> problem(2, 2, &x[0]);
@@ -206,7 +205,7 @@ inline void test_mkl_trnlsp2()
 	std::vector<double> x {-1.2, 1};
 	trnlsp<> p(2, 2, &x[0]);
 	p.function(f);
-	p.jacobian(jacobian<double>(2,2,f));
+	p.jacobian(jacobian<double>(2,2,f,1e-9));
 	auto x_ = p.find();
 
 	int iter, cr;
