@@ -24,7 +24,9 @@
 #ifdef _DEBUG
 	#ifdef _WIN32 // defined for 64 bit also
 		extern "C" void __stdcall DebugBreak(void);
-		#define ensure(e) if (!(e)) { DebugBreak(); }
+		#define ensure(e) if (!(e)) { DebugBreak(); \
+		throw std::runtime_error(ENSURE_SPOT "\nensure: \"" #e "\" failed"); } \
+		else (void)0;
 	#else
 		#define ensure(e) if (!(e)) { __builtin_trap(); }
 	#endif

@@ -193,6 +193,7 @@
     <ClCompile Include="xllnormal.cpp" />
     <ClCompile Include="xllpwflat.cpp" />
     <ClCompile Include="xllroot.cpp" />
+    <ClCompile Include="xllsvi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\xll8\xll.vcxproj">

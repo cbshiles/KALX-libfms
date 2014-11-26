@@ -29,6 +29,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "instrument", "instrument\in
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mkl", "mkl\mkl.vcxproj", "{3A998852-08F0-4D65-9A72-CB34265448A8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "volatility", "volatility\volatility.vcxproj", "{4001393D-5474-4091-9AEF-E0106C7EC4E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -93,6 +95,12 @@ Global
 		{3A998852-08F0-4D65-9A72-CB34265448A8}.Release|Win32.ActiveCfg = Release|x64
 		{3A998852-08F0-4D65-9A72-CB34265448A8}.Release|Win32.Build.0 = Release|x64
 		{3A998852-08F0-4D65-9A72-CB34265448A8}.Release|x64.ActiveCfg = Release|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Debug|Win32.Build.0 = Debug|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Debug|x64.ActiveCfg = Debug|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Release|Win32.ActiveCfg = Release|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Release|Win32.Build.0 = Release|Win32
+		{4001393D-5474-4091-9AEF-E0106C7EC4E6}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

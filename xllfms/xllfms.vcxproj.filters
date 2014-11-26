@@ -78,6 +78,9 @@
     <ClCompile Include="mkl\homework.cpp">
       <Filter>mkl</Filter>
     </ClCompile>
+    <ClCompile Include="xllsvi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xllfms.h">

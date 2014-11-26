@@ -78,7 +78,7 @@ namespace option {
 
 		// Find the volatility given the option price.
 		template<class X>
-		inline X implied_volatility(const X& f, const X& p, const X& k, const X& t)
+		inline X implied_volatility(const X& f, const X& p, const X& k, const X& t, const X& s = 0.2)
 		{
 			// ensure price in 0 - infty vol range
 			ensure (t > 0);
@@ -88,12 +88,12 @@ namespace option {
 			auto  F = [f,p,k,t](const X& s) -> X { return black::value(f, s, k, t) - p; };
 			auto dF = [f,p,k,t](const X& s) -> X { return black::vega(f, s, k, t); };
 
-			return fms::root1d::find::newton<X,X>(0.2, F, dF);
+			return fms::root1d::find::newton<X,X>(s, F, dF);
 		}
 
 		// Find the forward given the option price.
 		template<class X>
-		inline X implied_forward(const X& p, const X& s, const X& k, const X& t)
+		inline X implied_forward(const X& p, const X& s, const X& k, const X& t, X& f = k)
 		{
 			//zoewangforest
 			ensure(t > 0);
@@ -102,7 +102,7 @@ namespace option {
 			auto F = [s, p, k, t](const X& f) -> X { return black::value(f, s, k, t) - p; };
 			auto dF = [s, p, k, t](const X& f) -> X{ return black::delta(f, s, k, t); };
 
-			return fms::root1d::find::newton<X, X>(0.2, F, dF);
+			return fms::root1d::find::newton<X, X>(k, F, dF);
 		}
 	} // black
 	// Black-Scholes/Merton
