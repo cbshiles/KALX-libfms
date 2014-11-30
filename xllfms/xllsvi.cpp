@@ -1,5 +1,5 @@
 // xllsvi.cpp - Stochastic Volatility Inspired volatility curve
-#include "xllfms.h"
+#include "mkl/xllmkl.h"
 #include "../volatility/curve.h"
  
 using namespace fms;
@@ -86,9 +86,6 @@ xfp* WINAPI xll_svi_fit(double f, xfp* pk, xfp* pw, xfp* px)
 
 #ifdef _DEBUG
 
-typedef std::vector<double> vec;
-typedef std::function<vec(const vec&)> fun;
-
 static AddInX xai_kalx_svi_function(
 	FunctionX(XLL_HANDLEX,_T("?xll_kalx_svi_function"),_T("KALX.SVI.FUNCTION"))
 	.Arg(XLL_DOUBLEX,_T("f"),_T("is the forward."))
@@ -109,11 +106,12 @@ HANDLEX WINAPI xll_kalx_svi_function(double f, xfp* w, xfp* k)
 		ensure (size(*w) == size(*k));
 
 		xword n = size(*w);
-		handle<fun> hf = new fun([n,f,w,k](const vec& x) {
-			ensure (x.size() == 4);
+		// copies to be passed into lambda
+		std::vector<double> W(w->array, w->array + n);
+		std::vector<double> K(k->array, k->array + n);
 
-			std::vector<double> W(w->array, w->array + n);
-			std::vector<double> K(k->array, k->array + n);
+		handle<fun> hf = new fun([n,f,W,K](const vec& x) {
+			ensure (x.size() == 4);
 
 			std::vector<double> y(n);
 			for (xword i = 0; i < n; ++i) {
@@ -131,5 +129,18 @@ HANDLEX WINAPI xll_kalx_svi_function(double f, xfp* w, xfp* k)
 
 	return h;
 }
+
+static AddInX xai_kalx_svi_jacobian(
+	FunctionX(XLL_HANDLEX,_T("?xll_kalx_svi_jacobian"),_T("KALX.SVI.JACOBIAN"))
+	.Arg(XLL_DOUBLEX,_T("f"),_T("is the forward."))
+	.Arg(XLL_FPX,_T("w"),_T("is an array of total variance."))
+	.Arg(XLL_FPX,_T("k"),_T("is an array of strikes."))
+	.Uncalced()
+	.Category(CATEGORY)
+	.FunctionHelp(_T("Return the Jacobian of {sigma, m, dm, d} -> xll_kalx_svi_function(f,w,k)({sigma, m, dm, d})"))
+	.Documentation(_T("Documentation."))
+	);
+//HANDLEX WINAPI xll_kalx_svi_jacobian(double f, xfp* w, xfp* k)
+//!!!body goes here!!!
 
 #endif // _DEBUG
