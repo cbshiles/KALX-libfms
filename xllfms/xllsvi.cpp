@@ -1,6 +1,8 @@
 // xllsvi.cpp - Stochastic Volatility Inspired volatility curve
 #include "xllfms.h"
+#include "../volatility/curve.h"
  
+using namespace fms;
 using namespace xll;
 
 static AddInX xai_gatheral_svi(
@@ -42,30 +44,92 @@ xll_kalx_svi(double z, double sigma, double m, double dm, double d)
 	return sigma*sigma + m*z + dm*(sqrt(z*z + d*d) - d);
 }
 
-
-static AddInX xai_svi_fit(
-	FunctionX(XLL_LPOPERX,_T("?xll_svi_fit"),_T("XLL.svi_fit"))
+static AddInX xai_kalx_svi_fit(
+	FunctionX(XLL_FPX,_T("?xll_svi_fit"),_T("VOLATILITY.KALX.SVI.FIT"))
 	.Arg(XLL_DOUBLEX,_T("Forward"),_T("is an argument."))
-	.Arg(XLL_DOUBLEX,_T("Expiration"),_T("is an argument."))
+	.Arg(XLL_FPX, _T("Variances"), _T("is an array of total variances."))
 	.Arg(XLL_FPX, _T("Strikes"), _T("is an array of strikes."))
-	.Arg(XLL_FPX, _T("Prices"), _T("is an array of prices."))
+	.Arg(XLL_FPX, _T("Guess"), _T("is an array of four values as the initial parameter guess."))
 	.Category(CATEGORY)
-	.FunctionHelp(_T("Description."))
+	.FunctionHelp(_T("Return parameters for KALX.SVI."))
 	.Documentation(_T("Documentation."))
 	);
-LPOPERX WINAPI xll_svi_fit(double f, double t, xfp* k, xfp* p)
+xfp* WINAPI xll_svi_fit(double f, xfp* pk, xfp* pw, xfp* px)
 {
 #pragma XLLEXPORT
-	static OPERX o;
+	static FPX o;
 
 	try {
-		o = arg;
+		ensure (size(*px) == 4);
+		std::vector<double> k(begin(*pk), end(*pk)), w(begin(*pw), end(*pw));
+
+		std::vector<double> y = volatility::kalx_svi_fit<double>(f, w, k, px->array[0], px->array[1], px->array[2], px->array[3]); 
+		ensure (y.size() == 4);
+
+		if (px->rows == 1) {
+			o.resize(1, 4);
+		}
+		else {
+			o.resize(4, 1);
+		}
+
+		std::copy(y.begin(), y.end(), o.begin()); 
 	}
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());
 
-		o = OPERX(xlerr::Num);
+		return 0;
 	}
 
-	return &o;
+	return o.get();
 }
+
+#ifdef _DEBUG
+
+typedef std::vector<double> vec;
+typedef std::function<vec(const vec&)> fun;
+
+static AddInX xai_kalx_svi_function(
+	FunctionX(XLL_HANDLEX,_T("?xll_kalx_svi_function"),_T("KALX.SVI.FUNCTION"))
+	.Arg(XLL_DOUBLEX,_T("f"),_T("is the forward."))
+	.Arg(XLL_FPX,_T("w"),_T("is an array of total variance."))
+	.Arg(XLL_FPX,_T("k"),_T("is an array of strikes."))
+	.Uncalced()
+	.Category(CATEGORY)
+	.FunctionHelp(_T("Description."))
+	.Documentation(_T("Documentation."))
+	);
+HANDLEX WINAPI xll_kalx_svi_function(double f, xfp* w, xfp* k)
+{
+#pragma XLLEXPORT
+
+	handlex h;
+
+	try {
+		ensure (size(*w) == size(*k));
+
+		xword n = size(*w);
+		handle<fun> hf = new fun([n,f,w,k](const vec& x) {
+			ensure (x.size() == 4);
+
+			std::vector<double> W(w->array, w->array + n);
+			std::vector<double> K(k->array, k->array + n);
+
+			std::vector<double> y(n);
+			for (xword i = 0; i < n; ++i) {
+				y[i] = -W[i] + xll_kalx_svi(log(K[i]/f), x[0], x[1], x[2], x[3]);
+			}
+
+			return y; 
+		});
+
+		h = hf.get();
+	}
+	catch(const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return h;
+}
+
+#endif // _DEBUG

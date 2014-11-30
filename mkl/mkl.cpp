@@ -1,5 +1,4 @@
 #include <iostream>
-#include "fmsmkl.h"
 #include "jacobi.h"
 #include "trnlsp.h"
 
@@ -9,6 +8,7 @@ int main()
 #ifdef _DEBUG
 		test_mkl_jacobi();
 		test_mkl_trnlsp();
+//		test_mkl_trnlsp<float>();
 #endif
 	}
 	catch (const std::exception& ex) {

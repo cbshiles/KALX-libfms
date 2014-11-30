@@ -19,11 +19,30 @@ namespace fms {
 		{
 			return sigma*sigma + m*z + dm*(sqrt(z*z + d*d) - d);
 		}
+		template<class X = double>
+		inline std::vector<X> kalx_svi_jacobian(X z, const std::vector<X>& x)
+		{
+			ensure (x.size() == 4);
+
+			X sigma = x[0];
+			X m = x[1];
+			X dm = x[2];
+			X d = x[3];
+
+			std::vector<X>& y(4);
+
+			y[0] = 2*sigma;
+			y[1] = z;
+			y[2] = sqrt(z*z + d*d) - d;
+			y[3] = dm*(d/sqrt(z*z + d*d) - 1);
+
+			return y;
+		}
 		
 		// fit data to total variance curve
 		// returns {s,m,dm,d}
 		template<class X>
-		std::vector<X> kalx_svi_fit(X f, const std::vector<X>& w, const std::vector<X>& k, X t, X s, X m, X dm, X d)
+		std::vector<X> kalx_svi_fit(X f, const std::vector<X>& w, const std::vector<X>& k, X s, X m, X dm, X d)
 		{
 			ensure (w.size() == k.size());
 
@@ -33,7 +52,7 @@ namespace fms {
 				std::vector<X> y(w.size());
 
 				for (size_t i = 0; i < y.size(); ++i) {
-					y[i] = w[i] - kalx_svi(log(k[i]/f), x[0], x[1], x[2], x[3]);
+					y[i] = kalx_svi(log(k[i]/f), x[0], x[1], x[2], x[3]) - w[i];
 				}
 
 				return y;
@@ -60,7 +79,7 @@ using namespace fms;
 
 inline void test_volatility_kalx_svi_fit()
 {
-	double f = 100, t = 1;
+	double f = 100, t = 1, eps = std::numeric_limits<double>::epsilon();
 	std::vector<double> w(5), k(5);
 
 	for (size_t i = 0; i < w.size(); ++i) {
@@ -68,9 +87,12 @@ inline void test_volatility_kalx_svi_fit()
 		k[i] = 80 + i*10;
 	}
 
-	auto y = volatility::kalx_svi_fit<>(f, w, k, t, .2, 0., 0., 0.);
+	auto y = volatility::kalx_svi_fit<>(f, w, k, .3, 0., 0., 1.);
 
-	ensure (y[0] == w[0]);
+	ensure (fabs(y[0] - .2) < sqrt(eps));
+	ensure (fabs(y[1]) < sqrt(eps));
+	ensure (fabs(y[2]) < sqrt(eps));
+//	ensure (fabs(y[3]) < sqrt(eps));
 }
 
 inline void test_volatility_curve(void)

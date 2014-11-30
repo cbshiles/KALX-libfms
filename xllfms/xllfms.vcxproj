@@ -184,7 +184,6 @@
     <ClCompile Include="float\nextafter.cpp" />
     <ClCompile Include="float\ulp.cpp" />
     <ClCompile Include="mkl\homework.cpp" />
-    <ClCompile Include="mkl\xllfunction.cpp" />
     <ClCompile Include="mkl\xlljacobi.cpp" />
     <ClCompile Include="mkl\xlltrnlsp.cpp" />
     <ClCompile Include="xllblack.cpp" />

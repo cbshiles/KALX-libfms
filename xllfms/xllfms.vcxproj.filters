@@ -72,9 +72,6 @@
     <ClCompile Include="mkl\xlljacobi.cpp">
       <Filter>mkl</Filter>
     </ClCompile>
-    <ClCompile Include="mkl\xllfunction.cpp">
-      <Filter>mkl</Filter>
-    </ClCompile>
     <ClCompile Include="mkl\homework.cpp">
       <Filter>mkl</Filter>
     </ClCompile>

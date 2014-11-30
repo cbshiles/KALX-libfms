@@ -6,34 +6,54 @@ using namespace xll;
 // jacobian {x[0],x[1] -> {2*x[0], 0, 1; 0, 3*x[1]^2, 1}
 static AddIn xai_test_function1(
 	Function(XLL_LPOPER, "?xll_test_function1", "TEST.FUNCTION1")
-	.Arg(XLL_LPOPER, "Arg", "is an array of two numbers.")
+	.Arg(XLL_LPOPER, "x", "is an optional array of two numbers")
+	.Uncalced()
 	.Category(CATEGORY)
-	.FunctionHelp("{x[0], x[1]} -> {x[0]^2, x[1]^3, x[0] + x[1]}")
+	.FunctionHelp("Return handle to the function {x[0], x[1]} -> {x[0]^2, x[1]^3, x[0] + x[1]}")
 	.Documentation("Documentation.")
 	);
-LPOPER WINAPI xll_test_function1(const LPOPER px)
+LPOPER WINAPI xll_test_function1(LPOPER px)
 {
 #pragma XLLEXPORT
-	static OPER y(1,3);
+	static OPER y;
 
 	try {
-		ensure (px->size() == 2);
-		const OPER& x{*px};
+		auto f = [](const vec& x) {
+			ensure (x.size() == 2);
+			vec y(3);
 
-		y[0] = x[0]*x[0];
-		y[1] = x[1]*x[1]*x[1];
-		y[2] = x[0] + x[1];
+			y[0] = x[0]*x[0];
+			y[1] = x[1]*x[1]*x[1];
+			y[2] = x[0] + x[1];
 
+			return y;
+		};
+
+		if (px->xltype == xltypeMissing) {
+			handle<fun> hf = new fun(f);
+
+			y.resize(1,1);
+			y[0] = hf.get();
+		}
+		else {
+			ensure (px->size() == 2);
+			vec x(2);
+			x[0] = (*px)[0];
+			x[1] = (*px)[1];
+
+			auto y_ = f(x);
+
+			y.resize(1,3);
+			std::copy(y_.begin(), y_.end(), y.begin());
+		}
 	}
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());
-
-		y = OPER(xlerr::Num);
 	}
 
 	return &y;
 }
-
+/*
 // http://www.mathworks.com/help/optim/ug/lsqnonlin.html
 static AddIn xai_test_function2(
 	Function(XLL_LPOPER, "?xll_test_function2", "TEST.FUNCTION2")
@@ -94,7 +114,7 @@ LPOPER WINAPI xll_test_function3(const LPOPER px)
 
 	return &o;
 }
-
+*/
 //!!!lf343
 //!!!sjm366
 //!!!zoewanforest

@@ -26,7 +26,8 @@ xfp* WINAPI xll_trnlsp(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT iter1, S
 
 	try {
 		xword m = size(*px);
-		auto F = xllmkl::vectorize(m, n, f);
+		handle<fun> hf(f);
+		ensure (hf);
 		std::vector<double> eps(6);
 		if (peps->xltype == xltypeMissing) {
 			eps.assign(6, 1e-10);
@@ -42,8 +43,8 @@ xfp* WINAPI xll_trnlsp(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT iter1, S
 			rs = 1;
 
 		auto X_ = trnlsp<>(m, n, px->array, &eps[0], iter1, iter2, rs)
-			.function(F)
-			.jacobian(mkl::jacobian<double>(m, n, F))
+			.function(*hf)
+			.jacobian(mkl::jacobian<double>(m, n, *hf))
 			.find();
 
 		ensure (X_.size() == m);
@@ -85,7 +86,8 @@ HANDLEX WINAPI xll_trnlsp_init(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT 
 
 	try {
 		xword m = size(*px);
-		auto F = xllmkl::vectorize(m, n, f);
+		handle<fun> hf(f);
+		ensure (hf);
 		vector<double> eps(6);
 		if (peps->xltype == xltypeMissing) {
 			eps.assign(6, 1e-10);
@@ -102,7 +104,7 @@ HANDLEX WINAPI xll_trnlsp_init(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT 
 
 		handle<mkl::trnlsp<>> ht {new trnlsp<>(m, n, px->array, &eps[0], iter1, iter2, rs)};
 
-		ht->function(F).jacobian(mkl::jacobian<double>(m, n, F));
+		ht->function(*hf).jacobian(mkl::jacobian<double>(m, n, *hf));
 
 		h = ht.get();
 	}

@@ -5,7 +5,9 @@
 int main()
 {
 	try {
+#ifdef _DEBUG
 		test_volatility_curve();
+#endif
 	}
 	catch (const std::exception& ex) {
 		std::cerr << ex.what() << std::endl;

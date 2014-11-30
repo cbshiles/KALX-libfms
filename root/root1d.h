@@ -120,6 +120,7 @@ namespace root1d {
 
 			do {
 				ensure (iter--);
+
 				Y y = f(x), dy = df(x);
 				
 				ensure (dy != 0);
