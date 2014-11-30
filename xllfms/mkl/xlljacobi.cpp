@@ -24,9 +24,7 @@ xfp* WINAPI xll_mkl_jacobian(xword n, HANDLEX f, const xfp* px, double eps)
 			eps = 1e-9;
 
 		xword m = size(*px);
-		handle<fun> hf(f);
-		ensure (hf);
-		mkl::jacobi<double> J(m, n, px->array, *hf, eps);
+		mkl::jacobi<double> J(m, n, px->array, *handle<fun>(f), eps);
 		auto dF = J.find();
 
 		df.resize(m, n);
@@ -64,9 +62,7 @@ HANDLEX WINAPI xll_mkl_jacobi(USHORT m, USHORT n, HANDLEX f, const xfp* x, doubl
 		if (eps == 0)
 			eps = 1e-9;
 
-		handle<fun> hf(f);
-		ensure (hf);
-		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, x->array, *hf, eps)};
+		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, x->array, *handle<fun>(f), eps)};
 		h = h_.get();
 	}
 	catch(const std::exception& ex) {
@@ -87,10 +83,7 @@ SHORT WINAPI xll_mkl_jacobi_solve(HANDLEX j, SHORT rci)
 {
 #pragma XLLEXPORT
 	try {
-		handle<mkl::jacobi<double>> hj(j);
-		ensure (hj);
-
-		rci = (SHORT)hj->solve(rci);
+		rci = (SHORT)handle<mkl::jacobi<double>>(j)->solve(rci);
 	}
 	catch(const std::exception& ex) {
 		XLL_ERROR(ex.what());
@@ -113,7 +106,6 @@ xfp* WINAPI xll_mkl_jacobi_find(HANDLEX j, BOOL debug)
 
 	try {
 		handle<mkl::jacobi<double>> hj(j);
-		ensure (hj);
 
 		if (debug) {
 			dF.resize(0,0);
