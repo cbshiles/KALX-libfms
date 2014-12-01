@@ -176,6 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="datetime\datetime.cpp" />
+    <ClCompile Include="datetime\date_enum.cpp" />
     <ClCompile Include="datetime\xlltime.cpp" />
     <ClCompile Include="float\float_bits.cpp" />
     <ClCompile Include="float\frexp.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="mkl\homework.cpp" />
     <ClCompile Include="mkl\xlljacobi.cpp" />
     <ClCompile Include="mkl\xlltrnlsp.cpp" />
+    <ClCompile Include="vswap\vswap.cpp" />
     <ClCompile Include="xllblack.cpp" />
     <ClCompile Include="xlllogistic.cpp" />
     <ClCompile Include="xllmath.cpp" />
@@ -203,6 +205,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="datetime\xlldatetime.h" />
     <ClInclude Include="mkl\xllmkl.h" />
     <ClInclude Include="xllfms.h" />
   </ItemGroup>

@@ -1,31 +1,17 @@
-// datetime.cpp - datetime routines
-// Copyright (c) 2011 KALX, LLC. All rights reserved. No warranty is made.
-#include "xll/xll.h"
-#include "datetime/dt.h"
-
-using namespace xll;
-
-#define XLL_DATEX XLL_DOUBLEX
-#define IS_DATE _T("is an Excel Julian date")
-#define DATETIME_PREFIX _T("DATETIME.")
-#define CATEGORY _T("FMS")
-#if 0
-#include <algorithm>
-#include <string>
-#pragma warning(disable: 4996 4244)
+// datetime.cpp - date and time routines
 #include "xlldatetime.h"
 
-using std::string;
 using namespace xll;
-using namespace datetime;
-using namespace xml;
+using namespace fms::datetime;
 
+/*
 #ifdef _DEBUG
 static AddInX xai_datetime(
 	ArgsX(CATEGORY)
 	.Documentation(xml::File(Directory::Basename(_T(__FILE__)).append(_T("datetime.xml")).c_str()))
 );	
 #endif
+*/
 
 //
 // Enumerations
@@ -151,6 +137,8 @@ xll_date_imm(double dt, long ordinal, day_of_week day)
 
 	return ndt;
 }
+
+#if 0
 
 
 static AddInX xai_date_ymdhms(
@@ -292,19 +280,6 @@ xll_date_isdst(double t)
 	return b;
 }
 #endif // 0
-
-using namespace fms::datetime;
-
-#define CATEGORY_ENUM CATEGORY
-// Various constants 
-
-XLL_ENUM_DOC(DAYS_PER_YEAR, DAYS_PER_YEAR, CATEGORY_ENUM, 
-	"Number of days in a year.",
-	"The value 365.25 is somewhat arbitrary, but the important thing is to use it consistently.")
-XLL_ENUM_DOC(SECS_PER_DAY, SECS_PER_DAY, CATEGORY_ENUM, 
-	"Number of seconds per day.", "")
-XLL_ENUM_DOC(EXCEL_EPOCH, EXCEL_EPOCH, CATEGORY_ENUM, 
-	"Excel Julian date for unix epoch of midnight 1970/1/1.", "")
 
 static AddInX xai_date2timet(
 	FunctionX(XLL_DOUBLEX, _T("?xll_date2timet"), DATETIME_PREFIX _T("DATE2TIMET"))
