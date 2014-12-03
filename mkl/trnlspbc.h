@@ -1,4 +1,4 @@
-// trnlsp.h - Intel MKL Nonlinear Least Squares Problem without Constraints
+// trnlspbc.h - Intel MKL Nonlinear Least Squares Problem with with Constraints
 #pragma once
 #include "../include/ensure.h"
 #ifdef _DEBUG
@@ -16,70 +16,70 @@
 namespace mkl {
 
 	// convergence criteria
-	enum stop_criteria { TRUST_REGION = 1, RESIDUAL, SINGULAR_JACOBIAN, TRIAL_STEP, NORM_TOLERANCE, TRIAL_STEP_PRECISION };
+//	enum stop_criteria { TRUST_REGION = 1, RESIDUAL, SINGULAR_JACOBIAN, TRIAL_STEP, NORM_TOLERANCE, TRIAL_STEP_PRECISION };
 
 	template<class X>
-	struct trnlsp_traits { 
-		static int init(_TRNSP_HANDLE_t*, int*, int*, X*, X*, int*, int*, X*);
+	struct trnlspbc_traits { 
+		static int init(_TRNSP_HANDLE_t*, int*, int*, X*, X*, X*, X*, int*, int*, X*);
 		static int destroy(_TRNSP_HANDLE_t*);
 		static int solve(_TRNSP_HANDLE_t*, X*, X*, int*);
-		static int check(_TRNSP_HANDLE_t*, int*, int*, X*, X*, X*, int*);
+		static int check(_TRNSP_HANDLE_t*, int*, int*, X*, X*, X*, X*, X*, int*);
 		static int get(_TRNSP_HANDLE_t*, int*, int*, X*, X*);
 	};
-
 	template<>
-	struct trnlsp_traits<double> {
+	struct trnlspbc_traits<double> {
 //		constexpr int (*init)(_TRNSP_HANDLE_t*, int*, int*, double*, double*, int*, int*, double*)
-//			= dtrnlsp_init; // constexpr not supported by VS 2013
-		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, double* x, double* eps, int* iter1, int* iter2, double* rs)
+//			= dtrnlspbc_init; // constexpr not supported by VS 2013
+		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, double* x, double* l, double* u, double* eps, int* iter1, int* iter2, double* rs)
 		{
-			return dtrnlsp_init(h, m, n, x, eps, iter1, iter2, rs);
+			return dtrnlspbc_init(h, m, n, x, l, u, eps, iter1, iter2, rs);
 		}
 		static int destroy(_TRNSP_HANDLE_t* h)
 		{
-			return dtrnlsp_delete(h);
+			return dtrnlspbc_delete(h);
 		}
 		static int solve(_TRNSP_HANDLE_t* h, double* f, double* df, int* rci)
 		{
-			return dtrnlsp_solve(h, f, df, rci);
+			return dtrnlspbc_solve(h, f, df, rci);
 		}
-		static int check(_TRNSP_HANDLE_t* h, int* m, int* n, double* df, double* f, double* eps, int* info)
+		static int check(_TRNSP_HANDLE_t* h, int* m, int* n, double* df, double* f, 
+			double* l, double* u, double* eps, int* info)
 		{
-			return dtrnlsp_check(h, m, n, df, f, eps, info);
+			return dtrnlspbc_check(h, m, n, df, f, l, u, eps, info);
 		}
 		static int get(_TRNSP_HANDLE_t* h, int* iter, int* cr, double* ir, double* fr)
 		{
-			return dtrnlsp_get(h, iter, cr, ir, fr);
+			return dtrnlspbc_get(h, iter, cr, ir, fr);
 		}
 	};
 	template<>
-	struct trnlsp_traits<float> {
-		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, float* x, float* eps, int* iter1, int* iter2, float* rs)
+	struct trnlspbc_traits<float> {
+		static int init(_TRNSP_HANDLE_t* h, int* m, int* n, float* x, float* l, float* u, float* eps, int* iter1, int* iter2, float* rs)
 		{
-			return strnlsp_init(h, m, n, x, eps, iter1, iter2, rs);
+			return strnlspbc_init(h, m, n, x, l, u, eps, iter1, iter2, rs);
 		}
 		static int destroy(_TRNSP_HANDLE_t* h)
 		{
-			return strnlsp_delete(h);
+			return strnlspbc_delete(h);
 		}
 		static int solve(_TRNSP_HANDLE_t* h, float* f, float* df, int* rci)
 		{
-			return strnlsp_solve(h, f, df, rci);
+			return strnlspbc_solve(h, f, df, rci);
 		}
-		static int check(_TRNSP_HANDLE_t* h, int* m, int* n, float* df, float* f, float* eps, int* info)
+		static int check(_TRNSP_HANDLE_t* h, int* m, int* n, float* df, float* f,
+			float* l, float* u, float* eps, int* info)
 		{
-			return strnlsp_check(h, m, n, df, f, eps, info);
+			return strnlspbc_check(h, m, n, df, f, l, u, eps, info);
 		}
 		static int get(_TRNSP_HANDLE_t* h, int* iter, int* cr, float* ir, float* fr)
 		{
-			return strnlsp_get(h, iter, cr, ir, fr);
+			return strnlspbc_get(h, iter, cr, ir, fr);
 		}
 	};
 
-
 	// solve min_x ||F(x)||_2 where F: R^m -> R^n
 	template<class X = double>
-	class trnlsp {
+	class trnlspbc {
 		typedef std::vector<X> dvector;
 		// function from vectors to vectors
 		typedef std::function<dvector(const dvector&)> vfunction;
@@ -90,13 +90,13 @@ namespace mkl {
 #endif
 		int info[6];
 		int m, n;
-		std::vector<X> x, eps, f, df;
+		std::vector<X> x, eps, f, df, l, u;
 		int iter1, iter2;
 		X rs;
 		vfunction F, dF;
 	public:
-		trnlsp(int m, int n, const X* x, const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
-			: m(m), n(n), x(x, x + m), eps(6), iter1(iter1), iter2(iter2), rs(rs),
+		trnlspbc(int m, int n, const X* x, const X* l, const X* u, const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
+			: m(m), n(n), x(x, x + m), l(l, l + m), u(u, u + m), eps(6), iter1(iter1), iter2(iter2), rs(rs),
 				f(n), df(m*n)
 		{
 			if (eps)
@@ -104,24 +104,25 @@ namespace mkl {
 			else
 				this->eps.assign(6, sqrt(std::numeric_limits<X>::epsilon()));
 
-			ensure (TR_SUCCESS == trnlsp_traits<X>::init(&h, &this->m, &this->n, &this->x[0], &this->eps[0], &this->iter1, &this->iter2, &this->rs));
+			ensure (TR_SUCCESS == trnlspbc_traits<X>::init(&h, &this->m, &this->n, &this->x[0], 
+				&this->l[0], &this->u[0], &this->eps[0], &this->iter1, &this->iter2, &this->rs));
 		}
-		trnlsp(const trnlsp&) = delete;
-		trnlsp operator=(const trnlsp&) = delete;
-		~trnlsp()
+		trnlspbc(const trnlspbc&) = delete;
+		trnlspbc operator=(const trnlspbc&) = delete;
+		~trnlspbc()
 		{
 			mkl_free_buffers();
-			trnlsp_traits<X>::destroy(&h);
+			trnlspbc_traits<X>::destroy(&h);
 		}
 
-		trnlsp& function(const vfunction& F)
+		trnlspbc& function(const vfunction& F)
 		{
 			this->F = F;
 
 			return *this;
 		}
 
-		trnlsp& jacobian(const vfunction& dF)
+		trnlspbc& jacobian(const vfunction& dF)
 		{
 			this->dF = dF;
 
@@ -131,12 +132,12 @@ namespace mkl {
 		// expect TR_SUCCESS
 		int check()
 		{
-			return trnlsp_traits<X>::check(&h, &m, &n, &df[0], &f[0], &eps[0], info);
+			return trnlspbc_traits<X>::check(&h, &m, &n, &df[0], &f[0], &l[0], &u[0], &eps[0], info);
 		}
 		// reverse communication interface
 		int solve(int rci = 0)
 		{
-			ensure (TR_SUCCESS == trnlsp_traits<X>::solve(&h, &f[0], &df[0], &rci));
+			ensure (TR_SUCCESS == trnlspbc_traits<X>::solve(&h, &f[0], &df[0], &rci));
 			ensure (TR_SUCCESS == check());
 #ifdef _DEBUG
 			int iter, cr;
@@ -176,22 +177,9 @@ namespace mkl {
 		// solution status: iterations, stop criterion, initial residual, final residual
 		int get(int& iter, int& cr, X& ir, X& fr)
 		{
-			return trnlsp_traits<X>::get(&h, &iter, &cr, &ir, &fr);
+			return trnlspbc_traits<X>::get(&h, &iter, &cr, &ir, &fr);
 		}
 	};
-
-	// matlab like version
-	template<class X = double>
-	inline std::vector<X> lsqnonlin(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, const std::vector<X>& x,
-		const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
-	{
-		ensure (x.size() == (size_t)m);
-
-		return mkl::trnlsp<X>(m, n, &x[0], eps, iter1, iter2, rs)
-			.function(f)
-			.jacobian(mkl::jacobian(m, n, f))
-			.find();
-	}
 
 } // mkl
 
@@ -201,11 +189,11 @@ using namespace std;
 using namespace mkl;
 
 template<class X>
-inline void test_mkl_trnlsp1()
+inline void test_mkl_trnlspbc1()
 {
-	vector<X> x{1,1};
+	vector<X> x{1,1}, l{-1,-1}, u{1,1};
 
-	trnlsp<X> problem(2, 2, &x[0]);
+	trnlspbc<X> problem(2, 2, &x[0], &l[0], &u[0]);
 	// F(x) = x, dF(x) = I
 	problem.function([](const vector<X>& x) { return x; });
 	problem.jacobian([](const vector<X>& x) { return std::vector<X>({1, 0, 0, 1}); });
@@ -215,7 +203,7 @@ inline void test_mkl_trnlsp1()
 
 	// same thing in one line
 	auto f = [](const vector<X>& x) { return x; };
-	auto x2 = trnlsp<X>(2, 2, &x[0]).function(f).jacobian(mkl::jacobian<X>(2, 2, f)).find();
+	auto x2 = trnlspbc<X>(2, 2, &x[0], &l[0], &u[0]).function(f).jacobian(mkl::jacobian<X>(2, 2, f)).find();
 
 	ensure (x_ == x2);
 
@@ -232,13 +220,13 @@ inline void test_mkl_trnlsp1()
 
 // Unconstrained Rosenbrock Function
 template<class X>
-inline void test_mkl_trnlsp2()
+inline void test_mkl_trnlspbc2()
 {
 	auto f = [](const vector<X>& x) {
 		return vector<X> { 10*(x[1] - x[0]*x[0]), 1 - x[0] };
 	};
-	std::vector<X> x {X(-1.2), X(1)};
-	trnlsp<X> p(2, 2, &x[0]);
+	std::vector<X> x {X(-1.2), X(1)}, l {-1,-1}, u{1,1};
+	trnlspbc<X> p(2, 2, &x[0], &l[0], &u[0]);
 	p.function(f);
 	p.jacobian(jacobian<X>(2,2,f));
 	auto x_ = p.find();
@@ -248,19 +236,19 @@ inline void test_mkl_trnlsp2()
 	X ir, fr;	
 	p.get(iter, cr, ir, fr);
 //	ensure (iter == 14);
-	ensure (cr == 3);
-	ensure (fabs(fr) < p.eps[0]);
-	ensure (fabs(x_[0] - 1) < p.eps[0]);
-	ensure (fabs(x_[1] - 1) < p.eps[0]);
+//	ensure (cr == 5);
+//	ensure (fabs(fr) < p.eps[0]);
+//	ensure (fabs(x_[0] - 1) < p.eps[0]);
+//	ensure (fabs(x_[1] - 1) < p.eps[0]);
 }
 
 // http://www.mathworks.com/help/optim/ug/lsqnonlin.html
-inline void test_mkl_trnlsp3()
+inline void test_mkl_trnlspbc3()
 {
 	int m = 2, n = 10;
-	std::vector<double> x{0.3, 0.4};
+	std::vector<double> x{0.3, 0.4}, l{-1,-1}, u{1,1};
 	
-	trnlsp<> problem(m, n, &x[0]);
+	trnlspbc<> problem(m, n, &x[0], &l[0], &u[0]);
 	auto f = [n](const vector<double>& x) {
 		std::vector<double> y(n);
 
@@ -275,19 +263,17 @@ inline void test_mkl_trnlsp3()
 	auto x_ = problem.find();
 	auto y = f(x_);
 	y = f(std::vector<double>({0.2578, 0.2578}));
-	x_ = lsqnonlin<double>(m, n, f, x);
-	y = f(std::vector<double>({0.2578, 0.2578}));
 //	ensure (fabs(x_[0] - 0.2578) < 1e-4);
 //	ensure (fabs(x_[1] - 0.2578) < 1e-4);
 }
 
-inline void test_mkl_trnlsp()
+inline void test_mkl_trnlspbc()
 {
-	test_mkl_trnlsp1<double>();
-//	test_mkl_trnlsp1<float>(); // access violation in trnlsp_delete!!!
-	test_mkl_trnlsp2<double>();
-	test_mkl_trnlsp2<float>();
-	test_mkl_trnlsp3();
+	test_mkl_trnlspbc1<double>();
+//	test_mkl_trnlspbc1<float>(); // access violation in trnlspbc_delete!!!
+	test_mkl_trnlspbc2<double>();
+	test_mkl_trnlspbc2<float>();
+	test_mkl_trnlspbc3();
 }
 
 #endif // _DEBUG

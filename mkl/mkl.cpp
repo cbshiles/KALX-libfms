@@ -1,6 +1,7 @@
 #include <iostream>
 #include "jacobi.h"
 #include "trnlsp.h"
+#include "trnlspbc.h"
 
 int main()
 {
@@ -8,7 +9,7 @@ int main()
 #ifdef _DEBUG
 		test_mkl_jacobi();
 		test_mkl_trnlsp();
-//		test_mkl_trnlsp<float>();
+		test_mkl_trnlspbc();
 #endif
 	}
 	catch (const std::exception& ex) {

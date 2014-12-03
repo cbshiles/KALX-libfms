@@ -140,7 +140,49 @@ static AddInX xai_kalx_svi_jacobian(
 	.FunctionHelp(_T("Return the Jacobian of {sigma, m, dm, d} -> xll_kalx_svi_function(f,w,k)({sigma, m, dm, d})"))
 	.Documentation(_T("Documentation."))
 	);
-//HANDLEX WINAPI xll_kalx_svi_jacobian(double f, xfp* w, xfp* k)
-//!!!body goes here!!!
+HANDLEX WINAPI xll_kalx_svi_jacobian(double f, xfp* w, xfp* k)
+{
+#pragma XLLEXPORT
+
+	handlex h;
+
+	try {
+		ensure (size(*w) == size(*k));
+
+		xword n = size(*w);
+		// copies to be passed into lambda
+		std::vector<double> W(w->array, w->array + n);
+		std::vector<double> K(k->array, k->array + n);
+
+		handle<fun> hf = new fun([n,f,W,K](const vec& x) {
+			ensure (x.size() == 4);
+
+			double sigma = x[0];
+//			double m = x[1];
+			double dm = x[2];
+			double d = x[3];
+
+			std::vector<double> y(4*n); // {
+			for (xword i = 0; i < n; ++i) {
+			//	w(z) = sigma*sigma + m*z + dm*(sqrt(z*z + d*d) - d);
+				double z = log(K[i]/f);
+				y[i] = 2*sigma;
+				y[n + i] = z;
+				y[2*n + i] = sqrt(z*z + d*d) - d;
+				y[3*n + i] = dm*(d/sqrt(z*z + d*d) - 1);
+			}
+
+			return y; 
+		});
+
+		h = hf.get();
+	}
+	catch(const std::exception& ex) {
+		XLL_ERROR(ex.what());
+	}
+
+	return h;
+}
+
 
 #endif // _DEBUG

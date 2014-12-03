@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="jacobi.h" />
     <ClInclude Include="trnlsp.h" />
+    <ClInclude Include="trnlspbc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mkl.cpp" />
