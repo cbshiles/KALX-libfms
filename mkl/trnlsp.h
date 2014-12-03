@@ -80,10 +80,6 @@ namespace mkl {
 	// solve min_x ||F(x)||_2 where F: R^m -> R^n
 	template<class X = double>
 	class trnlsp {
-		typedef std::vector<X> dvector;
-		// function from vectors to vectors
-		typedef std::function<dvector(const dvector&)> vfunction;
-
 		_TRNSP_HANDLE_t h;
 #ifdef _DEBUG
 	public:
@@ -93,7 +89,7 @@ namespace mkl {
 		std::vector<X> x, eps, f, df;
 		int iter1, iter2;
 		X rs;
-		vfunction F, dF;
+		mkl::function<X> F, dF;
 	public:
 		trnlsp(int m, int n, const X* x, const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
 			: m(m), n(n), x(x, x + m), eps(6), iter1(iter1), iter2(iter2), rs(rs),
@@ -114,14 +110,14 @@ namespace mkl {
 			trnlsp_traits<X>::destroy(&h);
 		}
 
-		trnlsp& function(const vfunction& F)
+		trnlsp& function(const mkl::function<X>& F)
 		{
 			this->F = F;
 
 			return *this;
 		}
 
-		trnlsp& jacobian(const vfunction& dF)
+		trnlsp& jacobian(const mkl::function<X>& dF)
 		{
 			this->dF = dF;
 
@@ -182,7 +178,7 @@ namespace mkl {
 
 	// matlab like version
 	template<class X = double>
-	inline std::vector<X> lsqnonlin(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, const std::vector<X>& x,
+	inline std::vector<X> lsqnonlin(int m, int n, const function<X>& f, const std::vector<X>& x,
 		const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
 	{
 		ensure (x.size() == (size_t)m);

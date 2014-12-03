@@ -11,16 +11,19 @@ namespace mkl {
 
 	// wrapper for pre-allocated memory
 	template<class X>
-	class array {
+	class vec {
 		size_t n;
 		const X* x;
 	public:
-		array(size_t n, const X*  x)
+		vec(size_t n, const X*  x)
 			: n(n), x(x);
 		{ }
-		array(const array&) = delete;
-		array& operator=(const array&) = delete;
-		~array()
+		vec(const std::vector<X>& x)
+			: n(x.size()), x(&x[0])
+		{ }
+		vec(const vec&) = delete;
+		vec& operator=(const vec&) = delete;
+		~vec()
 		{ }
 
 		size_t size() const
@@ -62,6 +65,8 @@ namespace mkl {
 			return x + n;
 		}
 	};
+
+	template<class X> using function = std::function<std::vector<X>(const std::vector<X>&)>;
 
 	template<class X = double>
 	struct jacobi_traits {
@@ -162,8 +167,8 @@ namespace mkl {
 
 	// inefficent, but don't seem to be able to reuse mkl::jacobi
 	template<class X = double>
-	inline std::function<std::vector<X>(const std::vector<X>&)> 
-	jacobian(int m, int n, const std::function<std::vector<X>(const std::vector<X>&)>& f, X eps = sqrt(std::numeric_limits<X>::epsilon()))
+	inline function<X>
+	jacobian(int m, int n, const function<X>& f, X eps = sqrt(std::numeric_limits<X>::epsilon()))
 	{
 		return [m,n,f,eps](const std::vector<X>& x) {
 			return mkl::jacobi<X>(m, n, &x[0], f, eps).find();
