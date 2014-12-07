@@ -1,7 +1,9 @@
 // homework.cpp
+#include "mkl/jacobi.h"
 #include "xllmkl.h"
 
 using namespace xll;
+using namespace mkl;
 
 // jacobian {x[0],x[1] -> {2*x[0], 0, 1; 0, 3*x[1]^2, 1}
 static AddIn xai_test_function1(
@@ -18,9 +20,9 @@ LPOPER WINAPI xll_test_function1(LPOPER px)
 	static OPER y;
 
 	try {
-		auto f = [](const vec& x) {
+		auto f = [](const vec<double>& x) {
 			ensure (x.size() == 2);
-			vec y(3);
+			vec<double> y(3);
 
 			y[0] = x[0]*x[0];
 			y[1] = x[1]*x[1]*x[1];
@@ -30,14 +32,14 @@ LPOPER WINAPI xll_test_function1(LPOPER px)
 		};
 
 		if (px->xltype == xltypeMissing) {
-			handle<fun> hf = new fun(f);
+			handle<fun<double>> hf = new fun<double>(f);
 
 			y.resize(1,1);
 			y[0] = hf.get();
 		}
 		else {
 			ensure (px->size() == 2);
-			vec x(2);
+			vec<double> x(2);
 			x[0] = (*px)[0];
 			x[1] = (*px)[1];
 

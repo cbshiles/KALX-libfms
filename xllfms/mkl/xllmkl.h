@@ -11,6 +11,3 @@
 typedef xll::traits<XLOPERX>::xchar xchar;
 typedef xll::traits<XLOPERX>::xword xword;
 typedef xll::traits<XLOPERX>::xfp xfp;
-
-typedef std::vector<double> vec;
-typedef std::function<vec(const vec&)> fun;

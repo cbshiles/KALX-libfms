@@ -3,6 +3,7 @@
 #include "../../mkl/jacobi.h"
 
 using namespace xll;
+using namespace mkl;
 
 static AddInX xai_mkl_jacobian(
 	FunctionX(XLL_FPX, _T("?xll_mkl_jacobian"), _T("MKL.JACOBIAN"))
@@ -24,7 +25,7 @@ xfp* WINAPI xll_mkl_jacobian(xword n, HANDLEX f, const xfp* px, double eps)
 			eps = 1e-9;
 
 		xword m = size(*px);
-		mkl::jacobi<double> J(m, n, px->array, *handle<fun>(f), eps);
+		mkl::jacobi<double> J(m, n, px->array, *handle<fun<double>>(f), eps);
 		auto dF = J.find();
 
 		df.resize(m, n);
@@ -62,7 +63,7 @@ HANDLEX WINAPI xll_mkl_jacobi(USHORT m, USHORT n, HANDLEX f, const xfp* x, doubl
 		if (eps == 0)
 			eps = 1e-9;
 
-		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, x->array, *handle<fun>(f), eps)};
+		handle<mkl::jacobi<double>> h_{new mkl::jacobi<double>(m, n, x->array, *handle<fun<double>>(f), eps)};
 		h = h_.get();
 	}
 	catch(const std::exception& ex) {

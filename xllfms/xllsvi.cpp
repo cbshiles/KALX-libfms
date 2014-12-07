@@ -110,7 +110,7 @@ HANDLEX WINAPI xll_kalx_svi_function(double f, xfp* w, xfp* k)
 		std::vector<double> W(w->array, w->array + n);
 		std::vector<double> K(k->array, k->array + n);
 
-		handle<fun> hf = new fun([n,f,W,K](const vec& x) {
+		handle<fun<double>> hf = new fun<double>([n,f,W,K](const vec<double>& x) {
 			ensure (x.size() == 4);
 
 			std::vector<double> y(n);
@@ -154,7 +154,7 @@ HANDLEX WINAPI xll_kalx_svi_jacobian(double f, xfp* w, xfp* k)
 		std::vector<double> W(w->array, w->array + n);
 		std::vector<double> K(k->array, k->array + n);
 
-		handle<fun> hf = new fun([n,f,W,K](const vec& x) {
+		handle<fun<double>> hf = new fun<double>([n,f,W,K](const vec<double>& x) {
 			ensure (x.size() == 4);
 
 			double sigma = x[0];

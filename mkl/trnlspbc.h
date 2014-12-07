@@ -83,7 +83,7 @@ namespace mkl {
 		}
 	};
 
-	// solve min_x ||F(x)||_2 where F: R^m -> R^n
+	// solve min_x ||F(x)||_2 where F: R^m -> R^n and l <= x <= u
 	template<class X = double>
 	class trnlspbc {
 		_TRNSP_HANDLE_t h;
@@ -95,7 +95,7 @@ namespace mkl {
 		std::vector<X> x, eps, f, df, l, u;
 		int iter1, iter2;
 		X rs;
-		mkl::function<X> F, dF;
+		mkl::fun<X> F, dF;
 	public:
 		trnlspbc(int m, int n, const X* x, const X* l, const X* u, const X* eps = 0, int iter1 = 1000, int iter2 = 100, X rs = 1)
 			: m(m), n(n), x(x, x + m), l(l, l + m), u(u, u + m), eps(6), iter1(iter1), iter2(iter2), rs(rs),
@@ -117,14 +117,14 @@ namespace mkl {
 			trnlspbc_traits<X>::destroy(&h);
 		}
 
-		trnlspbc& function(const mkl::function<X>& F)
+		trnlspbc& function(const mkl::fun<X>& F)
 		{
 			this->F = F;
 
 			return *this;
 		}
 
-		trnlspbc& jacobian(const mkl::function<X>& dF)
+		trnlspbc& jacobian(const mkl::fun<X>& dF)
 		{
 			this->dF = dF;
 

@@ -9,64 +9,8 @@
 
 namespace mkl {
 
-	// wrapper for pre-allocated memory
-	template<class X>
-	class vec {
-		size_t n;
-		const X* x;
-	public:
-		vec(size_t n, const X*  x)
-			: n(n), x(x);
-		{ }
-		vec(const std::vector<X>& x)
-			: n(x.size()), x(&x[0])
-		{ }
-		vec(const vec&) = delete;
-		vec& operator=(const vec&) = delete;
-		~vec()
-		{ }
-
-		size_t size() const
-		{
-			return n;
-		}
-		/*
-		operator const X*() const
-		{
-			return x;
-		}
-		*/
-		const X& operator[](size_t i) const
-		{
-			ensure (i < n);
-
-			return x[i];
-		}
-		X& operator[](size_t i)
-		{
-			ensure (i < n);
-
-			return x[i];
-		}
-		X* begin()
-		{
-			return x;
-		}
-		const X* begin() const
-		{
-			return x;
-		}
-		X* end()
-		{
-			return x + n;
-		}
-		const X* end() const
-		{
-			return x + n;
-		}
-	};
-
-	template<class X> using function = std::function<std::vector<X>(const std::vector<X>&)>;
+	template<class X> using vec = std::vector<X>;
+	template<class X> using fun = std::function<vec<X>(const vec<X>&)>;
 
 	template<class X = double>
 	struct jacobi_traits {
@@ -108,7 +52,6 @@ namespace mkl {
 	// Jacobian of function F:R^m -> R^n
 	template<class X = double>
 	class jacobi {
-		typedef std::function<std::vector<X>(const std::vector<X>&)> vfunction;
 		_JACOBIMATRIX_HANDLE_t h;
 #ifdef _DEBUG
 	public:
@@ -116,10 +59,10 @@ namespace mkl {
 		int m, n;
 		std::vector<X> x, df;
 		std::array<std::vector<X>,2> f;
-		vfunction F;
+		fun<X> F;
 		X eps;
 	public:
-		jacobi(int n, int m, const X* x, const vfunction& F, X eps = sqrt(std::numeric_limits<X>::epsilon()))
+		jacobi(int n, int m, const X* x, const fun<X>& F, X eps = sqrt(std::numeric_limits<X>::epsilon()))
 			: m(m), n(n), F(F), x(n), f({std::vector<X>(m),std::vector<X>(m)}), df(m*n), eps(eps)
 		{
 			if (x)
@@ -167,8 +110,8 @@ namespace mkl {
 
 	// inefficent, but don't seem to be able to reuse mkl::jacobi
 	template<class X = double>
-	inline function<X>
-	jacobian(int m, int n, const function<X>& f, X eps = sqrt(std::numeric_limits<X>::epsilon()))
+	inline fun<X>
+	jacobian(int m, int n, const fun<X>& f, X eps = sqrt(std::numeric_limits<X>::epsilon()))
 	{
 		return [m,n,f,eps](const std::vector<X>& x) {
 			return mkl::jacobi<X>(m, n, &x[0], f, eps).find();

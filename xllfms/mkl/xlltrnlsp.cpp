@@ -26,9 +26,9 @@ xfp* WINAPI xll_trnlsp(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT iter1, S
 
 	try {
 		xword m = size(*px);
-		handle<fun> hf(f);
+		handle<fun<double>> hf(f);
 		ensure (hf);
-		std::vector<double> eps(6);
+		vec<double> eps(6);
 		if (peps->xltype == xltypeMissing) {
 			eps.assign(6, 1e-10);
 		}
@@ -86,9 +86,9 @@ HANDLEX WINAPI xll_trnlsp_init(xword n, HANDLEX f, xfp* px, LPOPERX peps, SHORT 
 
 	try {
 		xword m = size(*px);
-		handle<fun> hf(f);
+		handle<fun<double>> hf(f);
 		ensure (hf);
-		vector<double> eps(6);
+		vec<double> eps(6);
 		if (peps->xltype == xltypeMissing) {
 			eps.assign(6, 1e-10);
 		}
