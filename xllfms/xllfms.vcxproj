@@ -189,6 +189,9 @@
     <ClCompile Include="mkl\xlltrnlsp.cpp" />
     <ClCompile Include="vswap\vswap.cpp" />
     <ClCompile Include="xllblack.cpp" />
+    <ClCompile Include="xllbms.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="xlllogistic.cpp" />
     <ClCompile Include="xllmath.cpp" />
     <ClCompile Include="xllnormal.cpp" />

@@ -676,7 +676,7 @@ public:
 		datetime::date term(eff);
 		term.incr(count, unit).adjust(roll, cal);
 
-		for (size_t i = 1; true; ++i) {
+		for (int i = 1; true; ++i) {
 			d_.push_back(datetime::date(eff).incr(i*12/freq, UNIT_MONTHS).adjust(roll, cal));
 			if (d_.back().diffyears(term) >= 0)
 				break;

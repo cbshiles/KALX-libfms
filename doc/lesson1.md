@@ -127,3 +127,5 @@ show $EN f(N_1) = EN Ef(N_1) + \mathrm{Cov}(N,N_1) E f'(N_1)$.
 This shows if $N$ and $\log F$ are jointly normal then
 $EN g(F) = EN Eg(F) + \mathrm{Cov}(N,\log F) Eg'(F)F$.
 The last term can be reduced to $EFg'(F) = EF Eg'(Fe^{\mathrm{Var}(F)})$.
+
+## [Solutions](http://kalx.net/libfms/solutions1.html)

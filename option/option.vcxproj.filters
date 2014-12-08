@@ -18,6 +18,9 @@
     <ClInclude Include="gatheral_svi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="bms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="option.cpp">
