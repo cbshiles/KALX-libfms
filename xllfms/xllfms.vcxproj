@@ -177,6 +177,7 @@
     <ClCompile Include="mkl\xlljacobi.cpp" />
     <ClCompile Include="mkl\xlltrnlsp.cpp" />
     <ClCompile Include="xllblack.cpp" />
+    <ClCompile Include="xllbms.cpp" />
     <ClCompile Include="xlllogistic.cpp" />
     <ClCompile Include="xllmath.cpp" />
     <ClCompile Include="xllnormal.cpp" />
