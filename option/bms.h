@@ -14,7 +14,26 @@ namespace option {
 		{
 			// implement functions from final exam part 1 here!!!
 
-			return 0;
+			ensure(r >= 0);
+			ensure(s >= 0);
+			ensure(sigma >= 0);
+			ensure(t >= 0);
+
+			auto f = exp(r*t)*s;
+
+			auto blackvalue = black::value<F, S, K, T>(f, sigma, k, t, df, ddf, ds, dt);
+
+			if (ddf)
+				*ddf = exp(r*t) * *ddf;
+
+			if (ds)
+				*ds = exp(-r*t) * *ds;
+
+			if (dt)
+				*dt = exp(-r*t)* *dt - r*exp(-r*t)*blackvalue;
+
+			return exp(-r*t) * blackvalue;
+
 		}
 
 	}
