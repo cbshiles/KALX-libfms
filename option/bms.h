@@ -14,6 +14,7 @@ namespace option {
 		{
 			// implement functions from final exam part 1 here!!!
 
+			/// -1 no need to duplicate tests
 			ensure(r >= 0);
 			ensure(s >= 0);
 			ensure(sigma >= 0);
@@ -21,6 +22,7 @@ namespace option {
 
 			auto f = exp(r*t)*s;
 
+			/// -5 might increment existing values
 			auto blackvalue = black::value<F, S, K, T>(f, sigma, k, t, df, ddf, ds, dt);
 
 			if (ddf)
