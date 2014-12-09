@@ -9,7 +9,7 @@ using namespace fms::option;
 //!!! change black to bms and add interest rate argument
 //!!! call fms::option::bms::value instead of fms::option::black::value
 
-/// -5 need to change to xai_option_bms_value, etc.
+/// -2 need to change to xai_option_bms_value, etc.
 static AddInX xai_option_black_value_rate(
 	FunctionX(XLL_FPX,_T("?xll_option_black_value_rate"),_T("OPTION.BLACK.VALUE_RATE"))
 	.Arg(XLL_DOUBLEX,_T("Interest Rate"),_T("is the risk free rate."))
