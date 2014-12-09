@@ -6,7 +6,7 @@ namespace option {
 
 	namespace bms {
 
-		// Black call/put option price and greeks.
+		// Black-Merton-Scholes call/put option price and greeks.
 		// !!!Note this *increments* the pointer values!!! Handy for portfolios.
 		template<class R, class F, class S, class K, class T>
 		inline auto value(R r, F s, S sigma, K k, T t, K* df = 0, K* ddf = 0, K* ds = 0, K* dt = 0)

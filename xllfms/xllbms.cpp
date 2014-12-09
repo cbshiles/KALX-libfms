@@ -5,10 +5,6 @@
 using namespace xll;
 using namespace fms::option;
 
-//!!! copy and pasted from black.h
-//!!! change black to bms and add interest rate argument
-//!!! call fms::option::bms::value instead of fms::option::black::value
-
 static AddInX xai_option_bms_value(
 	FunctionX(XLL_FPX,_T("?xll_option_bms_value"),_T("OPTION.BMS.VALUE"))
 	.Arg(XLL_DOUBLEX,_T("Rate"), _T("is the continuously compounded interest rate."))
