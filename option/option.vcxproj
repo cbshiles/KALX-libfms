@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="black.h" />
+    <ClInclude Include="bms.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="option.cpp" />
