@@ -72,6 +72,9 @@
     <ClCompile Include="mkl\xlljacobi.cpp">
       <Filter>mkl</Filter>
     </ClCompile>
+    <ClCompile Include="xllbms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xllfms.h">
