@@ -17,6 +17,7 @@ static AddInX xai_option_black_value(
 	.Arg(XLL_DOUBLEX,_T("Strike"),_T("is the put option strike price."))
 	.Arg(XLL_DOUBLEX,_T("Expiration"),_T("is the put option expiration in years."))
 	.Category(CATEGORY)
+	/// -1 document as bms present value
 	.FunctionHelp(_T("Return 5 column array of Black forward value, delta, gamma, vega, and theta."))
 );
 xfp* WINAPI xll_option_bms_value(double r, double s, double sigma, double k, double t)
