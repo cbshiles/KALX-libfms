@@ -2,7 +2,7 @@
 #pragma once
 #include <tuple>
 #include <vector>
-#include "../mkl/trnlsp.h"
+//#include "../mkl/trnlsp.h"
 
 namespace fms {
 
@@ -19,6 +19,7 @@ namespace fms {
 		{
 			return sigma*sigma + m*z + dm*(sqrt(z*z + d*d) - d);
 		}
+#if 0
 		template<class X = double>
 		inline std::vector<X> kalx_svi_jacobian(X z, const std::vector<X>& x)
 		{
@@ -68,7 +69,7 @@ namespace fms {
 			
 			return mkl::trnlsp<>(4, static_cast<int>(w.size()), x).function(F).jacobian(dF).find();
 		}
-
+#endif
 	} // volatility
 
 } // fms
@@ -76,27 +77,8 @@ namespace fms {
 #ifdef _DEBUG
 
 using namespace fms;
-
-inline void test_volatility_kalx_svi_fit()
-{
-	double f = 100, t = 1, eps = std::numeric_limits<double>::epsilon();
-	std::vector<double> w(5), k(5);
-
-	for (size_t i = 0; i < w.size(); ++i) {
-		w[i] = .2*.2*t;
-		k[i] = 80 + i*10;
-	}
-
-	auto y = volatility::kalx_svi_fit<>(f, w, k, .3, 0., 0., 1.);
-
-	ensure (fabs(y[0] - .2) < sqrt(eps));
-	ensure (fabs(y[1]) < sqrt(eps));
-	ensure (fabs(y[2]) < sqrt(eps));
-//	ensure (fabs(y[3]) < sqrt(eps));
-}
-
 inline void test_volatility_curve(void)
 {
-	test_volatility_kalx_svi_fit();
+	
 }
 #endif // _DEBUG

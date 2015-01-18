@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bootstrap_functions.h" />
+    <ClInclude Include="lmm.h" />
     <ClInclude Include="pwflat.h" />
     <ClInclude Include="pwflat_functions.h" />
   </ItemGroup>

@@ -53,3 +53,34 @@ LPOPERX WINAPI xll_prob_normal_inv(double p)
 
 	return &o;
 }
+
+static AddInX xai_prob_normal_correlated(
+	FunctionX(XLL_FPX, _T("?xll_prob_normal_correlated"), _T("PROB.NORMAL.CORRELATED"))
+	.Arg(XLL_WORD, _T("Size"), _T("is the number of correlated standard normal variates to generate."))
+	.Arg(XLL_WORD, _T("Dimension"), _T("is the dimension of the correlation vectors."))
+	.Arg(XLL_FPX, _T("Rho"), _T("is a lower diagonal matrix of correlations."))
+	.Volatile()
+	.Category(CATEGORY)
+	.FunctionHelp(_T("Packed as r_10, r_20, r21, ..., r_n-1,d-1"))
+	.Documentation()
+);
+xfp* WINAPI xll_prob_normal_correlated(WORD n, WORD d, xfp* prho)
+{
+#pragma XLLEXPORT
+	static FPX result;
+
+	try {
+		result.reshape(1, n);
+
+		ensure (size(*prho) >= n*d - d*(d+1)/2);
+
+		normal::correlated(rng(), n, d, prho->array, result.begin());
+	}
+	catch (const std::exception& ex) {
+		XLL_ERROR(ex.what());
+
+		return 0;
+	}
+
+	return result.get();
+}

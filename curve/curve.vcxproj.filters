@@ -24,6 +24,9 @@
     <ClInclude Include="bootstrap_functions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="lmm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="curve.cpp">
