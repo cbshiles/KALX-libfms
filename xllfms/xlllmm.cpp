@@ -43,7 +43,7 @@ HANDLEX WINAPI xll_curve_lmm(xfp* pt, xfp* pf, xfp* psigma, WORD d, xfp* prho)
 static AddInX xai_curve_lmm_next(
 	FunctionX(XLL_HANDLEX, _T("?xll_curve_lmm_next"), _T("CURVE.LMM.NEXT"))
 	.Arg(XLL_HANDLEX, _T("Handle"), _T("is a handle returned by CURVE.LMM."))
-	.Volatile()
+//	.Volatile()
 	.Category(CATEGORY)
 	.FunctionHelp(_T("Advance index by one step."))
 	.Documentation()
@@ -80,32 +80,6 @@ HANDLEX WINAPI xll_curve_lmm_reset(HANDLEX h)
 		handle<lmm<>> h_(h);
 
 		h_->reset();
-
-	}
-	catch (const std::exception& ex) {
-		XLL_ERROR(ex.what());
-
-		return handlex{};
-	}
-
-	return h;
-}
-
-static AddInX xai_curve_lmm_to(
-	FunctionX(XLL_HANDLEX, _T("?xll_curve_lmm_to"), _T("CURVE.LMM.TO"))
-	.Arg(XLL_HANDLEX, _T("Handle"), _T("is a handle returned by CURVE.LMM."))
-	.Arg(XLL_WORDX, _T("Index"), _T("is the time index to advance to. Default is to end of curve."))
-	.Category(CATEGORY)
-	.FunctionHelp(_T("Advance index by steps."))
-	.Documentation()
-);
-HANDLEX WINAPI xll_curve_lmm_to(HANDLEX h, WORD n)
-{
-#pragma XLLEXPORT
-	try {
-		handle<lmm<>> h_(h);
-
-		h_->to(rng(), n);
 
 	}
 	catch (const std::exception& ex) {
