@@ -6,6 +6,7 @@
 namespace fms {
 namespace curve {
 
+	// f_t[i] = f_0[i] exp(-sigma[i]^2 t/2 + sigma[i] rho[i] . B_t)
 	template<class T = double, class F = double>
 	class lmm {
 		std::vector<T> t;
@@ -13,6 +14,8 @@ namespace curve {
 		size_t n, d, i_;
 		std::vector<F> f_, D_; // forward, deflator at t[i_]
 	public:
+		// f[j], sigma[j] are forward and vol over (t[j-1], t[j]) assuming t[-1] = 0
+		// rho specifies the correlation between df[i] and df[j]
 		lmm(size_t n, const T* t, const F* f, const F* sigma, size_t d, const F* rho)
 			: t(t, t + n),
 			  f(f, f + n), sigma(sigma, sigma + n), rho(rho, rho + n*d - d*(d+1)/2), 
@@ -26,16 +29,17 @@ namespace curve {
 		~lmm()
 		{ }
 
-		// number of periods for time, forward, ...
+		// number of periods for time, forward, vol
 		size_t size() const
 		{
 			return n;
 		}
-		// number of factors to use in simulation
+		// number of factors for Brownian motion
 		size_t dimension() const
 		{
 			return d;
 		}
+		// start over
 		lmm& reset()
 		{
 			i_ = 0;
@@ -84,7 +88,7 @@ namespace curve {
 			fms::prob::normal::correlated(r, n, d, &rho[0], &Z[0]);
 
 			for (size_t i = 1; i < n; ++i) {
-				F srt = sigma[i]*sqrt(t[i]);
+				F srt = sigma[i]*sqrt(t[i - 1]);
 				f_[i] = f[i]*exp(-srt*srt/2 + srt*B[i]);
 				D_[i_] = D_[i_ - 1]*exp(-f_[i_]*(t[i] - t[i - 1]));
 			}
@@ -111,7 +115,6 @@ inline void test_curve_lmm()
 	double rho[] = {.9}; // 2*2 - 2*3/2 = 4 - 3 = 1
 
 	lmm<> m(2, t, f, sigma, 2, rho);
-	m.next(r0());
 	m.next(r0());
 }
 

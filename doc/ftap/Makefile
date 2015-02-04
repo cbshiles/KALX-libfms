@@ -1,5 +1,5 @@
 html:
-	pandoc --css ftap.css -H header.html -s --mathjax -i -t revealjs -o index.html ftap.md
+	pandoc -s -i -H header.html --mathjax="MathJax-2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" -t revealjs -V theme:sky -V transition:slide -V center:false -o index.html ftap.md
 
 latex:
 	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
