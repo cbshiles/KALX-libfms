@@ -24,7 +24,7 @@
     <!--[if lt IE 9]>
     <script src="reveal.js/lib/js/html5shiv.js"></script>
     <![endif]-->
-    <script src="MathJax-2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
     <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
       displayAlign: "left",
@@ -48,7 +48,7 @@
     <h3 class="date"><a href="http://kalx.net">KALX, LLC</a></h3>
 </section>
 
-<section id="state-of-the-art" class="slide level1">
+<section id="state-of-the-art" class="slide level2">
 <h1>State of the Art</h1>
 <ul>
 <li class="fragment"><p><em>There should be no sequence of final payoffs of admissible integrands,</em> <span class="math">\(f_n = (H_n\cdot S)_{\infty}\)</span><em>, such that the negative parts</em> <span class="math">\(f_n\)</span> <em>tend to zero uniformly and such that</em> <span class="math">\(f_n\)</span> <em>tends almost surely to a</em> <span class="math">\([0,\infty)\)</span><em>-valued function</em> <span class="math">\(f_0\)</span> <em>satisfying</em> <span class="math">\(P[f_0 \gt 0] &gt; 0\)</span></p></li>
@@ -56,19 +56,22 @@
 <li class="fragment"><p>How many people have read (and understood) the 61 page proof?</p></li>
 </ul>
 </section>
-<section id="one-period-model" class="slide level1">
-<h1>One Period Model</h1>
+<section id="example" class="slide level2">
+<h1>1-2-3 Example</h1>
 <ul>
-<li class="fragment"><span class="math">\(\Omega\)</span> is the set of all outcomes over the period</li>
-<li class="fragment"><span class="math">\(x\in\mathbf{R}^m\)</span> initial prices of <span class="math">\(m\)</span> instruments</li>
-<li class="fragment"><span class="math">\(X\colon\Omega\to\mathbf{R}^m\)</span> final prices</li>
-<li class="fragment">Arbitrage: <span class="math">\(\gamma\in\mathbf{R}^m\)</span>, <span class="math">\(-\gamma\cdot x &gt; 0\)</span>, <span class="math">\(\gamma\cdot X\ge0\)</span></li>
-<li class="fragment">FTAP: No arbitrage iff <span class="math">\(x\)</span> belongs to the smallest cone containing the range of <span class="math">\(X\)</span>.</li>
-<li class="fragment">See <a href="http://kalx.net/ftapd.pdf" target=_blank>ftapd.pdf</a> Lemma 3.2</li>
-<li class="fragment"><span class="math">\(\gamma\cdot x = 0\)</span>, <span class="math">\(\gamma\cdot X\ge0\)</span>, and <span class="math">\(E[\gamma\cdot X] &gt; 0\)</span> doesn't fly.</li>
+<li class="fragment">One period model of bond, stock, and option</li>
+<li class="fragment">Bond: <span class="math">\(1\to 2\)</span> with probability <span class="math">\(1\)</span>.</li>
+<li class="fragment">Stock: <span class="math">\(1\to \omega\)</span> with <span class="math">\(P(\omega = 1) = 0.1\)</span>, <span class="math">\(P(\omega = 3) = 0.9\)</span></li>
+<li class="fragment">Option: call with strike <span class="math">\(2\)</span> so <span class="math">\(v\to 0\)</span> or <span class="math">\(v\to 1\)</span></li>
+<li class="fragment"><span class="math">\(v \not= (1/2)(0\times 0.1 + 1\times 0.9) = 0.45\)</span>.</li>
+<li class="fragment">We can find <span class="math">\(m\)</span>, <span class="math">\(n\)</span> such that <span class="math">\((\omega - 2)^+ = 2m + \omega n\)</span></li>
+<li class="fragment">In a binomial model all payoffs are linear</li>
+<li class="fragment">This determines <span class="math">\(v = 0.25\)</span></li>
+<li class="fragment">&quot;Real world&quot; probabilities don't matter in theory</li>
+<li class="fragment">But they do in the real world</li>
 </ul>
 </section>
-<section id="old-baggage" class="slide level1">
+<section id="old-baggage" class="slide level2">
 <h1>Old Baggage</h1>
 <ul>
 <li class="fragment">The classical definition of arbitrage is unrealistic
@@ -90,10 +93,12 @@
 <li class="fragment">it can be replaced by a simpler concept</li>
 </ul></li>
 </ul>
-<h2 id="section"><!--|
+</section>
+<section id="section" class="slide level2">
+<h1><!--|
 ----------------------------
 
-# A Simpler Approach
+## A Simpler Approach
 
 -   Map the finance to mathematics as directly as possible...
     -   ...and clearly identify the misspecifications
@@ -101,23 +106,33 @@
     -   ...by people who don't understand complicated math,
 -   And make sense to the business side
     -   They write the checks
-|--></h2>
+|--></h1>
 </section>
-<section id="example" class="slide level1">
-<h1>1-2-3 Example</h1>
+<section id="one-period-model" class="slide level2">
+<h1>One Period Model</h1>
 <ul>
-<li class="fragment">One period model of bond, stock, and option</li>
-<li class="fragment">Bond: <span class="math">\(1\to 2\)</span> with probability <span class="math">\(1\)</span>.</li>
-<li class="fragment">Stock: <span class="math">\(1\to \omega\)</span> with <span class="math">\(P(\omega = 1) = 0.1\)</span>, <span class="math">\(P(\omega = 3) = 0.9\)</span></li>
-<li class="fragment">Option: call with strike <span class="math">\(2\)</span> so <span class="math">\(v\to 0\)</span> or <span class="math">\(v\to 1\)</span></li>
-<li class="fragment"><span class="math">\(v \not= (1/2)(0\times 0.1 + 1\times 0.9) = 0.45\)</span>.</li>
-<li class="fragment"><span class="math">\(\mathrm{cone}\ X(\Omega) = \{(2,1,0)\pi_1 + (2,3,1)\pi_3:\pi_j\ge0\}\)</span></li>
-<li class="fragment"><span class="math">\((1,1,v) = (2,1,0)\pi_1 + (2,3,1)\pi_3\)</span> implies <span class="math">\(\pi_1 = \pi_3 = 1/4\)</span> so <span class="math">\(v = 0.25\)</span></li>
-<li class="fragment">&quot;Real world&quot; probabilities don't matter in theory.</li>
-<li class="fragment">But they do in the real world.</li>
+<li class="fragment"><span class="math">\(\Omega\)</span> is the set of all outcomes over the period</li>
+<li class="fragment"><span class="math">\(x\in\mathbf{R}^m\)</span> initial prices of <span class="math">\(m\)</span> instruments</li>
+<li class="fragment"><span class="math">\(X\colon\Omega\to\mathbf{R}^m\)</span> final prices</li>
+<li class="fragment">Arbitrage: <span class="math">\(\gamma\in\mathbf{R}^m\)</span>, <span class="math">\(-\gamma\cdot x &gt; 0\)</span>, <span class="math">\(\gamma\cdot X\ge0\)</span></li>
+<li class="fragment">FTAP: No arbitrage iff <span class="math">\(x\)</span> belongs to the smallest cone containing the range of <span class="math">\(X\)</span>.</li>
+<li class="fragment"><span class="math">\(x = \int_\Omega X\,d\Pi = \langle X, \Pi\rangle\)</span> for some positive measure <span class="math">\(\Pi\)</span></li>
+<li class="fragment">See <a href="http://kalx.net/ftapd.pdf" target=_blank>ftapd.pdf</a> Lemma 3.2</li>
+<li class="fragment"><span class="math">\(\gamma\cdot x = 0\)</span>, <span class="math">\(\gamma\cdot X\ge0\)</span>, and <span class="math">\(E[\gamma\cdot X] &gt; 0\)</span> doesn't fly.</li>
 </ul>
 </section>
-<section id="example-1" class="slide level1">
+<section id="example-again" class="slide level2">
+<h1>1-2-3 Example Again</h1>
+<ul>
+<li class="fragment"><span class="math">\(\Omega = \{1,3\}\)</span>, possible terminal stock prices</li>
+<li class="fragment"><span class="math">\(x = (1, 1, v)\)</span>, bond, stock, call with strike <span class="math">\(2\)</span></li>
+<li class="fragment"><span class="math">\(X(\omega) = (2, \omega, (\omega - 2)^+)\)</span></li>
+<li class="fragment"><span class="math">\(\mathrm{cone}\ X(\Omega) = \{(2,1,0)\pi_1 + (2,3,1)\pi_3:\pi_j\ge0\}\)</span></li>
+<li class="fragment"><span class="math">\((1,1,v) = (2,1,0)\pi_1 + (2,3,1)\pi_3\)</span></li>
+<li class="fragment">so <span class="math">\(\pi_1 = \pi_3 = 1/4\)</span> and <span class="math">\(v = 0.25\)</span></li>
+</ul>
+</section>
+<section id="example-1" class="slide level2">
 <h1>9-10-11 Example</h1>
 <ul>
 <li class="fragment"><span class="math">\(\Omega = \{9,10,11\}\)</span>, possible terminal stock prices</li>
@@ -130,7 +145,33 @@
 <li class="fragment"><strong>Answer</strong>. <span class="math">\(0\le v\le 10/11\)</span></li>
 </ul>
 </section>
-<section id="multi-period-model" class="slide level1">
+<section id="cost-of-carry" class="slide level2">
+<h1>Cost of Carry</h1>
+<ul>
+<li class="fragment"><span class="math">\(\Omega = [0,\infty)\)</span></li>
+<li class="fragment"><span class="math">\(x = (1,s,0)\)</span></li>
+<li class="fragment"><span class="math">\(X(\omega) = (R, \omega, \omega - f)\)</span></li>
+<li class="fragment">A bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and an at-the-money forward</li>
+<li class="fragment">No arbitarge implies <span class="math">\((1,s,0) = \langle (R,\omega,\omega-f),\Pi\rangle\)</span></li>
+<li class="fragment">Taking <span class="math">\(\gamma = (f/R, -1, 1)\)</span> yields <span class="math">\[f/R - s = \langle f - \omega + \omega - f,\Pi\rangle = 0\]</span></li>
+<li class="fragment">Cost-of-carry:<span class="math">\(f = Rs\)</span></li>
+<li class="fragment">Don't really need a model for this, but it illustrates how to use the framework</li>
+</ul>
+</section>
+<section id="put-call-parity" class="slide level2">
+<h1>Put-Call Parity</h1>
+<ul>
+<li class="fragment"><span class="math">\(\Omega = [0,\infty)\)</span></li>
+<li class="fragment"><span class="math">\(x = (1,s,c,p)\)</span></li>
+<li class="fragment"><span class="math">\(X(\omega) = (R,\omega,(\omega - k)^+,(k - \omega)^+)\)</span></li>
+<li class="fragment">A bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and a call and put both struck at <span class="math">\(k\)</span>.</li>
+<li class="fragment">No arbitarge implies <span class="math">\[(1,s,c,p) = \langle (R,\omega,(\omega - k)^+,(k - \omega)^+),\Pi\rangle\]</span></li>
+<li class="fragment">Taking <span class="math">\(\gamma = (k/R, -1, 1, -1)\)</span> yields <span class="math">\(k/R - s + c - p = \langle k - \omega + (\omega - k)^+ - (k - \omega)^+),\Pi\rangle = 0\)</span></li>
+<li class="fragment">Put-call parity: <span class="math">\(c - p = s - k/R\)</span></li>
+<li class="fragment">Also don't really need a model for this</li>
+</ul>
+</section>
+<section id="multi-period-model" class="slide level2">
 <h1>Multi Period Model</h1>
 <ul>
 <li class="fragment">Times: increasing <span class="math">\((t_j)\)</span>
@@ -151,7 +192,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="accounting" class="slide level1">
+<section id="accounting" class="slide level2">
 <h1>Accounting</h1>
 <ul>
 <li class="fragment">Position: <span class="math">\(\Delta_j = \sum_{i\le j}\Gamma_i\)</span>
@@ -168,20 +209,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="arbitrage" class="slide level1">
-<h1>Arbitrage</h1>
-<ul>
-<li class="fragment">Trades <span class="math">\((\Gamma_j)\)</span> such that <span class="math">\(A_0\gt 0\)</span>, <span class="math">\(A_j\ge0\)</span> and <span class="math">\(\sum_j \Gamma_j = 0\)</span>.</li>
-<li class="fragment">Make money on the initial trade, never lose afterwards, and close out the position at some point.</li>
-<li class="fragment">Note: no prior 'real world' measure is assumed</li>
-<li class="fragment">This definition is not sufficient for traders
-<ul>
-<li class="fragment">Risk managers will slap absolute value signs around every number.</li>
-<li class="fragment">If <span class="math">\(|\Gamma_0|\cdot|X_0|\)</span> is too large they can't do the trade.</li>
-</ul></li>
-</ul>
-</section>
-<section id="mathematics" class="slide level1">
+<section id="mathematics" class="slide level2">
 <h1>Mathematics</h1>
 <ul>
 <li class="fragment">Filtration: increasing algebras <span class="math">\((\mathcal{F}_j)\)</span> on <span class="math">\(\Omega\)</span>
@@ -190,9 +218,216 @@
 </ul></li>
 <li class="fragment">All functions are assumed to be adapted and bounded
 <ul>
-<li class="fragment">By <code>#define DBL_MAX    1.7976931348623157E+308</code></li>
+<li class="fragment"><code>#define DBL_MAX 1.7976931348623157E+308</code></li>
+</ul></li>
+<li class="fragment"><span class="math">\(B(\Omega, \mathcal{F})\)</span> denotes bounded <span class="math">\(\mathcal{F}\)</span>-measurable functions</li>
+<li class="fragment"><span class="math">\(B(\Omega, \mathcal{F})^* = ba(\Omega, \mathcal{F})\)</span>, finitely additive measures</li>
+<li class="fragment">The atoms of a finite algebra form a partition</li>
+<li class="fragment">Measurable functions are constant on atoms</li>
+</ul>
+</section>
+<section id="arbitrage" class="slide level2">
+<h1>Arbitrage</h1>
+<ul>
+<li class="fragment">Trades <span class="math">\((\Gamma_j)\)</span> such that <span class="math">\(A_0\gt 0\)</span>, <span class="math">\(A_j\ge0\)</span> and <span class="math">\(\sum_j \Gamma_j = 0\)</span>.</li>
+<li class="fragment">Make money on the initial trade, never lose thereafter, and close out the position at some point.</li>
+<li class="fragment">Note no prior 'real world' measure is assumed</li>
+<li class="fragment">This definition is not sufficient for traders
+<ul>
+<li class="fragment">Risk managers will slap absolute value signs around every number.</li>
+<li class="fragment">If <span class="math">\(|\Gamma_0|\cdot|X_0|\)</span> is too large they can't do the trade.</li>
+</ul></li>
+<li class="fragment">It is also not good enough for risk managers
+<ul>
+<li class="fragment">If <span class="math">\(A_j\)</span> gets large they will pressure traders to unwind</li>
 </ul></li>
 </ul>
+</section>
+<section id="fundamental-theorem-of-asset-pricing" class="slide level2">
+<h1>Fundamental Theorem of Asset Pricing</h1>
+<ul>
+<li class="fragment">There is no arbitrage iff there exist positive scalar measures <span class="math">\((\Pi_j)\in ba(\Omega, \mathcal{F}_j)\)</span> with <span class="math">\[X_j\Pi_j = (C_{j+1} +
+X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\]</span></li>
+<li class="fragment">By induction <span class="math">\[X_j\Pi_j = (\sum_{j\lt i\le
+k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{ftap}
+\]</span></li>
+<li class="fragment"><span class="math">\((\Pi_j)\)</span> are unique if the market is complete (Second fundamental theorem)</li>
+<li class="fragment">If markets were complete, derivatives would not exist</li>
+</ul>
+</section>
+<section id="fundamental-formula-of-derivative-pricing" class="slide level2">
+<h1>Fundamental Formula of Derivative Pricing</h1>
+<ul>
+<li class="fragment">Suppose there exist price deflators with <span class="math">\[X_j\Pi_j = (C_{j+1}
++ X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\]</span></li>
+<li class="fragment"><span class="math">\(\Delta_j\cdot X_j\Pi_j = \underline{\Delta_j}\cdot(\underline{C_{j+1}} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment">Using <span class="math">\(A_{j+1} = \Delta_{j}\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1}\)</span></li>
+<li class="fragment"><span class="math">\(\Delta_j\cdot X_j\Pi_j = (\mathbf{A_{j+1} + \underline{\Gamma_{j+1}}\cdot X_{j+1}})\Pi_{j+1} + \underline{\Delta_j}\cdot X_{j+1}\Pi_{j+1}|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment">Since <span class="math">\(\Gamma_{j+1} + \Delta_j = \Delta_{j+1}\)</span> <span class="math">\[V_j\Pi_j = (A_{j+1} + V_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\]</span></li>
+<li class="fragment">Value acts like price, account acts like cash flow</li>
+</ul>
+</section>
+<section id="ftap-easy-direction" class="slide level2">
+<h1>FTAP Easy Direction</h1>
+<ul>
+<li class="fragment">By induction <span class="math">\(V_j\Pi_j = (\sum_{j\lt i\le k} A_i\Pi_i + V_k\Pi_k)|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment"><span class="math">\(\Delta_0\cdot X_0\Pi_0(\Omega) = (\sum_{0&lt;i\le n} A_i\Pi_i)(\Omega) + \Delta_n\cdot X_n\Pi_n(\Omega)\)</span></li>
+<li class="fragment">If <span class="math">\(\sum_{j=0}^n\Gamma_j = 0\)</span> and <span class="math">\(A_i\ge0\)</span>, <span class="math">\(i\gt0\)</span> then <span class="math">\[-A_0\Pi_0(\Omega) = \Delta_0\cdot X_0\Pi_0(\Omega) \ge 0\]</span></li>
+<li class="fragment">Since <span class="math">\(\Pi_0(\Omega) &gt; 0\)</span> we must have <span class="math">\(A_0 \le 0\)</span></li>
+</ul>
+</section>
+<section id="ftap-hard-direction" class="slide level2">
+<h1>FTAP Hard Direction</h1>
+<ul>
+<li class="fragment">Who cares?</li>
+<li class="fragment">No arbitrage implies deflators exist, but we can find plenty without using the Hahn-Banach theorem
+<ul>
+<li class="fragment">E.g., <span class="math">\(X_t = (e^{rt}, se^{(r - \sigma^2/2)t + \sigma B_t})\)</span>, <span class="math">\(\Pi_t = e^{-rt}P\)</span>,</li>
+<li class="fragment">where <span class="math">\((B_t)\)</span> is Brownian motion and <span class="math">\(P\)</span> is Weiner measure</li>
+<li class="fragment">models a bond and non-dividend paying stock</li>
+</ul></li>
+<li class="fragment">The hard part is finding models that reflect market dynamics with parameters that can fit market data</li>
+</ul>
+</section>
+<section id="delta-hedging" class="slide level2">
+<h1>Delta Hedging</h1>
+<ul>
+<li class="fragment">Assuming <span class="math">\(\Pi_0(\Omega) = 1\)</span>, <span class="math">\(\mathcal{F}_0 = \{\Omega\}\)</span>, and <span class="math">\(\Delta_n = 0\)</span> <span class="math">\[ \Delta_0\cdot X_0 = \sum_{0\lt i}A_i\Pi_i(\Omega) \]</span></li>
+<li class="fragment">&quot;The value of a derivative is the expected value of discounted cash flows&quot;</li>
+<li class="fragment"><em>If</em> a hedge exists the initial hedge is given by <span class="math">\[\Gamma_0 =
+\Delta_0 = \frac{\partial(\Delta_0\cdot X_0)}{\partial
+X_0} = \frac{\partial}{\partial X_0}E[\sum_{0\lt
+i}A_i\Pi_i]\]</span></li>
+<li class="fragment">A perfect hedge never exists, so the question is how bad is the hedge?</li>
+</ul>
+</section>
+<section id="measuring-risk" class="slide level2">
+<h1>Measuring Risk</h1>
+<ul>
+<li class="fragment">Traders look at the <em>gamma profile</em>: gamma versus time and underlying</li>
+<li class="fragment">For a one period model <span class="math">\(\langle (\gamma\cdot X - V)^2,\Pi\rangle\)</span> is one measure</li>
+<li class="fragment">We could solve <span class="math">\[\min_{\gamma}\langle (\gamma\cdot X - V)^2, \Pi\rangle\]</span> and get another measure of the hedging error</li>
+<li class="fragment">The solution is <span class="math">\(\gamma = \langle XX^T,\Pi\rangle^{-1}\langle XV,\Pi\rangle\)</span></li>
+<li class="fragment"><em>Exercise</em>. Calculate this for <span class="math">\(x = (1,s,v)\)</span>, <span class="math">\(X = (R, S, V(S))\)</span>.</li>
+<li class="fragment">Both generalize to multi-period models</li>
+</ul>
+</section>
+<section id="multiperiod-stock-model" class="slide level2">
+<h1>Multiperiod Stock Model</h1>
+<ul>
+<li class="fragment"><span class="math">\(\Omega = [0,\infty)^n\)</span></li>
+<li class="fragment"><span class="math">\(X_0 = (1,s,0)\)</span>, <span class="math">\(X_j = (R_j, \omega_j, \phi_j(\omega_j))\)</span>, <span class="math">\(X_n = (R_n, \omega_n, 0)\)</span></li>
+<li class="fragment"><span class="math">\(C_j = 0\)</span>, <span class="math">\(0\le j\lt n\)</span>, <span class="math">\(C_n = (0, 0, \omega_n - f)\)</span></li>
+<li class="fragment">Multiperiod stock and foward contract</li>
+<li class="fragment">The <span class="math">\(\phi_j\)</span> are determined by the no arbitrage condition</li>
+<li class="fragment"><span class="math">\((R_j, \omega_j, 0)\Pi_j = (R_n, \omega_n,\omega_n - f)\Pi_n\)</span> on <span class="math">\(\mathcal{F}_j\)</span></li>
+<li class="fragment">so <span class="math">\(\phi_j(\omega_j) = \omega_j - fR_n/R_j\)</span></li>
+<li class="fragment"><em>Exercise</em>. Add fixed dividends to the model</li>
+</ul>
+</section>
+<section id="general-models" class="slide level2">
+<h1>General Models</h1>
+<ul>
+<li class="fragment">Specify a probability measure <span class="math">\(P\)</span> on <span class="math">\(\Omega\)</span></li>
+<li class="fragment">Choose <span class="math">\(\pi_j\in B(\Omega,\mathcal{F}_j)\)</span> and let <span class="math">\(\Pi_j = \pi_jP|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment">Arbitrage free if <span class="math">\(X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment">Customary to assume <span class="math">\(\mathcal{F}_0 = \{\emptyset,\Omega\}\)</span> and <span class="math">\(\pi_0 = 1\)</span></li>
+<li class="fragment">The cash flows are usually specified by the market</li>
+<li class="fragment">The difficult part is specifying the prices and deflators</li>
+</ul>
+</section>
+<section id="canonical-price-deflator" class="slide level2">
+<h1>Canonical Price Deflator</h1>
+<ul>
+<li class="fragment">Assume for each time there is an instrument with <span class="math">\[X_j = 1, C_{j+1} = R_j\]</span></li>
+<li class="fragment"><span class="math">\(R_j\)</span> is the <em>short realized return</em> over <span class="math">\(t_j\)</span> to <span class="math">\(t_{j+1}\)</span></li>
+<li class="fragment">Define <em>canonical price deflators</em> <span class="math">\[\Pi_j = (R_0\cdots
+R_{j-1})^{-1}P|_{\mathcal{F}_j}\]</span></li>
+<li class="fragment">Easy to show <span class="math">\(\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}\)</span></li>
+<li class="fragment">Note <span class="math">\(\Pi_j\)</span> is <span class="math">\(\mathcal{F}_{j-1}\)</span> measurable (aka <em>predictable</em>)</li>
+<li class="fragment">There are many possible deflators, but this is canonnical</li>
+<li class="fragment">Find <span class="math">\(R_j\)</span> that reprice cash deposits, FRA, swaps, etc.</li>
+</ul>
+</section>
+<section id="forwardsfutures" class="slide level2">
+<h1>Forwards/Futures</h1>
+<ul>
+<li class="fragment">A forward expiring at <span class="math">\(t_n\)</span> with strike <span class="math">\(f_n\)</span> has a single cash flow <span class="math">\(C_n = \omega_n - f_n\)</span>.</li>
+<li class="fragment">Let <span class="math">\((\Phi_j)\)</span> be the futures <em>quotes</em></li>
+<li class="fragment">A futures expiring at <span class="math">\(t_n\)</span> is determined by <span class="math">\(\Phi_n = \omega_n\)</span>, cash flows <span class="math">\(C_j = \Phi_{j} - \Phi_{j-1}\)</span> and prices <span class="math">\(X_j = 0\)</span></li>
+<li class="fragment">Since <span class="math">\(0 = (\Phi_{j+1} - \Phi_{j})\Pi_{j}|_{\mathcal{F}_j}\)</span> we have <span class="math">\(\Phi_{j+1}P|_{\mathcal{F}_j} = \Phi_jP\)</span> for canonical deflators</li>
+</ul>
+</section>
+<section id="counterparty-risk" class="slide level2">
+<h1>Counterparty Risk</h1>
+<ul>
+<li class="fragment">Assume default time <span class="math">\(T\)</span> and recovery <span class="math">\(R\)</span> on remaining cash flows</li>
+<li class="fragment"><span class="math">\(V_0 = \sum_{t_i\le T} A_i\Pi_i + R(\sum_{t_i&gt;T}A_i\Pi_i)\)</span></li>
+<li class="fragment"><span class="math">\(R\)</span> assumed to be a constant, <span class="math">\(T\)</span> is a stopping time</li>
+<li class="fragment">Augment sample space to <span class="math">\(\Omega&#39; = \Omega\times [0,\infty)\)</span></li>
+<li class="fragment">Augment filtration to <span class="math">\(\mathcal{F}_j&#39; = \mathscr{F}_j \times \mathcal{G}_j\)</span>,</li>
+<li class="fragment">Where <span class="math">\(\mathcal{G_j} = \{\{t_0\},...,\{t_j\},\{t_{j+1},...\}\}\)</span></li>
+<li class="fragment">At time <span class="math">\(t_j\)</span> we either know the default time exactly or only that it has some value greater than <span class="math">\(t_j\)</span></li>
+</ul>
+</section>
+<section id="american-options" class="slide level2">
+<h1>American Options</h1>
+<ul>
+<li class="fragment">Discrete time, so really Bermudan</li>
+<li class="fragment">Buyer specifies a stopping time <span class="math">\(T_b\)</span></li>
+<li class="fragment">Buyer filtration might be a subset of <span class="math">\((\mathcal{F}_j)\)</span></li>
+<li class="fragment"><span class="math">\(V_0 = \sum_{t_i\le T_b} A_i\Pi_i(\Omega)\)</span></li>
+<li class="fragment">Models should provide knobs, not prescribe optimal behavior</li>
+<li class="fragment">E.g., Clean model for prepayments</li>
+</ul>
+</section>
+<section id="callable-and-putable-bonds" class="slide level2">
+<h1>Callable and Putable Bonds</h1>
+<ul>
+<li class="fragment">Both buyer and issuer (seller) have stopping times</li>
+<li class="fragment">Each might have their own subfiltration</li>
+<li class="fragment"><span class="math">\(V_0 = \sum_{t_i\le \min\{T_b,T_s\}} A_i\Pi_i(\Omega)\)</span></li>
+</ul>
+</section>
+<section id="implementation" class="slide level2">
+<h1>Implementation</h1>
+<ul>
+<li class="fragment"><span class="math">\(V_j(A) = sum_{B\subset A} V_{j+1}\Pi_{j+1}(B)\)</span></li>
+<li class="fragment">Binomial model: <span class="math">\(\Omega = \{-1,1\}^n\)</span>, <span class="math">\(P(\{\omega\}) = 1/2^n\)</span></li>
+<li class="fragment">Random walk: <span class="math">\(W_j(\omega) = \omega_1 + \cdots + \omega_n\)</span></li>
+<li class="fragment"><span class="math">\(\Pi_j = \pi_j(W_j)P\)</span></li>
+<li class="fragment">Naive implementation of <span class="math">\(\pi_jP(A)\)</span> requires <span class="math">\(2^j\)</span> calculations</li>
+<li class="fragment"><span class="math">\(A = A\cap(\{W_j = -j\}\cup\{W_j = -j + 2\}\cup\cdots\cup\{W_j = j\})\)</span> reduces this to order <span class="math">\(j\)</span></li>
+</ul>
+</section>
+<section id="the-future" class="slide level2">
+<h1>The Future?</h1>
+<ul>
+<li class="fragment">Monte Carlo and compute power
+<ul>
+<li class="fragment">Simple models and multicore machines</li>
+</ul></li>
+<li class="fragment">Multicore is major advance from von Neumann architecture
+<ul>
+<li class="fragment">People are still learning how to write for this</li>
+</ul></li>
+<li class="fragment">Interesting things are happening with C++
+<ul>
+<li class="fragment"><a href="http://isocpp.org/blog/2014/12/myths-1">Popular Myths about C++</a></li>
+</ul></li>
+<li class="fragment">Probably not GPUs
+<ul>
+<li class="fragment">Except for problems shaped like rendering pixels</li>
+</ul></li>
+</ul>
+</section>
+<section id="links" class="slide level2">
+<h1>Links</h1>
+<p><a href="http://kalx.net">KALX</a></p>
+<p><a href="http://kalx.net/fms/rough/pp.html">Probability Preliminaries</a></p>
+<p><a href="https://xll.codeplex.com">Excel Add-in Library</a></p>
+<p><a href="https://libfms.codeplex.com">A Software Library for Financial Mathematics</a></p>
+<p><a href="https://cuda.codeplex.com">CUDA Driver API</a></p>
 </section>
     </div>
   </div>
@@ -209,7 +444,7 @@
         controls: true,
         progress: true,
         history: true,
-        center: true,
+        center: false,
         theme: 'sky', // available themes are in /css/theme
         transition: 'slide', // default/cube/page/concave/zoom/linear/fade/none
 
