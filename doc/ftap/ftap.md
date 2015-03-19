@@ -46,7 +46,6 @@
 -   Conditional expectation is unnecessary
     -   it can be replaced by a simpler concept
 
-<!--|
 ----------------------------
 
 ## A Simpler Approach
@@ -54,10 +53,10 @@
 -   Map the finance to mathematics as directly as possible...
     -   ...and clearly identify the misspecifications
 -   The mathematics has to be implemented in software to be useful...
-    -   ...by people who don't understand complicated math,
--   And make sense to the business side
-    -   They write the checks
-|-->
+    -   ...by people who don't understand complicated mathematics
+-	The FTAP is a geometric result, not probabilistic...
+	-	...positive measure show up and can have weight 1
+
 ----------------------------
 
 ## One Period Model
@@ -147,10 +146,9 @@
 
 -   Position: $\Delta_j = \sum_{i\le j}\Gamma_i$
     -   shares held at time $t_j$
--   Value: $\Delta_j\cdot X_j$
+-   Value: $V_j = \Delta_j\cdot X_j$
     -   Marked-to-market value of the position
--   Account: $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot
-    X_j$
+-   Account: $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$
     -   Cash flows from existing position less cost of current
         securities traded
 
@@ -188,13 +186,12 @@
 
 -   There is no arbitrage iff there exist positive scalar measures
     $(\Pi_j)\in ba(\Omega, \mathcal{F}_j)$ with 
-	$$X_j\Pi_j = (C_{j+1} +
-    X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}$$
+	$$X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}$$
 -   By induction $$X_j\Pi_j = (\sum_{j\lt i\le
     k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{ftap}
     $$
--   $(\Pi_j)$ are unique if the market is complete (Second fundamental
-    theorem)
+-   $(\Pi_j)$ are unique if the market is complete
+	(Second fundamental theorem)
 -   If markets were complete, derivatives would not exist
 
 ------------------------------------

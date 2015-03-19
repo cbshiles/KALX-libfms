@@ -4,9 +4,16 @@ MATHJAX="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HT
 html:
 	pandoc -s -i -H header.html --mathjax=${MATHJAX} -t revealjs -V theme:sky -V transition:slide -V center:false -o index.html ftap.md
 
+opm:
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o opm.html opm.md
+	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
+	opm.md -o opm.tex
+
+xva:
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o xva.html xva.md
+
 latex:
 	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
-	fms.md finance.md -o fms.tex
 
 fms:
 	pandoc -f markdown+definition_lists+example_lists \
@@ -15,5 +22,5 @@ fms:
 	background.md finance.md
 
 rsync:
-	rsync index.html kal@web69.webfaction.com:webapps/kalx/ftap
+	rsync index.html opm.html xva.html ftap.css kal@web69.webfaction.com:webapps/kalx/ftap
 

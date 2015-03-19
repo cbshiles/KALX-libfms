@@ -94,19 +94,22 @@
 </ul></li>
 </ul>
 </section>
-<section id="section" class="slide level2">
-<h1><!--|
-----------------------------
-
-## A Simpler Approach
-
--   Map the finance to mathematics as directly as possible...
-    -   ...and clearly identify the misspecifications
--   The mathematics has to be implemented in software to be useful...
-    -   ...by people who don't understand complicated math,
--   And make sense to the business side
-    -   They write the checks
-|--></h1>
+<section id="a-simpler-approach" class="slide level2">
+<h1>A Simpler Approach</h1>
+<ul>
+<li class="fragment">Map the finance to mathematics as directly as possible...
+<ul>
+<li class="fragment">...and clearly identify the misspecifications</li>
+</ul></li>
+<li class="fragment">The mathematics has to be implemented in software to be useful...
+<ul>
+<li class="fragment">...by people who don't understand complicated mathematics</li>
+</ul></li>
+<li class="fragment">The FTAP is a geometric result, not probabilistic...
+<ul>
+<li class="fragment">...positive measure show up and can have weight 1</li>
+</ul></li>
+</ul>
 </section>
 <section id="one-period-model" class="slide level2">
 <h1>One Period Model</h1>
@@ -199,7 +202,7 @@
 <ul>
 <li class="fragment">shares held at time <span class="math">\(t_j\)</span></li>
 </ul></li>
-<li class="fragment">Value: <span class="math">\(\Delta_j\cdot X_j\)</span>
+<li class="fragment">Value: <span class="math">\(V_j = \Delta_j\cdot X_j\)</span>
 <ul>
 <li class="fragment">Marked-to-market value of the position</li>
 </ul></li>
@@ -246,8 +249,7 @@
 <section id="fundamental-theorem-of-asset-pricing" class="slide level2">
 <h1>Fundamental Theorem of Asset Pricing</h1>
 <ul>
-<li class="fragment">There is no arbitrage iff there exist positive scalar measures <span class="math">\((\Pi_j)\in ba(\Omega, \mathcal{F}_j)\)</span> with <span class="math">\[X_j\Pi_j = (C_{j+1} +
-X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\]</span></li>
+<li class="fragment">There is no arbitrage iff there exist positive scalar measures <span class="math">\((\Pi_j)\in ba(\Omega, \mathcal{F}_j)\)</span> with <span class="math">\[X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathcal{F}_j}\]</span></li>
 <li class="fragment">By induction <span class="math">\[X_j\Pi_j = (\sum_{j\lt i\le
 k}C_i\Pi_i + X_k\Pi_k)|_{\mathcal{F}_j} \label{ftap}
 \]</span></li>
@@ -444,7 +446,7 @@ R_{j-1})^{-1}P|_{\mathcal{F}_j}\]</span></li>
         controls: true,
         progress: true,
         history: true,
-        center: false,
+        center: true,
         theme: 'sky', // available themes are in /css/theme
         transition: 'slide', // default/cube/page/concave/zoom/linear/fade/none
 

@@ -26,4 +26,14 @@ All of the other projects are "header only". Just `#include` what you need and s
 
 ## Remarks
 
-prob not converging
+Library structure:
+
+<tuples>
+(sequence)
+
+instrument(type, indicative) -> <(price), (cash_flow)>
+model(type, params)
+params = calibrate(model, data)
+value(<instruments>,<models>,(trades)) -> <(value), (account)>
+
+
