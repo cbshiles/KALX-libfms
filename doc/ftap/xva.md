@@ -258,13 +258,46 @@ all $j$. The trick is finding a trading strategy that closes out.
 
 ## FTAP
 The _Fundamental Theorem of Asset Pricing_ states that a model
-is arbitrage free if and only if there exist positive measures
-$(\Pi_j)$ such that
+is arbitrage free if and only if there exist _deflators_,
+$(\Pi_t)_{t\in T}$, that are positive scalar measures
+such that
 $$
-X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}
+X_j\Pi_j = (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\tag{1}
 $$
+An immediate consequence is
+$$
+V_j\Pi_j = (A_{j+1} + V_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\tag{2}
+$$
+since
+$$
+\begin{align*}
+V_j\Pi_j &= \Delta_j\cdot X_j\Pi_j\\
+&= \Delta_j\cdot (C_{j+1} + X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\\
+&= (A_{j+1} + \Gamma_{j+1}\cdot X_{j+1} + \Delta_j\cdot X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\\
+&= (A_{j+1} + \Delta_{j+1}\cdot X_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\\
+&= (A_{j+1} + V_{j+1})\Pi_{j+1}|_{\mathscr{A}_j}\\
+\end{align*}
+$$
+Equation $(2)$ is the skeleton key to derivative securities.
+Note how the value $V$ plays the roll of price $X$ and
+the account $A$ corresponds to cash flows $C$ of market instruments.
 
-One direction is easy.
+A _derivative security_ is a contract between two counterparties for the
+exchange of cash flows. In terms of the model, the contract specifies the
+$(A_j)$. The job of a quant is to find trades $(\Gamma_j)$ to replicate
+these. The pernicious influence of using Brownian motion to model prices
+and the fiction of continuous time trading have led to myopia when it
+comes to measuring risk. Markets are never complete. The job of a quant
+should also include providing quantitative information on how well a
+hedge can be expected to perform.
+
+One direction of the FTAP is easy. By induction, equation $(2)$ implies
+$$
+V_j = (\sum_{j<i\le k} A_i\Pi_i + V_k\Pi_k)|_{\mathscr{A_j}}
+$$
+If we assume $\mathscr{A}_0$ is $\{\emptyset,\Omega\}$ then we can
+assume $\Pi_0(\Omega) = 1$. In this case
+V_0 = -\Gamma_0\cdot X_0 = \sum_{i>0} A_i\Pi_i(\Om
 
 The other direction is difficult.
 
