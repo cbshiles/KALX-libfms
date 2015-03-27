@@ -320,13 +320,13 @@ replicates the cash flows, the value of the security is simply
 the cost of setting up the initial hedge.
 Somewhat miraculously, we do not need to know
 what the trading strategy is to compute this
-\[
+$$
 V_0 = \sum_{j>0} A_j\Pi_j(\Omega)
-\]
+$$
 Rather miraculous is that we can use this to compute the initial hedge
 $\Gamma_0 = \partial V_0/\partial X_0$ since $V_0 = \Gamma_0\cdot X_0$. In
 fact, we can compute the entire hedge using $\Delta_j = \partial
-V_j/\partial X_j$ and $V_j\Pi_j = sum{i>j}A_i\Pi_i|_{\mathscr{A}_j}$.
+V_j/\partial X_j$ and $V_j\Pi_j = \sum_{i>j}A_i\Pi_i|_{\mathscr{A}_j}$.
 Taking differences yields the $\Gamma_j$.
 
 Now you understand the choice of notation for the position and trades.
@@ -337,12 +337,12 @@ is perfect. Our job is not over, it is just starting.
 ### Risk
 
 In any realistic model, it is never the case that the derivative cash
-flows are perfectly hedged. We can however come up with a rough measure
-of how good the hedge is using the tools at hand. Given the
-positions computed by this method,
-$\Pi(\Delta_j\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1} - A_{j+1})^2$
-
-
+flows are perfectly hedged.
+Given the positions and trades computed by the above method there is
+no guarantee $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$. 
+The difference tells you how bad the hedge is.
+Computing $\Pi(\Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j - A_j)^2$ reduces
+this to a single number.
 
 ## Examples
 
