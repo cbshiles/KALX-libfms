@@ -46,7 +46,7 @@ Buyers are the active counterparty. Sellers present their wares to
 buyers, but they can sell instruments that contain provisions for
 transactions under their control. E.g., callable bonds.
 
-## Accounting
+### Accounting
 
 Given a set of transactions, $\{\chi_j\}$, we can use something akin
 to the Einstein summation convention to indicate various accounting
@@ -54,7 +54,7 @@ quantities:
 $$
 A_{i,c;i',c'}(t) = \sum\{a_j\colon i_j = i, c_j = c, i'_j = i', c'_j = c'\}
 $$
-is the _account_: the total amount of instrument $i$ counterparty
+is the _activity_: the total amount of instrument $i$ counterparty
 $c$ has transacted for
 instrument $i'$ with counterparty $c'$ at time $t$. Usually this sum has
 only one term.
@@ -67,7 +67,7 @@ Let $A_{i,c}(t) = \sum_{i',c'} A_{i,c;i',c'}(t)$ and similarly for
 $B_{i,c}(t)$.  The later is the balance of instrument $i$ that
 counterparty $c$ has with all instruments traded to all counterparties.
 
-Likewise, let $A'(t)$ and $B'(t)$ represent the seller's account and
+Likewise, let $A'(t)$ and $B'(t)$ represent the seller's activity and
 balance by replacing $a$ with $a'$ in the sums.  In this case $B'(t)$
 is called _inventory_.
 
@@ -75,13 +75,13 @@ The classical theory of mathematical finance usually does not make
 a distinction between counterparties and assumes $i'$ is the buyer's
 native currency.
 
-# Models
-
-> _But the errors are not in the art, but in the artificers._
+## Models
 
 > _In this sense, rational mechanics will be the science, expressed in exact propositions and demonstrations, of the motions that result from any forces whatever and of the forces that are required for any motions whatever._ 
 
-> -Sir Issac Newton
+> _But the errors are not in the art, but in the artificers._
+
+> \ \ \ \ \ -Sir Issac Newton, _Principia_
 
 We use mathematics to rigorously define financial terms.  Math is too
 simple to capture the messy complexity of the real world, assumptions must
@@ -136,7 +136,7 @@ for any function $Y\in B(\Omega)$.
 An _algebra_ of sets, $\mathscr{A}$, on $\Omega$ is a subset of the
 power set of $\Omega$ that is closed under complements and unions. By
 De Morgan's laws, it is also closed under intersection. We assume the
-empty set, hence $\Omega$, belongs to $\mathscr{A}$.
+empty set, hence $\Omega$, belong to $\mathscr{A}$.
 
 Subsets of $\Omega$ are called _events_. If you want to talk about
 something not happening, or either of two events happening, then algebras
@@ -184,11 +184,10 @@ i.e., $X$ is _adapted_. The value of $X$ at time $t$ depends only on
 the information available at time $t$.
 The transaction $\chi=(t;a,i,c;aX(t),i',c')$
 is available to the buyer at time $t$, where $X(t)$ is a lazy way of
-writing $X(t;a,i,c;i',c',\omega)$. Perfect liquidity means $X$ is a
-function only of time and instruments.  Making it depend on the amount
-allows for the incorporation of bid/ask spread. It also allows for the
-fact that different counterparties have different
-prices for the same instruments.
+writing $X(t;a,i,c;i',c',\omega)$.
+Making price depend on the amount allows for the incorporation of bid/ask
+spread. It also allows for the fact that different counterparties can
+have different prices for the same instruments.
 
 ## Cash Flows
 Ownership of an instrument entails cash flows. Stocks pay dividends,
@@ -196,13 +195,13 @@ bonds pay coupons, futures have daily margin adjustments.
 
 A model also specifies _cash flows_
 $$
-C\colon T\times (I\times C)\times I\times C\times\Omega\to\mathbf{R}^m
+C\colon T\times (I\times C)\times (I\times C)\times\Omega\to\mathbf{R}^m
 $$
 that are bounded and adapted.
-The buyer receives cash flows proportional to their position.
+Buyers receive cash flows proportional to their positions.
 Note that cash flows can depend on counterparties. Interest rate
 swaps usually have contractually obligated collateral postings.
-Something current mathematical finance theory ignores.
+Something current mathematical finance theory treats ad hoc.
 
 ### Convention
 
@@ -223,7 +222,7 @@ time dependence.
 
 The buyer can specify a bounded, adapted function
 $$
-\Gamma\colon T\times\Omega\to\mathrm{R}^I
+\Gamma\colon T\times\Omega\to\mathrm{R}^I.
 $$
 We assume this function is 0 for all but a finite number
 of _trading times_ $t\in T$ because in the real world it is.
@@ -235,22 +234,22 @@ non-zero and $\Gamma_j = \Gamma_{t_j}$.
 
 ## Account
 
-The values that show up in the buyer's trading account/blotter are
-$A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$.
-The buyer receives cash flows from the existing position and
-has to pay for the trades executed based on market prices.
-Note that cash flows for trades at $t_j$ do not accrue to
-the account.
+The values that show up in the buyer's trading account/blotter at time
+$t_j$ are $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$.  The buyer
+receives cash flows from the existing position and has to pay for the
+trades executed based on market prices.  Note that cash flows for trades
+at $t_j$ do not accrue to the account.
 
 The _value_ of a position at time $t$ is $V_t = \Delta_t\cdot X_t$.
-This is the _marked-to-market_ price assuming the position could
-be completely unwound at the quoted price.
+This is the _marked-to-market_ "price" assuming the position could be
+completely unwound at the quoted market prices. Another unrealistic
+assumption.
 
 ## Arbitrage
 
 A model is _arbitrage free_ if there do not exist trades $(\Gamma_j)$
 with $\sum_j\Gamma_j = 0$, $A_0 > 0$, and $A_j\ge0$ for $j>0$.
-In words: there is no _closed out_ trading strategy that makes
+In words: there is no _closed-out_ trading strategy that makes
 money up front and never loses money thereafter.
 
 Assuming the model contains a bond, it is easy to make $A_j>0$ for
@@ -293,13 +292,67 @@ hedge can be expected to perform.
 
 One direction of the FTAP is easy. By induction, equation $(2)$ implies
 $$
-V_j = (\sum_{j<i\le k} A_i\Pi_i + V_k\Pi_k)|_{\mathscr{A_j}}
+V_j\Pi_j = (\sum_{j<i\le k} A_i\Pi_i + V_k\Pi_k)|_{\mathscr{A_j}}
 $$
 If we assume $\mathscr{A}_0$ is $\{\emptyset,\Omega\}$ then we can
-assume $\Pi_0(\Omega) = 1$. In this case
-V_0 = -\Gamma_0\cdot X_0 = \sum_{i>0} A_i\Pi_i(\Om
+assume $\Pi_0(\Omega) = 1$. In this case $V_0 = -A_0 = \sum_{i>0}
+A_i\Pi_i(\Omega)$ for a closed-out strategy so $A_j\ge 0$ for $j > 0$
+implies $A_0\le 0$, hence the model is arbitrage free.
 
-The other direction is difficult.
+The other direction is difficult. Ross generalized the
+Black-Scholes/Merton model from a bond, stock, and option to an arbitrary
+collection of instruments and made the brilliant observation that the
+Hanh-Banach theorem could be used to prove this result.  Filling in the
+mathematical gaps of his proof led to a small cottage industry as outlined
+[here](http://kalx.net/ftapd.pdf).
+
+The good news is that there is no need to prove the difficult direction.
+It is easy to simply write down deflators, there is no need for the
+Hahn-Banach theorem to prove they exist. As far as I know, nobody has
+ever used the Hahn-Banach theorem to do that. It does come in handy for
+finding arbitrages when they exist, as illustrated in the above link.
+
+### Pricing is Hedging
+
+Given a derivative, i.e., a contract specifying cash flows $(A_j)$,
+if we can find a closed-out trading strategy $(\Gamma_j)$ that
+replicates the cash flows, the value of the security is simply
+the cost of setting up the initial hedge.
+Somewhat miraculously, we do not need to know
+what the trading strategy is to compute this
+\[
+V_0 = \sum_{j>0} A_j\Pi_j(\Omega)
+\]
+Rather miraculous is that we can use this to compute the initial hedge
+$\Gamma_0 = \partial V_0/\partial X_0$ since $V_0 = \Gamma_0\cdot X_0$. In
+fact, we can compute the entire hedge using $\Delta_j = \partial
+V_j/\partial X_j$ and $V_j\Pi_j = sum{i>j}A_i\Pi_i|_{\mathscr{A}_j}$.
+Taking differences yields the $\Gamma_j$.
+
+Now you understand the choice of notation for the position and trades.
+
+This miracle seems to have blinded everyone to the reality that no hedge
+is perfect. Our job is not over, it is just starting.
+
+### Risk
+
+In any realistic model, it is never the case that the derivative cash
+flows are perfectly hedged. We can however come up with a rough measure
+of how good the hedge is using the tools at hand. Given the
+positions computed by this method,
+$\Pi(\Delta_j\cdot C_{j+1} - \Gamma_{j+1}\cdot X_{j+1} - A_{j+1})^2$
+
+
+
+## Examples
+
+[Cost of carry](coc.html)
+
+[Put-Call parity](pcp.html)
+
+[Canonical price deflator](cpd.html)
+
+[Stock with dividends](swd.html)
 
 ## CVA
 

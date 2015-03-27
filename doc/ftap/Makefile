@@ -11,6 +11,11 @@ opm:
 
 xva:
 	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o xva.html xva.md
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o coc.html coc.md
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o cpd.html cpd.md
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o pcp.html pcp.md
+	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
+	xva.md -o xva.tex
 
 latex:
 	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
@@ -22,5 +27,5 @@ fms:
 	background.md finance.md
 
 rsync:
-	rsync index.html opm.html xva.html ftap.css kal@web69.webfaction.com:webapps/kalx/ftap
+	rsync *.html ftap.css kal@web69.webfaction.com:webapps/kalx/ftap
 
