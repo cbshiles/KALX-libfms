@@ -342,7 +342,7 @@ Given the positions and trades computed by the above method there is
 no guarantee $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$. 
 The difference tells you how bad the hedge is.
 Computing $\Pi(\Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j - A_j)^2$ reduces
-this to a single number.
+this to a single number for each trading time.
 
 ## Examples
 
@@ -351,6 +351,8 @@ this to a single number.
 [Put-Call parity](pcp.html)
 
 [Canonical price deflator](cpd.html)
+
+[Fixed Income Theory](fit.html)
 
 [Stock with dividends](swd.html)
 

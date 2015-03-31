@@ -14,8 +14,7 @@ xva:
 	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o coc.html coc.md
 	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o cpd.html cpd.md
 	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o pcp.html pcp.md
-	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
-	xva.md -o xva.tex
+	pandoc -s -i -H header.html --css ftap.css --mathjax=${MATHJAX} -o fit.html fit.md
 
 latex:
 	pandoc -r markdown+yaml_metadata_block -s -S --latex-engine=pdflatex \
