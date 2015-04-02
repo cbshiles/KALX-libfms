@@ -315,7 +315,7 @@ finding arbitrages when they exist, as illustrated in the above link.
 ### Pricing is Hedging
 
 Given a derivative, i.e., a contract specifying cash flows $(A_j)$,
-if we can find a closed-out trading strategy $(\Gamma_j)$ that
+*if* we can find a closed-out trading strategy $(\Gamma_j)$ that
 replicates the cash flows, the value of the security is simply
 the cost of setting up the initial hedge.
 Somewhat miraculously, we do not need to know
@@ -356,7 +356,14 @@ this to a single number for each trading time.
 
 [Stock with dividends](swd.html)
 
-## CVA
+## xVA
 
+Given a sequence of cash flows $(A_j)$ at times $(t_j)$, define $P_t$
+by $P_t\Pi_t = \sum_{t_j\gt t} A_j\Pi_j|_{\mathscr{A}_t}$, the value
+of of the remaining cash flows at time $t$. 
+The _positive exposure_ is $P_t^+ = \max\{P_t,0\}$ and the
+_negative exposure_ is $P_t^- = \min\{P_t,0\}$ so $P_t = P_t^+ + P_t^-$.
+
+Various ad hoc measures of credit risk have been ...
 Credit Value Adjustment accounts for the risk of a counterparty
 defaulting. 

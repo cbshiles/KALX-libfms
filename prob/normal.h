@@ -195,8 +195,8 @@ inline void test_prob_normal()
 	test_sqrt2<float>();
 	test_prob_normalpdf<double>();
 	test_prob_normalcdf<double>();
-//	test_prob_normalinv<float>();
-//	test_prob_normalinv<double>();
+	test_prob_normalinv<float>();
+	test_prob_normalinv<double>();
 	test_prob_normal_correlation<double>();
 }
 

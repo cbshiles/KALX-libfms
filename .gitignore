@@ -158,3 +158,10 @@ $RECYCLE.BIN/
 /doc/lesson4.md.bak
 /doc/solutions1.html
 /xllfms/Book1.xlsx
+
+# Additional
+*.tex
+*.pdf
+*.aux
+*.out
+*.html
