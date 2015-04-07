@@ -20,6 +20,7 @@ Virtual machine
 Building the library
 Creating Excel add-ins
 Generating documentation
+C++14 high points
 
 ## Lesson 2. Building curves
 Data sources
@@ -42,3 +43,6 @@ The generalized Jarrow-Rudd model
 
 ## Lesson 6
 Pulling it together
+
+C++ review
+stack vs. free store

@@ -340,12 +340,24 @@ In any realistic model, it is never the case that the derivative cash
 flows are perfectly hedged.
 Given the positions and trades computed by the above method there is
 no guarantee $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$. 
-The difference tells you how bad the hedge is.
+The difference tells you how bad the hedge is. If we evaluate
+the difference at the outcome realized up to time $t_j$ then this
+is simply the P\&L at that time.
 
 It is completely correct to say the error is a stochastic process,
-but not particulary useful. This short note will not delve into
-the topic of how to reduce these to something puny human brains
-can comprehend.
+but not particularly useful. The puny human brain needs a way
+to compress something complicated into manageable amounts.
+One could look at the mean and standard deviation at each time
+point, but that ignores all information about the joint distributions.
+I recommend using cumulants instead of moments. The first two
+cumulants are the mean and variance. If the distribution is normal
+then all higher order cumulants vanish. This makes is easier to
+visualize how non-normal the random variable is.
+
+Another possibility is to do principal component analysis on the
+set $\{Z_j(\omega)\colon \omega\in\Omega\}\subset\mathbf{R}^n$.
+This is equivalent to finding the eigenvalues and eigenvectors
+of the symmetric operator $Z\colon ???$.
 
 ## Examples
 
@@ -369,7 +381,7 @@ recent years.
 _Credit Value Adjustment_ accounts for the risk of a counterparty
 defaulting.
 _Debt Value Adjustment_ accounts for excess collateral
-a bank holds. It is the CVA of the counterparty.
+a bank holds -- the CVA of the other counterparty.
 _Funding Value Adjustment_ attempts reconcile these two adjustments
 to give a more accurate accounting of actual funding costs.
 
@@ -400,23 +412,23 @@ remains fundamentally inaccurate. The obviously correct approach is
 to use the framework above to faithfully model what is happening in
 the real world: collateral agreements simply specify addition cash
 flows that were not being properly accounted for and collateral can be
-actively used for other funding activites.
+actively traded for other funding activities.
 
 The classical theory of derivatives focused on single instruments.
-It allowed for wider classes of instruments to be offered tailored
-to reduce the risk companies faced in the course of their business.
-The mathematics developed for that was not as effective when applied
-to the non-linear issues involved with portfolios of trades.
-The technology explosion in the 90's helped with brute force calculations
-that could more accurately assess the true business picture.
-It is time to take the next step along that path.
+It allowed for wider classes of instruments to be offered that were
+tailored to reduce the risk companies faced in the course of their
+business.  The mathematics developed for that was not as effective when
+applied to the non-linear issues involved with portfolios of trades.
+The technology explosion in recent years helped with brute force calculations
+that could more accurately assess the true business picture.  It is time
+to take the next step along that path.
 
 It is still a daunting technology problem, but the mathematics is
 quite straightforward: incorporate the cash flows specified by
 collateral agreements and specify the trades involved with funding
 activity. One of the major drawbacks of many risk measures is that
 they fail to incorporate the fact that positions are actively hedged.
-The fact that if you do no trades for $n$ days and have probabilty $p$
+Knowing that if you do no trades for $n$ days and have probability $p$
 of losing at least $x$ dollars makes VaR useful only for putting check
 marks in regulatory boxes.
 
@@ -424,20 +436,23 @@ marks in regulatory boxes.
 The CVA formula is based on incorporating default time and recovery
 into valuation.
 Given a sequence of cash flows $(A_j)$ at times $(t_j)$, define $P_t$
-by $P_t = \sum_{t_j\gt t} A_j D(t,t_j)$, the value
+by $P_t\Pi_t = \sum_{t_j\gt t} A_j \Pi_j|_{\mathscr{A}_j}$, the value
 of of the remaining cash flows at time $t$. 
-The _positive exposure_ is $P_t^+ = \max\{P_t,0\}$ and the
-_negative exposure_ is $P_t^- = \min\{P_t,0\}$ so $P_t = P_t^+ + P_t^-$.
+The _exposure_ is $P_t^+ = \max\{P_t,0\}$.
 
-Assuming default time, $T$, and recovery, $R$, the amount a counterparty
-will lose in the event of default is $(1 - R)P^+_T$ at time $T$. The
-calcuation $\int_0^\infty (1 - R)P^+_t Pi_t(\Omega) dP(T\le t)$ is the
-CVA. Note that $T$ and $R$ can be random variables, but we do not consider
-the important and difficult issue of specifying their joint distribution.
+Assuming default time, $T$, and recovery, $R_t$ at time $t$, the amount a
+counterparty will lose in the event of default is $(1 - R_T)P^+_T$ at time
+$T$. The calculation
+$\int_0^\infty (1 - R_t)P^+_t \Pi_t(\Omega)\,dP(T\le t)$
+is the CVA. Note that $T$ can be any stopping time and and $(R_t)$ any
+adapted process. We do not consider the important and difficult issue
+of specifying their joint distributions, but only note that this model is
+sufficiently expressive to incorporate such detailed specification if
+necessary.
 
-To incorporate the possibility of unwinding, let $U$ be the time
+To allow for the possibility of unwinding, let $U$ be the time
 of unwinding. This is simply a stopping time and typically has
-the form $U = \inf_t P^+_t > a$ for some $a$ -- unwind the first time
+the form $U = \inf\{t\colon P^+_t > a\}$ for some $a$ -- unwind the first time
 exposure is above some amount $a$. The value at the time of unwinding
 might be contractually specified, or the value of the remaining
 cash flows. In any case, it is simply another cash flow to be specified.
