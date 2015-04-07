@@ -341,8 +341,11 @@ flows are perfectly hedged.
 Given the positions and trades computed by the above method there is
 no guarantee $A_j = \Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j$. 
 The difference tells you how bad the hedge is.
-Computing $\Pi(\Delta_{j-1}\cdot C_j - \Gamma_j\cdot X_j - A_j)^2$ reduces
-this to a single number for each trading time.
+
+It is completely correct to say the error is a stochastic process,
+but not particulary useful. This short note will not delve into
+the topic of how to reduce these to something puny human brains
+can comprehend.
 
 ## Examples
 
@@ -356,14 +359,90 @@ this to a single number for each trading time.
 
 [Stock with dividends](swd.html)
 
+<!--
+http://ftalphaville.ft.com/2014/01/14/1740802/dva-cva-and-fvaaaaaaaargh/
+-->
 ## xVA
 
+Various ad hoc measures related to credit risk have been proposed in
+recent years. 
+_Credit Value Adjustment_ accounts for the risk of a counterparty
+defaulting.
+_Debt Value Adjustment_ accounts for excess collateral
+a bank holds. It is the CVA of the counterparty.
+_Funding Value Adjustment_ attempts reconcile these two adjustments
+to give a more accurate accounting of actual funding costs.
+
+I worked on CVA at Morgan Stanley before it was called CVA. We called it
+EBL -- Expected Borrow/Lend. After the 1997 Asian Crisis they built a
+system to charge (or credit) traders based on the additional (reduced)
+exposure each trade caused. It used the now standard calculation of
+integrating expected exposure against a haircut. The CDS market was less
+developed at the time so the haircut was based on default probabilities
+for various credit ratings and a fair amount of bickering.
+
+Traders objected to the methodology because they (correctly) felt they
+were being overcharged. Many of the swaps had unwind provisions that
+would be exercised if the market went against them. My contribution to
+the project was to incorporate this into the calculation. Something
+still not accounted for in the current methodology.
+
+Another problem with the CVA calculation is that it assumes default
+and recovery are independent of interest rates. The only reason for
+that assumption is to make the calculation more tractable.
+
+The technology at the time was quite impressive. It provided sub-second
+credit charges based on tens of thousands of future cash flows
+aggregated by counterparty, including subsidiary data.
+
+Technology has improved considerably since then, but the methodology
+remains fundamentally inaccurate. The obviously correct approach is
+to use the framework above to faithfully model what is happening in
+the real world: collateral agreements simply specify addition cash
+flows that were not being properly accounted for and collateral can be
+actively used for other funding activites.
+
+The classical theory of derivatives focused on single instruments.
+It allowed for wider classes of instruments to be offered tailored
+to reduce the risk companies faced in the course of their business.
+The mathematics developed for that was not as effective when applied
+to the non-linear issues involved with portfolios of trades.
+The technology explosion in the 90's helped with brute force calculations
+that could more accurately assess the true business picture.
+It is time to take the next step along that path.
+
+It is still a daunting technology problem, but the mathematics is
+quite straightforward: incorporate the cash flows specified by
+collateral agreements and specify the trades involved with funding
+activity. One of the major drawbacks of many risk measures is that
+they fail to incorporate the fact that positions are actively hedged.
+The fact that if you do no trades for $n$ days and have probabilty $p$
+of losing at least $x$ dollars makes VaR useful only for putting check
+marks in regulatory boxes.
+
+### CVA Example
+The CVA formula is based on incorporating default time and recovery
+into valuation.
 Given a sequence of cash flows $(A_j)$ at times $(t_j)$, define $P_t$
-by $P_t\Pi_t = \sum_{t_j\gt t} A_j\Pi_j|_{\mathscr{A}_t}$, the value
+by $P_t = \sum_{t_j\gt t} A_j D(t,t_j)$, the value
 of of the remaining cash flows at time $t$. 
 The _positive exposure_ is $P_t^+ = \max\{P_t,0\}$ and the
 _negative exposure_ is $P_t^- = \min\{P_t,0\}$ so $P_t = P_t^+ + P_t^-$.
 
-Various ad hoc measures of credit risk have been ...
-Credit Value Adjustment accounts for the risk of a counterparty
-defaulting. 
+Assuming default time, $T$, and recovery, $R$, the amount a counterparty
+will lose in the event of default is $(1 - R)P^+_T$ at time $T$. The
+calcuation $\int_0^\infty (1 - R)P^+_t Pi_t(\Omega) dP(T\le t)$ is the
+CVA. Note that $T$ and $R$ can be random variables, but we do not consider
+the important and difficult issue of specifying their joint distribution.
+
+To incorporate the possibility of unwinding, let $U$ be the time
+of unwinding. This is simply a stopping time and typically has
+the form $U = \inf_t P^+_t > a$ for some $a$ -- unwind the first time
+exposure is above some amount $a$. The value at the time of unwinding
+might be contractually specified, or the value of the remaining
+cash flows. In any case, it is simply another cash flow to be specified.
+The exposure at time $t$ is now $P^+_t1(U > t)$.
+
+It may be the case that the cash flows, $(A_j)$, are aggregated across a
+portfolio. It is simple to incorporate unwind provisions for individual
+trades in the portfolio using the same technique.
