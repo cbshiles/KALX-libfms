@@ -125,7 +125,7 @@ space of _finitely additive measures_ on $\Omega$.
 We write the dual space pairing as any of $\langle X,\Pi\rangle =
 \int_\Omega X\,d\Pi = \Pi(X)$ for $X\in B(\Omega)$ and $\Pi\in
 ba(\Omega)$. The last is the usual function call notation since $\Pi$
-is simply a linear function(al) from $B(\Omega)$ to $\mathbf{R}$. If
+is simply a linear function(al) from $B(\Omega)$ to $\mathbb{R}$. If
 $\Pi$ is positive with mass 1, this is just the expected value of $X$
 under the probability measure $\Pi$.
 
@@ -167,7 +167,7 @@ The above suffices for a complete theory of mathematical finance.
 
 ## Trading times
 
-Let $T\subseteq\mathbf{R}$ be the set of times at which trades can
+Let $T\subseteq\mathbb{R}$ be the set of times at which trades can
 occur. The classical theory assumes $T = [0,\infty)$.  At each time $t\in
 T$ we have an algebra $\mathscr{A}_t$ that represents the information
 available at time $t$. Since information increase over time, we assume
@@ -177,7 +177,7 @@ $\mathscr{A}_t\subseteq\mathscr{A}_u$ whenever $t < u$.
 A model of _prices_ is a bounded function
 $$
 X\colon T\times (A\times I\times C)\times (I\times C)\times\Omega
-\to\mathbf{R}^m
+\to\mathbb{R}^m
 $$
 such that $\omega\mapsto X(t,\dots,\omega)$ is $\mathscr{A}_t$-measurable,
 i.e., $X$ is _adapted_. The value of $X$ at time $t$ depends only on
@@ -195,7 +195,7 @@ bonds pay coupons, futures have daily margin adjustments.
 
 A model also specifies _cash flows_
 $$
-C\colon T\times (I\times C)\times (I\times C)\times\Omega\to\mathbf{R}^m
+C\colon T\times (I\times C)\times (I\times C)\times\Omega\to\mathbb{R}^m
 $$
 that are bounded and adapted.
 Buyers receive cash flows proportional to their positions.
@@ -324,9 +324,12 @@ $$
 V_0 = \sum_{j>0} A_j\Pi_j(\Omega)
 $$
 Rather miraculous is that we can use this to compute the initial hedge
-$\Gamma_0 = \partial V_0/\partial X_0$ since $V_0 = \Gamma_0\cdot X_0$. In
-fact, we can compute the entire hedge using $\Delta_j = \partial
-V_j/\partial X_j$ and $V_j\Pi_j = \sum_{i>j}A_i\Pi_i|_{\mathscr{A}_j}$.
+$\Gamma_0 = \partial V_0/\partial X_0$
+since $V_0 = \Gamma_0\cdot X_0$. In
+fact, we can compute the entire hedge using
+$\Delta_j = \partial V_j/\partial X_j$
+(the Fre&#769;chet derivative in $B(\Omega,\mathscr{A}_j, \mathbb{R}^m)$)
+and $V_j\Pi_j = \sum_{i>j}A_i\Pi_i|_{\mathscr{A}_j}$.
 Taking differences yields the $\Gamma_j$.
 
 Now you understand the choice of notation for the position and trades.
@@ -354,12 +357,16 @@ cumulants are the mean and variance. If the distribution is normal
 then all higher order cumulants vanish. This makes is easier to
 visualize how non-normal the random variable is.
 
+<!--
 Another possibility is to do principal component analysis on the
-set $\{Z_j(\omega)\colon \omega\in\Omega\}\subset\mathbf{R}^n$.
+set $\{Z_j(\omega)\colon \omega\in\Omega\}\subset\mathbb{R}^n$.
 This is equivalent to finding the eigenvalues and eigenvectors
 of the symmetric operator $Z\colon ???$.
+-->
 
 ## Examples
+
+[Black-Scholes/Merton](bsm.html)
 
 [Cost of carry](coc.html)
 
@@ -368,12 +375,12 @@ of the symmetric operator $Z\colon ???$.
 [Canonical price deflator](cpd.html)
 
 [Fixed Income Theory](fit.html)
-
+<!--
 [Stock with dividends](swd.html)
 
-<!--
 http://ftalphaville.ft.com/2014/01/14/1740802/dva-cva-and-fvaaaaaaaargh/
 -->
+
 ## xVA
 
 Various ad hoc measures related to credit risk have been proposed in
@@ -381,7 +388,7 @@ recent years.
 _Credit Value Adjustment_ accounts for the risk of a counterparty
 defaulting.
 _Debt Value Adjustment_ accounts for excess collateral
-a bank holds -- the CVA of the other counterparty.
+a bank holds -- the CVA from the perspective of the other counterparty.
 _Funding Value Adjustment_ attempts reconcile these two adjustments
 to give a more accurate accounting of actual funding costs.
 
@@ -394,9 +401,9 @@ developed at the time so the haircut was based on default probabilities
 for various credit ratings and a fair amount of bickering.
 
 Traders objected to the methodology because they (correctly) felt they
-were being overcharged. Many of the swaps had unwind provisions that
-would be exercised if the market went against them. My contribution to
-the project was to incorporate this into the calculation. Something
+were being overcharged. Many of the swaps had unwind provisions that would
+be exercised if the market went against them. One of my contributions
+to the project was to incorporate this into the calculation. Something
 still not accounted for in the current methodology.
 
 Another problem with the CVA calculation is that it assumes default
@@ -419,9 +426,9 @@ It allowed for wider classes of instruments to be offered that were
 tailored to reduce the risk companies faced in the course of their
 business.  The mathematics developed for that was not as effective when
 applied to the non-linear issues involved with portfolios of trades.
-The technology explosion in recent years helped with brute force calculations
-that could more accurately assess the true business picture.  It is time
-to take the next step along that path.
+The technology explosion in recent years helped with brute force
+calculations that could more accurately assess the true business picture.
+It is time to take the next step along that path.
 
 It is still a daunting technology problem, but the mathematics is
 quite straightforward: incorporate the cash flows specified by
@@ -450,14 +457,42 @@ of specifying their joint distributions, but only note that this model is
 sufficiently expressive to incorporate such detailed specification if
 necessary.
 
-To allow for the possibility of unwinding, let $U$ be the time
-of unwinding. This is simply a stopping time and typically has
-the form $U = \inf\{t\colon P^+_t > a\}$ for some $a$ -- unwind the first time
+To allow for the possibility of unwinding, let $U$ be the time of
+unwinding. This is simply a stopping time and typically has the form
+$U = \inf\{t\colon P^+_t > a\}$ for some $a$ -- unwind the first time
 exposure is above some amount $a$. The value at the time of unwinding
-might be contractually specified, or the value of the remaining
-cash flows. In any case, it is simply another cash flow to be specified.
+might be contractually specified, or the value of the remaining cash
+flows. In any case, it is simply another cash flow to be specified.
 The exposure at time $t$ is now $P^+_t1(U > t)$.
 
 It may be the case that the cash flows, $(A_j)$, are aggregated across a
 portfolio. It is simple to incorporate unwind provisions for individual
 trades in the portfolio using the same technique.
+
+### DVA
+When banks realized they were leaving money on the table, they came up
+with DVA. It looks similar to the CVA calculation except it is based on
+the exposure to the other counterparty, but other counterparties don't
+really have any incentive to monetize this.
+
+### FVA
+There does not seem to be a standard method of computing the funding value
+adjustment. In our new regulatory world, it seems to have turned into a
+way of using capital requirements to transfer the power to influence what
+trades will be done to funding desks. Not unlike what happened with EBL.
+
+Mathematical models have nothing to say about ulterior motives,
+but they can provide clarity on valuing, hedging, and managing risk.
+Conceptually, FVA is just a matter of faithfully modeling all of the cash
+flows and trades associated with managing the book.  Collateral agreements
+specify an algorithm for posting cash flows based on exposure. Debt value
+adjustment is the trading strategy employed to monetize excess collateral
+instead of leaving it sitting around.  If you use credit default swaps
+to mitigate the risk, add them to the total portfolio explicitly.
+
+The difficult thing is building models that allow efficient and accurate
+implementation of what is actually occurring. And teaching people who
+use the models the assumptions and limitations behind them.
+
+The framework proposed above only solves the easiest part of this
+complicated problem.

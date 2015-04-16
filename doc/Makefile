@@ -8,8 +8,8 @@ $(HTML): %.html: %.md
 $(HTML): header.html before.html after.html main.css
 
 ifm:
-	pandoc --smart -o ifm.pdf ifm.md
 	pandoc --smart --css main.css -o ifm.html ifm.md
+#	pandoc --smart -o ifm.pdf ifm.md
 
 rsync: index.html $(HTML)
 	rsync main.css $(HTML) kal@web69.webfaction.com:webapps/kalx/libfms

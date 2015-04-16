@@ -51,7 +51,7 @@
 ## A Simpler Approach
 
 -   Map the finance to mathematics as directly as possible...
-    -   ...and clearly identify the misspecifications
+    -   ...and clearly identify the misspecification
 -   The mathematics has to be implemented in software to be useful...
     -   ...by people who don't understand complicated mathematics
 -	The FTAP is a geometric result, not probabilistic...
@@ -103,7 +103,7 @@
 -	$X(\omega) = (R, \omega, \omega - f)$
 -   A bond with realized return $R$, a stock that can have
     any non-negative value, and an at-the-money forward
--   No arbitarge implies $(1,s,0) = \langle
+-   No arbitrage implies $(1,s,0) = \langle
     (R,\omega,\omega-f),\Pi\rangle$
 -	Taking $\gamma = (f/R, -1, 1)$ yields
 	$$f/R - s = \langle f - \omega + \omega - f,\Pi\rangle = 0$$
@@ -120,7 +120,7 @@
 -	$X(\omega) = (R,\omega,(\omega - k)^+,(k - \omega)^+)$
 -   A bond with realized return $R$, a stock that can have
     any non-negative value, and a call and put both struck at $k$.
--   No arbitarge implies
+-   No arbitrage implies
 	$$(1,s,c,p) = \langle (R,\omega,(\omega - k)^+,(k - \omega)^+),\Pi\rangle$$
 -   Taking $\gamma = (k/R, -1, 1, -1)$ yields $k/R - s + c - p
     = \langle k - \omega + (\omega - k)^+ - (k - \omega)^+),\Pi\rangle = 0$
@@ -315,7 +315,7 @@
 -   Easy to show $\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}$
 -   Note $\Pi_j$ is $\mathcal{F}_{j-1}$ measurable (aka
     _predictable_)
--   There are many possible deflators, but this is canonnical
+-   There are many possible deflators, but this is canonical
 -	Find $R_j$ that reprice cash deposits, FRA, swaps, etc.
 
 --------------

@@ -2,8 +2,9 @@ body {
 	margin: 20px; padding: 0;
 	font-size: 120%;
 	color: #404040;
-	font-family: Cambria, Palatino, 'Times New Roman', serif;
-	line-height: 1.25;
+	/*font-family: Cambria, Palatino, 'Times New Roman', serif;*/
+	font-family: 'Crimson Text', Crimson, Georgia;
+	/*line-height: 1.25;*/
 }
 article, aside, figcaption, figure, footer, header, nav, section {
 	display: block;
@@ -19,6 +20,9 @@ ul, ol {
 	margin: 1em 0;
 	padding-left: 40px;
 	list-style: square;
+}
+dt {
+	font-weight: bold;
 }
 p, figure {margin: 1em 0;}
 a img {border: none;}

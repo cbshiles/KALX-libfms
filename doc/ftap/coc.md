@@ -28,14 +28,14 @@ and cranking the mathematical handle to produce a result.
 Something we endeavor to do for all and every derivative instrument.
 
 Note we could also use $\Omega = (-\infty,\infty)$, or indeed any subset
-of $\mathbf{R}$, and the same result holds. One benefit of using a solid
+of $\mathbb{R}$, and the same result holds. One benefit of using a solid
 mathematical foundation is that it allows us to generalize results that
 might not be obvious using ad hoc methods.
 
 ### Dividends
 If the stock pays a dividend, $d$, at the end of the period, then
-$C(t_1,\omega) = \begin{bmatrix}0\\ d\\ S - f\end{bmatrix}$.
-The same analysis shows $s = (f + d)/R$.
+$C(t_1,\omega) = \begin{bmatrix}0& d& S - f\end{bmatrix}'$.
+The same analysis shows $f = Rs - d$.
 
 ### Remark
 We will not address the philosophical question of whether all prices

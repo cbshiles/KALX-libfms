@@ -22,6 +22,6 @@ $(S-k)^+ - (k - S)^+ = S - k$ we have
 $c - p = \Pi(S - k) = s - k||\Pi|| = s - k/R$.
 
 Again, no need for elaborate theory. Also, the result holds for
-arbitrary $\Omega\subseteq\mathbf{R}$.
+arbitrary $\Omega\subseteq\mathbb{R}$.
 
 [Back](xva.html#examples)

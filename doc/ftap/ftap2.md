@@ -41,7 +41,7 @@ A Simpler Approach
 ------------------
 
 -   Map the finance to mathematics as directly as possible
-    -   Clearly identify the misspecifications
+    -   Clearly identify the misspecification
 -   The mathematics has to be implemented in software to be useful
     -   By people that don't understand complicated math
 -   And make sense to the business side
@@ -65,7 +65,7 @@ Unified Derivatives
 -   All derivative securities can be treated in a unified way
 -   Specify an arbitrage free model that allows for possible market
     dynamics
--   Find a hedge and quanitfy the risks
+-   Find a hedge and quantify the risks
     -   Classical theory is silent on the latter
 
 Finance
@@ -323,7 +323,7 @@ Market
 
 -   Collection of prices and cash flows indexed by market instruments
 -   $X_t,C_t$ are vector valued
--   Dimension equal to the number of market insturments
+-   Dimension equal to the number of market instruments
 -   Account becomes $A_t = \Delta_{t_-}\cdot C_t -
     \Gamma_t\cdot X_t$
 
@@ -362,7 +362,7 @@ Example: Put-Call Parity
         \omega,0\})$
 -   Models a bond with realized return $R$, a stock that can have
     any non-negative value, and a call and put both struck at $k$.
--   No arbitarge implies $$(1,s,c,p) = \langle
+-   No arbitrage implies $$(1,s,c,p) = \langle
     (R,\omega,\max\{\omega - k,0\},\max\{k -
     \omega,0\}),\Pi\rangle$$
 -   Taking $\Gamma_0 = (k/R, -1, 1, -1)$ yields $k/R - s + c - p
@@ -382,7 +382,7 @@ Example: Cost of Carry
 -   Models a bond with realized return $R$, a stock that can have
     any non-negative value, and an at-the-money forward
 -   Forwards have price zero at expiration
--   No arbitarge implies $(1,s,0) = \langle
+-   No arbitrage implies $(1,s,0) = \langle
     (R,\omega,\omega-f),\Pi\rangle$ so $1 = \langle
     R,\Pi\rangle$, $s = \langle \omega,\Pi\rangle$, and $0
     = s - f/R$.
@@ -455,7 +455,7 @@ Canonical Price Deflator
 -   Easy to show $\Pi_j = R_j\Pi_{j+1}|_{\mathscr{A}_j}$
 -   Note $\Pi_j$ is $\mathscr{A}_{j-1}$ measurable (aka
     _predictable_)
--   There are many possible deflators, but this is canonnical
+-   There are many possible deflators, but this is canonical
 
 Zero Coupon Bonds
 -----------------
