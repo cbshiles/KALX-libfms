@@ -13,12 +13,14 @@ imply the model is arbitrage free.
 __Lemma__. _The process $(M_t)$ is a martingale if and only if
 $M_tP|_{\mathscr{F}_t} = M_uP|_{\mathscr{F}_t}$ for $t < u$._
 
-Recall the definition of conditional expectation $E[Y|\mathscr{F}] = X$
-if $X$ is $\mathscr{F}$ measurable and $E[1_AY] = E[1_AX]$ for
-all $A\in\mathscr{F}$. This is clearly equivalent to
-$YP(A) = XP(A)$ for all $A\in\mathscr{F}$.
+Recall the definition of conditional expectation $E[X|\mathscr{F}] = Y$
+if $Y$ is $\mathscr{F}$ measurable and $E[1_AX] = E[1_AY]$ for
+all $A\in\mathscr{F}$. This is equivalent to
+$XP(A) = YP(A)$ for all $A\in\mathscr{F}$.
 
-Note that there is no need for the Ito formula, partial differential
+The price of an European option is the discounted expected payoff
+and the hedge is the standard Black-Scholes delta hedge,
+but there is no need for the Ito formula, partial differential
 equations, self-financing conditions, or change of measure.
 Just write down an arbitrage free model and start pricing.
 

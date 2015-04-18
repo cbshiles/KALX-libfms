@@ -35,10 +35,10 @@ Weekly homework assignments (50% with lowest not counted) and a one hour
 in class final project (50%). Homework is due at the
 beginning of each class. _No late homework will be accepted_.
 
-# Prerequisites.
+# Prerequisites
 
 ## Courses
-_list of program courses_
+(_list of program courses_)
 
 ## Software
 - [VirtualBox](https://www.virtualbox.org/)
