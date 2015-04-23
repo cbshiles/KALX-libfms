@@ -46,7 +46,10 @@ beginning of each class. _No late homework will be accepted_.
 - [The xll library](https://xll.codeplex.com)
 
 ## Lesson 0. (prior to first class)
-Create an account on [codeplex](https://codeplex.com)
+Create an account using your Cornell
+NetID on [codeplex](https://codeplex.com).
+
+Get a Dreamspark license from technology support. (???)
 
 ### Windows
 Install Visual Studio 2013, Excel, and the xll library.
@@ -54,21 +57,25 @@ Install Visual Studio 2013, Excel, and the xll library.
 ### OSX and Linux
 Install VirtualBox and download the virtual machine.
 
-## Lesson 1. Mechanics
-Clone [xllgsl](https://xllgsl.codeplex.com)  
+## Lesson 1 (25-Aug-2015). Mechanics
+[Clone](http://blogs.msdn.com/b/visualstudioalm/archive/2013/02/06/set-up-connect-and-publish-using-visual-studio-with-git.aspx) [xllgsl](https://xllgsl.codeplex.com)  
 
-This lesson covers the mechanics of building software and
-creating Excel add-ins.
+This lesson offers a quick review of C++ and covers the mechanics of
+building software and creating Excel add-ins.
 
-C++14  
+C++
+:	[What's new in C++14?](http://herbsutter.com/elements-of-modern-c-style/)
+`auto`, lambdas, smart(er) pointers, range based `for` loops, r-value
+references, uniform initialization, 
 
-- Value types and functional programming style.
-- Lambda expressions, r-value references.
-- Smart pointers. `std::unique_ptr` and `std::shared_ptr`
+Programming style
+:	Use global functions and
+[value types](https://akrzemi1.wordpress.com/2012/02/03/value-semantics/).
+Eschew object-oriented programming.
 
 _Homework_. Document, implement, and test functions from the GSL library.
 
-## Lesson 2. Building curves
+## Lesson 2 (1-Sep-2015). Building curves
 Clone [libfms](https://libfms.codeplex.com)  
 Clone [xllinet](https://xllinet.codeplex.com)  
 
@@ -89,7 +96,7 @@ Bootstrapping
 Interpolation  
 :	interpolate instruments, not curves
 
-## Lesson 3. Multiple Yield Curves
+## Lesson 3. (8-Sep-2015) Multiple Yield Curves
 After 2008, yields that were previously identical began trading at
 non-zero spreads. This lesson shows how to use classical theory
 to match current market data.
@@ -100,19 +107,21 @@ Recovery and Default
 Credit Default Swaps  
 :	Pay one or more premiums to insure against default.
 
-## Lesson 4. LIBOR Market Model
+## Reading
+
+## Lesson 4. (22-Sep-2015) LIBOR Market Model
 The mathematical model
 Designing the implementation
 Testing the components
 
-## Lesson 5. Fixed Income Instruments
+## Lesson 5. (29-Sep-2015) Fixed Income Instruments
 Documentation  
 SEF's  
 CME Eurodollar MID Curve options  
 Swaptions  
 Using the model for pricing  
 
-## Lesson 6. Volatility Smiles
+## Lesson 6. (6-Oct-2015) Volatility Smiles
 Clone [xllgjr](https://xllgjr.codeplex.com)  
 
 One drawback of the LMM is that it cannot fit caplet volatility smiles.

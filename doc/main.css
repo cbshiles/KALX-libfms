@@ -13,8 +13,10 @@ h1, h2, h3, h4 {
 	margin: 1em 0 .5em;
 	line-height: 1.25;
 }
-h1 {font-size: 2em;}
-h2 {font-size: 1.5em;}
+h1 {font-size: 2em;color:grey;}
+h2 {font-size: 1.5em;
+	background-image:-ms-linear-gradient(left,#F0F0F0,white);
+}
 h3 {font-size: 1.2em;}
 ul, ol {
 	margin: 1em 0;
