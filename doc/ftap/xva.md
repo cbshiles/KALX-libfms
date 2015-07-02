@@ -9,10 +9,10 @@ future cash flows.
 
 Its major failing is the lack of some measure of risk on how well the
 hedge can be expected to perform. Markets are not complete.  The gamma
-profile is only a measure of how busy traders might become.  VaR does
-not take into account the fact that positions are actively hedged.
-The various Value Adjustments are a better measure, but they can
-be improved.
+profile is only a rough measure of how busy traders might become.
+VaR does not take into account the fact that positions are actively
+hedged.  The various 'value adjustments' are a clumsy way of applying
+classical theory.
 
 The first step is to map what occurs in the financial world faithfully
 to mathematics and give unambiguous names to relevant concepts.

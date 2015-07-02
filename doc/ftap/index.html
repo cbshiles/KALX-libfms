@@ -108,7 +108,7 @@
 <ul>
 <li class="fragment">Map the finance to mathematics as directly as possible...
 <ul>
-<li class="fragment">...and clearly identify the misspecifications</li>
+<li class="fragment">...and clearly identify the misspecification</li>
 </ul></li>
 <li class="fragment">The mathematics has to be implemented in software to be useful...
 <ul>
@@ -164,7 +164,7 @@
 <li class="fragment"><span class="math">\(x = (1,s,0)\)</span></li>
 <li class="fragment"><span class="math">\(X(\omega) = (R, \omega, \omega - f)\)</span></li>
 <li class="fragment">A bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and an at-the-money forward</li>
-<li class="fragment">No arbitarge implies <span class="math">\((1,s,0) = \langle (R,\omega,\omega-f),\Pi\rangle\)</span></li>
+<li class="fragment">No arbitrage implies <span class="math">\((1,s,0) = \langle (R,\omega,\omega-f),\Pi\rangle\)</span></li>
 <li class="fragment">Taking <span class="math">\(\gamma = (f/R, -1, 1)\)</span> yields <span class="math">\[f/R - s = \langle f - \omega + \omega - f,\Pi\rangle = 0\]</span></li>
 <li class="fragment">Cost-of-carry:<span class="math">\(f = Rs\)</span></li>
 <li class="fragment">Don't really need a model for this, but it illustrates how to use the framework</li>
@@ -177,7 +177,7 @@
 <li class="fragment"><span class="math">\(x = (1,s,c,p)\)</span></li>
 <li class="fragment"><span class="math">\(X(\omega) = (R,\omega,(\omega - k)^+,(k - \omega)^+)\)</span></li>
 <li class="fragment">A bond with realized return <span class="math">\(R\)</span>, a stock that can have any non-negative value, and a call and put both struck at <span class="math">\(k\)</span>.</li>
-<li class="fragment">No arbitarge implies <span class="math">\[(1,s,c,p) = \langle (R,\omega,(\omega - k)^+,(k - \omega)^+),\Pi\rangle\]</span></li>
+<li class="fragment">No arbitrage implies <span class="math">\[(1,s,c,p) = \langle (R,\omega,(\omega - k)^+,(k - \omega)^+),\Pi\rangle\]</span></li>
 <li class="fragment">Taking <span class="math">\(\gamma = (k/R, -1, 1, -1)\)</span> yields <span class="math">\(k/R - s + c - p = \langle k - \omega + (\omega - k)^+ - (k - \omega)^+),\Pi\rangle = 0\)</span></li>
 <li class="fragment">Put-call parity: <span class="math">\(c - p = s - k/R\)</span></li>
 <li class="fragment">Also don't really need a model for this</li>
@@ -356,7 +356,7 @@ i}A_i\Pi_i]\]</span></li>
 R_{j-1})^{-1}P|_{\mathcal{F}_j}\]</span></li>
 <li class="fragment">Easy to show <span class="math">\(\Pi_j = R_j\Pi_{j+1}|_{\mathcal{F}_j}\)</span></li>
 <li class="fragment">Note <span class="math">\(\Pi_j\)</span> is <span class="math">\(\mathcal{F}_{j-1}\)</span> measurable (aka <em>predictable</em>)</li>
-<li class="fragment">There are many possible deflators, but this is canonnical</li>
+<li class="fragment">There are many possible deflators, but this is canonical</li>
 <li class="fragment">Find <span class="math">\(R_j\)</span> that reprice cash deposits, FRA, swaps, etc.</li>
 </ul>
 </section>
